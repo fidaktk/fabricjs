@@ -54,6 +54,24 @@
     matrixCache: null,
 
     /**
+     * custom controls
+     */
+    customControls: {
+      testControl: {
+        position: { x: 0.9, y: 0.9 },
+        name: 'testControl',
+        visible: true,
+        cursor: (e) => e.shiftKey ? 'context-menu' : 'progress',
+        // action: (eventData, transformData, objectData ) => {  return true/false } // gets called on all mouse events, down, move, up.
+        // event: (should iti fire something to define events? Or events should be handled in the action? )
+        // anchor: { x, y } 0 - 1 ( if not specified is simmetric by the center)
+        // renderFunction: (ctx)
+        // options : the options necessary to support actual fabric rendering of controls
+        // Cursor: (mouseEvent) => mouseCursor
+      }
+    },
+
+    /**
      * return correct set of coordinates for intersection
      */
     getCoords: function(absolute, calculate) {
@@ -393,6 +411,7 @@
           vpt = this.getViewportTransform(),
           finalMatrix = absolute ? startMatrix : multiplyMatrices(vpt, startMatrix),
           dim = this._getTransformedDimensions(),
+          customControl = this.customControls.testControl.position,
           w = dim.x / 2, h = dim.y / 2,
           tl = transformPoint({ x: -w, y: -h }, finalMatrix),
           tr = transformPoint({ x: w, y: -h }, finalMatrix),
@@ -402,7 +421,8 @@
         var padding = this.padding, angle = degreesToRadians(this.angle),
             cos = fabric.util.cos(angle), sin = fabric.util.sin(angle),
             cosP = cos * padding, sinP = sin * padding, cosPSinP = cosP + sinP,
-            cosPMinusSinP = cosP - sinP;
+            cosPMinusSinP = cosP - sinP,
+            custom = transformPoint({ x: (customControl.x * dim.x), y: (customControl.y * dim.y) }, finalMatrix);
         if (padding) {
           tl.x -= cosPMinusSinP;
           tl.y -= cosPSinP;
@@ -420,22 +440,23 @@
             mtr = new fabric.Point(mt.x + sin * this.rotatingPointOffset, mt.y - cos * this.rotatingPointOffset);
       }
 
-      // if (!absolute) {
-      //   var canvas = this.canvas;
-      //   setTimeout(function() {
-      //     canvas.contextTop.clearRect(0, 0, 700, 700);
-      //     canvas.contextTop.fillStyle = 'green';
-      //     canvas.contextTop.fillRect(mb.x, mb.y, 3, 3);
-      //     canvas.contextTop.fillRect(bl.x, bl.y, 3, 3);
-      //     canvas.contextTop.fillRect(br.x, br.y, 3, 3);
-      //     canvas.contextTop.fillRect(tl.x, tl.y, 3, 3);
-      //     canvas.contextTop.fillRect(tr.x, tr.y, 3, 3);
-      //     canvas.contextTop.fillRect(ml.x, ml.y, 3, 3);
-      //     canvas.contextTop.fillRect(mr.x, mr.y, 3, 3);
-      //     canvas.contextTop.fillRect(mt.x, mt.y, 3, 3);
-      //     canvas.contextTop.fillRect(mtr.x, mtr.y, 3, 3);
-      //   }, 50);
-      // }
+      if (!absolute) {
+        var canvas = this.canvas;
+        setTimeout(function() {
+          canvas.contextTop.clearRect(0, 0, 700, 700);
+          canvas.contextTop.fillStyle = 'green';
+          canvas.contextTop.fillRect(mb.x, mb.y, 3, 3);
+          canvas.contextTop.fillRect(bl.x, bl.y, 3, 3);
+          canvas.contextTop.fillRect(br.x, br.y, 3, 3);
+          canvas.contextTop.fillRect(tl.x, tl.y, 3, 3);
+          canvas.contextTop.fillRect(tr.x, tr.y, 3, 3);
+          canvas.contextTop.fillRect(ml.x, ml.y, 3, 3);
+          canvas.contextTop.fillRect(mr.x, mr.y, 3, 3);
+          canvas.contextTop.fillRect(mt.x, mt.y, 3, 3);
+          canvas.contextTop.fillRect(mtr.x, mtr.y, 3, 3);
+          canvas.contextTop.fillRect(custom.x, custom.y, 3, 3);
+        }, 50);
+      }
 
       var coords = {
         // corners
@@ -449,6 +470,8 @@
         coords.mb = mb;
         // rotating point
         coords.mtr = mtr;
+        // custom points
+        coords.custom = custom;
       }
       return coords;
     },

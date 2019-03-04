@@ -298,6 +298,11 @@
 
       ctx.restore();
 
+      this._drawControl('custom', ctx, methodName,
+        this.oCoords.custom.x,
+        this.oCoords.custom.y, styleOverride);
+
+
       return this;
     },
 
@@ -307,6 +312,7 @@
     _drawControl: function(control, ctx, methodName, left, top, styleOverride) {
       styleOverride = styleOverride || {};
       if (!this.isControlVisible(control)) {
+        console.log('RETURNED');
         return;
       }
       var size = this.cornerSize, stroke = !this.transparentCorners && this.cornerStrokeColor;
@@ -379,6 +385,7 @@
      * @returns {Object}
      */
     _getControlsVisibility: function() {
+      console.log("******", this.customControls);
       if (!this._controlsVisibility) {
         this._controlsVisibility = {
           tl: true,
@@ -389,7 +396,8 @@
           mt: true,
           mr: true,
           mb: true,
-          mtr: true
+          mtr: true,
+          custom: this.customControls.testControl.visible,
         };
       }
       return this._controlsVisibility;

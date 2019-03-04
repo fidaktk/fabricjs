@@ -942,6 +942,9 @@
       else if (corner === 'mtr' && target.hasRotatingPoint) {
         return this.rotationCursor;
       }
+      else if (corner === 'custom') {
+        return target.customControls.testControl.cursor(e);
+      }
       else {
         return this.defaultCursor;
       }
