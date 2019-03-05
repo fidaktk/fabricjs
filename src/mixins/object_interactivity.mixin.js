@@ -298,9 +298,9 @@
 
       ctx.restore();
 
-      this._drawControl('custom', ctx, methodName,
-        this.oCoords.custom.x,
-        this.oCoords.custom.y, styleOverride);
+      this._drawControl('testControl', ctx, methodName,
+        this.oCoords.testControl.x,
+        this.oCoords.testControl.y, styleOverride);
 
 
       return this;
@@ -385,7 +385,6 @@
      * @returns {Object}
      */
     _getControlsVisibility: function() {
-      console.log("******", this.customControls);
       if (!this._controlsVisibility) {
         this._controlsVisibility = {
           tl: true,
@@ -397,7 +396,7 @@
           mr: true,
           mb: true,
           mtr: true,
-          custom: this.customControls.testControl.visible,
+          testControl: this.customControls.testControl.visible,
         };
       }
       return this._controlsVisibility;

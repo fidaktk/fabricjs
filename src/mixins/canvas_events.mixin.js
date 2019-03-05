@@ -807,8 +807,9 @@
           y = pointer.y,
           action = transform.action,
           actionPerformed = false,
+          target = transform.target,
           options = {
-            target: transform.target,
+            target: target,
             e: e,
             transform: transform,
             pointer: pointer
@@ -831,6 +832,9 @@
       }
       else if (action === 'skewY') {
         (actionPerformed = this._skewObject(x, y, 'y')) && this._fire('skewing', options);
+      }
+      else if (action === 'testControl') {
+        (actionPerformed = target.customControls.testControl.action(e, transform, x, y));
       }
       else {
         actionPerformed = this._translateObject(x, y);
@@ -942,7 +946,7 @@
       else if (corner === 'mtr' && target.hasRotatingPoint) {
         return this.rotationCursor;
       }
-      else if (corner === 'custom') {
+      else if (corner === 'testControl') {
         return target.customControls.testControl.cursor(e);
       }
       else {

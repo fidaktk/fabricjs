@@ -58,11 +58,16 @@
      */
     customControls: {
       testControl: {
-        position: { x: 0.9, y: 0.9 },
+        position: { x: 0.5, y: -0.25 },
         name: 'testControl',
         visible: true,
         cursor: (e) => e.shiftKey ? 'context-menu' : 'progress',
-        // action: (eventData, transformData, objectData ) => {  return true/false } // gets called on all mouse events, down, move, up.
+        action: (eventData, transformData, x, y ) => {
+          var direction = transformData.ex - x;
+          transformData.target.cropX = direction;
+          console.log({ eventData, transformData, x, y, direction });
+          return true;
+        } // gets called on all mouse events, down, move, up.
         // event: (should iti fire something to define events? Or events should be handled in the action? )
         // anchor: { x, y } 0 - 1 ( if not specified is simmetric by the center)
         // renderFunction: (ctx)
@@ -422,7 +427,7 @@
             cos = fabric.util.cos(angle), sin = fabric.util.sin(angle),
             cosP = cos * padding, sinP = sin * padding, cosPSinP = cosP + sinP,
             cosPMinusSinP = cosP - sinP,
-            custom = transformPoint({ x: (customControl.x * dim.x), y: (customControl.y * dim.y) }, finalMatrix);
+            testControl = transformPoint({ x: (customControl.x * dim.x), y: (customControl.y * dim.y) }, finalMatrix);
         if (padding) {
           tl.x -= cosPMinusSinP;
           tl.y -= cosPSinP;
@@ -454,7 +459,7 @@
           canvas.contextTop.fillRect(mr.x, mr.y, 3, 3);
           canvas.contextTop.fillRect(mt.x, mt.y, 3, 3);
           canvas.contextTop.fillRect(mtr.x, mtr.y, 3, 3);
-          canvas.contextTop.fillRect(custom.x, custom.y, 3, 3);
+          canvas.contextTop.fillRect(testControl.x, testControl.y, 3, 3);
         }, 50);
       }
 
@@ -471,7 +476,7 @@
         // rotating point
         coords.mtr = mtr;
         // custom points
-        coords.custom = custom;
+        coords.testControl = testControl;
       }
       return coords;
     },

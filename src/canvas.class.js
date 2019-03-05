@@ -652,7 +652,7 @@
      * @param {Event} e Event object
      * @param {fabric.Object} [target] inserted back to help overriding. Unused
      */
-    _getActionFromCorner: function(alreadySelected, corner, e /* target */) {
+    _getActionFromCorner: function(alreadySelected, corner, e, target) {
       if (!corner || !alreadySelected) {
         return 'drag';
       }
@@ -666,6 +666,8 @@
         case 'mt':
         case 'mb':
           return e[this.altActionKey] ? 'skewX' : 'scaleY';
+        case 'testControl':
+          return 'testControl';
         default:
           return 'scale';
       }

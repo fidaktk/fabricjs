@@ -11,10 +11,12 @@ else if (typeof define === 'function' && define.amd) {
 }
 /* _AMD_END_ */
 if (typeof document !== 'undefined' && typeof window !== 'undefined') {
-  if (document instanceof HTMLDocument)
+  if (document instanceof HTMLDocument) {
     fabric.document = document;
-  else
-    fabric.document = document.implementation.createHTMLDocument("");
+  }
+  else {
+    fabric.document = document.implementation.createHTMLDocument('');
+  }
   fabric.window = window;
 }
 else {
@@ -9861,7 +9863,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
      * @param {Event} e Event object
      * @param {fabric.Object} [target] inserted back to help overriding. Unused
      */
-    _getActionFromCorner: function(alreadySelected, corner, e /* target */) {
+    _getActionFromCorner: function(alreadySelected, corner, e, target) {
       if (!corner || !alreadySelected) {
         return 'drag';
       }
@@ -9875,6 +9877,8 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         case 'mt':
         case 'mb':
           return e[this.altActionKey] ? 'skewX' : 'scaleY';
+        case 'testControl':
+          return 'testControl';
         default:
           return 'scale';
       }
@@ -11736,8 +11740,9 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
           y = pointer.y,
           action = transform.action,
           actionPerformed = false,
+          target = transform.target,
           options = {
-            target: transform.target,
+            target: target,
             e: e,
             transform: transform,
             pointer: pointer
@@ -11760,6 +11765,9 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
       }
       else if (action === 'skewY') {
         (actionPerformed = this._skewObject(x, y, 'y')) && this._fire('skewing', options);
+      }
+      else if (action === 'testControl') {
+        (actionPerformed = target.customControls.testControl.action(e, transform, x, y));
       }
       else {
         actionPerformed = this._translateObject(x, y);
@@ -11870,6 +11878,9 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
       }
       else if (corner === 'mtr' && target.hasRotatingPoint) {
         return this.rotationCursor;
+      }
+      else if (corner === 'testControl') {
+        return target.customControls.testControl.cursor(e);
       }
       else {
         return this.defaultCursor;
@@ -14715,6 +14726,29 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
     matrixCache: null,
 
     /**
+     * custom controls
+     */
+    customControls: {
+      testControl: {
+        position: { x: 0.5, y: -0.25 },
+        name: 'testControl',
+        visible: true,
+        cursor: (e) => e.shiftKey ? 'context-menu' : 'progress',
+        action: (eventData, transformData, x, y ) => {
+          var direction = transformData.ex - x;
+          transformData.target.cropX = direction;
+          console.log({ eventData, transformData, x, y, direction });
+          return true;
+        } // gets called on all mouse events, down, move, up.
+        // event: (should iti fire something to define events? Or events should be handled in the action? )
+        // anchor: { x, y } 0 - 1 ( if not specified is simmetric by the center)
+        // renderFunction: (ctx)
+        // options : the options necessary to support actual fabric rendering of controls
+        // Cursor: (mouseEvent) => mouseCursor
+      }
+    },
+
+    /**
      * return correct set of coordinates for intersection
      */
     getCoords: function(absolute, calculate) {
@@ -15054,6 +15088,7 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
           vpt = this.getViewportTransform(),
           finalMatrix = absolute ? startMatrix : multiplyMatrices(vpt, startMatrix),
           dim = this._getTransformedDimensions(),
+          customControl = this.customControls.testControl.position,
           w = dim.x / 2, h = dim.y / 2,
           tl = transformPoint({ x: -w, y: -h }, finalMatrix),
           tr = transformPoint({ x: w, y: -h }, finalMatrix),
@@ -15063,7 +15098,8 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
         var padding = this.padding, angle = degreesToRadians(this.angle),
             cos = fabric.util.cos(angle), sin = fabric.util.sin(angle),
             cosP = cos * padding, sinP = sin * padding, cosPSinP = cosP + sinP,
-            cosPMinusSinP = cosP - sinP;
+            cosPMinusSinP = cosP - sinP,
+            testControl = transformPoint({ x: (customControl.x * dim.x), y: (customControl.y * dim.y) }, finalMatrix);
         if (padding) {
           tl.x -= cosPMinusSinP;
           tl.y -= cosPSinP;
@@ -15081,22 +15117,23 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
             mtr = new fabric.Point(mt.x + sin * this.rotatingPointOffset, mt.y - cos * this.rotatingPointOffset);
       }
 
-      // if (!absolute) {
-      //   var canvas = this.canvas;
-      //   setTimeout(function() {
-      //     canvas.contextTop.clearRect(0, 0, 700, 700);
-      //     canvas.contextTop.fillStyle = 'green';
-      //     canvas.contextTop.fillRect(mb.x, mb.y, 3, 3);
-      //     canvas.contextTop.fillRect(bl.x, bl.y, 3, 3);
-      //     canvas.contextTop.fillRect(br.x, br.y, 3, 3);
-      //     canvas.contextTop.fillRect(tl.x, tl.y, 3, 3);
-      //     canvas.contextTop.fillRect(tr.x, tr.y, 3, 3);
-      //     canvas.contextTop.fillRect(ml.x, ml.y, 3, 3);
-      //     canvas.contextTop.fillRect(mr.x, mr.y, 3, 3);
-      //     canvas.contextTop.fillRect(mt.x, mt.y, 3, 3);
-      //     canvas.contextTop.fillRect(mtr.x, mtr.y, 3, 3);
-      //   }, 50);
-      // }
+      if (!absolute) {
+        var canvas = this.canvas;
+        setTimeout(function() {
+          canvas.contextTop.clearRect(0, 0, 700, 700);
+          canvas.contextTop.fillStyle = 'green';
+          canvas.contextTop.fillRect(mb.x, mb.y, 3, 3);
+          canvas.contextTop.fillRect(bl.x, bl.y, 3, 3);
+          canvas.contextTop.fillRect(br.x, br.y, 3, 3);
+          canvas.contextTop.fillRect(tl.x, tl.y, 3, 3);
+          canvas.contextTop.fillRect(tr.x, tr.y, 3, 3);
+          canvas.contextTop.fillRect(ml.x, ml.y, 3, 3);
+          canvas.contextTop.fillRect(mr.x, mr.y, 3, 3);
+          canvas.contextTop.fillRect(mt.x, mt.y, 3, 3);
+          canvas.contextTop.fillRect(mtr.x, mtr.y, 3, 3);
+          canvas.contextTop.fillRect(testControl.x, testControl.y, 3, 3);
+        }, 50);
+      }
 
       var coords = {
         // corners
@@ -15110,6 +15147,8 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
         coords.mb = mb;
         // rotating point
         coords.mtr = mtr;
+        // custom points
+        coords.testControl = testControl;
       }
       return coords;
     },
@@ -16082,6 +16121,11 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
 
       ctx.restore();
 
+      this._drawControl('testControl', ctx, methodName,
+        this.oCoords.testControl.x,
+        this.oCoords.testControl.y, styleOverride);
+
+
       return this;
     },
 
@@ -16091,6 +16135,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
     _drawControl: function(control, ctx, methodName, left, top, styleOverride) {
       styleOverride = styleOverride || {};
       if (!this.isControlVisible(control)) {
+        console.log('RETURNED');
         return;
       }
       var size = this.cornerSize, stroke = !this.transparentCorners && this.cornerStrokeColor;
@@ -16173,7 +16218,8 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           mt: true,
           mr: true,
           mb: true,
-          mtr: true
+          mtr: true,
+          testControl: this.customControls.testControl.visible,
         };
       }
       return this._controlsVisibility;
