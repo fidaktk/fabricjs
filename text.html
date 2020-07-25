@@ -1,0 +1,448 @@
+<style>
+    @font-face {
+        font-family: 'mehrannastaleeq';
+        src: url('/mehrnastaleeq.ttf');
+        src: url('/mehrnastaleeq.ttf') format('truetype');
+    }
+
+    body {
+        font-family: 'mehrannastaleeq', sans-serif;
+    }
+
+    #c {
+        border: 1px solid red;
+        top: 22px;
+        left: 0px;
+        height: 100%;
+        width: 99%;
+    }
+
+    .box {
+        float: left;
+        margin: 1em;
+    }
+
+    .after-box {
+        clear: left;
+    }
+</style>
+<script src="/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<!-- <script src="/dist/fabric.js"></script> -->
+<!-- <script src="/script.js"></script> -->
+<script src="/HEADER.js"></script>
+<script src="/src/globalFabric.js"></script>
+<script src="/lib/event.js"></script>
+<script src="/src/mixins/observable.mixin.js"></script>
+<script src="/src/mixins/collection.mixin.js"></script>
+<script src="/src/mixins/shared_methods.mixin.js"></script>
+<script src="/src/util/misc.js"></script>
+<script src="/src/util/named_accessors.mixin.js"></script>
+<script src="/src/util/arc.js"></script>
+<script src="/src/util/lang_array.js"></script>
+<script src="/src/util/lang_object.js"></script>
+<script src="/src/util/lang_string.js"></script>
+<script src="/src/util/lang_class.js"></script>
+<script src="/src/util/dom_event.js"></script>
+<script src="/src/util/dom_style.js"></script>
+<script src="/src/util/dom_misc.js"></script>
+<script src="/src/util/dom_request.js"></script>
+<script src="/src/log.js"></script>
+<script src="/src/util/animate.js"></script>
+<script src="/src/util/animate_color.js"></script>
+<script src="/src/util/anim_ease.js"></script>
+<script src="/src/parser.js"></script>
+<script src="/src/elements_parser.js"></script>
+<script src="/src/point.class.js"></script>
+<script src="/src/intersection.class.js"></script>
+<script src="/src/color.class.js"></script>
+<script src="/src/gradient.class.js"></script>
+<script src="/src/pattern.class.js"></script>
+<script src="/src/shadow.class.js"></script>
+<script src="/src/static_canvas.class.js"></script>
+<script src="/src/brushes/base_brush.class.js"></script>
+<script src="/src/brushes/pencil_brush.class.js"></script>
+<script src="/src/brushes/circle_brush.class.js"></script>
+<script src="/src/brushes/spray_brush.class.js"></script>
+<script src="/src/brushes/pattern_brush.class.js"></script>
+<script src="/src/canvas.class.js"></script>
+<script src="/src/mixins/canvas_events.mixin.js"></script>
+<script src="/src/mixins/canvas_grouping.mixin.js"></script>
+<script src="/src/mixins/canvas_dataurl_exporter.mixin.js"></script>
+<script src="/src/mixins/canvas_serialization.mixin.js"></script>
+<script src="/src/mixins/canvas_gestures.mixin.js"></script>
+<script src="/src/shapes/object.class.js"></script>
+<script src="/src/mixins/object_origin.mixin.js"></script>
+<script src="/src/mixins/object_geometry.mixin.js"></script>
+<script src="/src/mixins/object_stacking.mixin.js"></script>
+<script src="/src/mixins/object.svg_export.js"></script>
+<script src="/src/mixins/stateful.mixin.js"></script>
+<script src="/src/mixins/object_interactivity.mixin.js"></script>
+<script src="/src/mixins/animation.mixin.js"></script>
+<script src="/src/mixins/customiseControls.js"></script>
+<script src="/src/shapes/line.class.js"></script>
+<script src="/src/shapes/circle.class.js"></script>
+<script src="/src/shapes/triangle.class.js"></script>
+<script src="/src/shapes/ellipse.class.js"></script>
+<script src="/src/shapes/rect.class.js"></script>
+<script src="/src/shapes/polyline.class.js"></script>
+<script src="/src/shapes/polygon.class.js"></script>
+<script src="/src/shapes/path.class.js"></script>
+<script src="/src/shapes/group.class.js"></script>
+<script src="/src/shapes/active_selection.class.js"></script>
+<script src="/src/shapes/image.class.js"></script>
+<script src="/src/mixins/object_straightening.mixin.js"></script>
+<script src="/src/filters/webgl_backend.class.js"></script>
+<script src="/src/filters/2d_backend.class.js"></script>
+<script src="/src/filters/base_filter.class.js"></script>
+<script src="/src/filters/colormatrix_filter.class.js"></script>
+<script src="/src/filters/brightness_filter.class.js"></script>
+<script src="/src/filters/convolute_filter.class.js"></script>
+<script src="/src/filters/grayscale_filter.class.js"></script>
+<script src="/src/filters/invert_filter.class.js"></script>
+<script src="/src/filters/noise_filter.class.js"></script>
+<script src="/src/filters/pixelate_filter.class.js"></script>
+<script src="/src/filters/removecolor_filter.class.js"></script>
+<script src="/src/filters/filter_generator.js"></script>
+<script src="/src/filters/blendcolor_filter.class.js"></script>
+<script src="/src/filters/blendimage_filter.class.js"></script>
+<script src="/src/filters/resize_filter.class.js"></script>
+<script src="/src/filters/contrast_filter.class.js"></script>
+<script src="/src/filters/saturate_filter.class.js"></script>
+<script src="/src/filters/blur_filter.class.js"></script>
+<script src="/src/filters/gamma_filter.class.js"></script>
+<script src="/src/filters/composed_filter.class.js"></script>
+<script src="/src/filters/hue_rotation.class.js"></script>
+<script src="/src/shapes/text.class.js"></script>
+<script src="/src/mixins/text_style.mixin.js"></script>
+<script src="/src/shapes/itext.class.js"></script>
+<script src="/src/mixins/itext_behavior.mixin.js"></script>
+<script src="/src/mixins/itext_click_behavior.mixin.js"></script>
+<script src="/src/mixins/itext_key_behavior.mixin.js"></script>
+<script src="/src/mixins/itext.svg_export.js"></script>
+<script src="/src/shapes/textbox.class.js"></script>
+
+<button onclick="Addtext()">Add Texto</button>
+
+<div class="box">
+
+    <canvas id="c"></canvas>
+</div>
+
+
+<div id="text-wrapper" style="margin-top: 10px" ng-show="getText()">
+
+    <div id="text-controls">
+        <input type="color" value="" id="text-color" size="10">
+        <label for="font-family" style="display:inline-block">Font family:</label>
+        <select id="font-family">
+            <option value="arial">Arial</option>
+            <option value="helvetica" selected>Helvetica</option>
+            <option value="myriad pro">Myriad Pro</option>
+            <option value="delicious">Delicious</option>
+            <option value="verdana">Verdana</option>
+            <option value="georgia">Georgia</option>
+            <option value="courier">Courier</option>
+            <option value="comic sans ms">Comic Sans MS</option>
+            <option value="impact">Impact</option>
+            <option value="monaco">Monaco</option>
+            <option value="optima">Optima</option>
+            <option value="hoefler text">Hoefler Text</option>
+            <option value="plaster">Plaster</option>
+            <option value="engagement">Engagement</option>
+        </select>
+        <br>
+        <label for="text-align" style="display:inline-block">Text align:</label>
+        <select id="text-align">
+            <option value="left">Left</option>
+            <option value="center">Center</option>
+            <option value="right">Right</option>
+            <option value="justify">Justify</option>
+            <option value="justify-center">justify-center</option>
+            <option value="justify-left">justify-left</option>
+            <option value="justify-right">justify-right</option>
+        </select>
+        <div>
+            <label for="text-bg-color">Background color:</label>
+            <input type="color" value="" id="text-bg-color" size="10">
+        </div>
+        <div>
+            <label for="text-lines-bg-color">Background text color:</label>
+            <input type="color" value="" id="text-lines-bg-color" size="10">
+        </div>
+        <div>
+            <label for="text-stroke-color">Stroke color:</label>
+            <input type="color" value="" id="text-stroke-color">
+        </div>
+        <div>
+
+
+            <label for="text-stroke-width">Stroke width:</label>
+            <input type="range" value="1" min="1" max="5" id="text-stroke-width">
+        </div>
+        <div>
+            <label for="text-font-size">Font size:</label>
+            <input type="range" value="" min="1" max="120" step="1" id="text-font-size">
+        </div>
+        <div>
+            <label for="text-line-height">Line height:</label>
+            <input type="range" value="" min="0" max="10" step="0.1" id="text-line-height">
+        </div>
+    </div>
+    <div id="text-controls-additional">
+        <input type='checkbox' name='fonttype' id="text-cmd-bold">
+        Bold
+
+        <input type='checkbox' name='fonttype' id="text-cmd-italic">
+        Italic
+
+        <input type='checkbox' name='fonttype' id="text-cmd-underline">
+        Underline
+
+        <input type='checkbox' name='fonttype' id="text-cmd-linethrough">
+        Linethrough
+
+        <input type='checkbox' name='fonttype' id="text-cmd-overline">
+        Overline
+
+    </div>
+
+    <script>
+        // $(function () {
+        function createCanvas() {
+
+
+            fabric.Object.prototype.transparentCorners = false;
+            fabric.Object.prototype.padding = 5;
+
+
+            var $ = function (id) { return document.getElementById(id) };
+
+
+            const canvas = window.canvas = new fabric.Canvas('c');
+            canvas.setHeight(window.innerHeight - 100);
+            canvas.setWidth(500);
+            var line = new fabric.Line([canvas.width / 2, 0, canvas.width / 2, canvas.height], {
+                strokeWidth: 1,
+                stroke: 'red',
+            });
+
+            fabric.Canvas.prototype.customiseControls({
+                mt: {
+                    action: 'scaleY'
+                },
+                ml: {
+                    action: 'scaleX'
+                },
+                mr: {
+                    action: 'scaleX'
+                },
+                tl: {
+                    action: 'rotate'
+                },
+                bl: {
+                    action: 'scale'
+                },
+                tr: {
+                    action: 'scale'
+                },
+                br: {
+                    action: 'scale'
+                    // action: function (e, target) {
+                    //   target.bringToFront();
+                    //   self.render();
+                    // }
+                },
+                mb: {
+                    action: 'scaleY'
+
+                    // action: function (e, target) {
+                    //   target.sendBackwards();
+                    //   self.render();
+                    // }
+                }
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            const shair = 'حج اسلام کی عملی عبادات میں سے ایک ہے جس کے معنی مکہ جا کر خانہ کعبہ کی زیارت اور اس سے متعلق مخصوص اعمال کو انجام دینا ہے۔ حج ایک عبادت ہونے کے ساتھ';
+            const text = new fabric.Textbox(shair);
+            text.set({
+                fontFamily: 'Times New Roman',
+                textAlign: 'right',
+                isRTL: true,
+                originX: 'right',
+                fontSize: 20,
+                editable: false,
+                top: 30,
+                left: 300 + text.width
+            });
+            canvas.add(text);
+            line.left = text.left;
+
+            // canvas.centerObject(text);
+            canvas.setActiveObject(text);
+            canvas.getActiveObject().setCoords();
+
+            text.clone(function (clonedObj) {
+                canvas.discardActiveObject();
+                clonedObj.set({
+                    fontFamily: 'kushada',
+                    top: clonedObj.top + text.height + 10,
+                    evented: true,
+                });
+                canvas.add(clonedObj);
+
+                clonedObj.clone(function (clonedObj2) {
+                    canvas.discardActiveObject();
+                    clonedObj2.set({
+                        fontFamily: 'mehrannastaleeq',
+                        top: clonedObj2.top + clonedObj.height + 10,
+                        evented: true,
+                    });
+                    canvas.add(clonedObj2);
+
+                });
+            });
+
+
+
+
+            canvas.add(line);
+
+
+            canvas.renderAll();
+        }
+
+        var mehrannastaleeq = new FontFace('kushada', 'url(/kushada.ttf)');
+        mehrannastaleeq.load().then(function (loaded_face) {
+            document.fonts.add(loaded_face);
+            document.body.style.fontFamily = 'kushada", Arial';
+            createCanvas();
+        }).catch(function (error) {
+            // error occurred
+        });
+        document.fonts.ready.then(function (font_face_set) {
+            // all fonts have been loaded
+            console.log('all fonts loaded');
+        });
+        // // function Addtext() {
+        //     canvas.add(new fabric.Textbox('Tap and Type', {
+        //         fontFamily: 'mn',
+        //         textAlign: 'right',
+        //         isRTL: true,
+        //         originX: 'right',
+        //         fontSize: 22,
+        //         editable: false
+        //     }));
+        // // }
+        // $(function () {
+        document.getElementById('text-color').onchange = function () {
+            canvas.getActiveObject().setFill(this.value);
+            canvas.renderAll();
+        };
+        document.getElementById('text-color').onchange = function () {
+            canvas.getActiveObject().setFill(this.value);
+            canvas.renderAll();
+        };
+
+        document.getElementById('text-bg-color').onchange = function () {
+            canvas.getActiveObject().setBackgroundColor(this.value);
+            canvas.renderAll();
+        };
+
+        document.getElementById('text-lines-bg-color').onchange = function () {
+            canvas.getActiveObject().setTextBackgroundColor(this.value);
+            canvas.renderAll();
+        };
+
+        document.getElementById('text-stroke-color').onchange = function () {
+            canvas.getActiveObject().setStroke(this.value);
+            canvas.renderAll();
+        };
+
+        document.getElementById('text-stroke-width').onchange = function () {
+            canvas.getActiveObject().setStrokeWidth(this.value);
+            canvas.renderAll();
+        };
+
+        document.getElementById('font-family').onchange = function () {
+            canvas.getActiveObject().setFontFamily(this.value);
+            canvas.renderAll();
+        };
+
+        document.getElementById('text-font-size').onchange = function () {
+            canvas.getActiveObject().setFontSize(this.value);
+            canvas.renderAll();
+        };
+
+        document.getElementById('text-line-height').onchange = function () {
+            canvas.getActiveObject().setLineHeight(this.value);
+            canvas.renderAll();
+        };
+
+        document.getElementById('text-align').onchange = function () {
+            window.canvas.getActiveObject().setTextAlign(this.value);
+            window.canvas.renderAll();
+        };
+
+
+        radios5 = document.getElementsByName('fonttype');  // wijzig naar button
+        for (var i = 0, max = radios5.length; i < max; i++) {
+            radios5[i].onclick = function () {
+
+                if (document.getElementById(this.id).checked === true) {
+                    if (this.id === 'text-cmd-bold') {
+                        canvas.getActiveObject().set('fontWeight', 'bold');
+                    }
+                    if (this.id === 'text-cmd-italic') {
+                        canvas.getActiveObject().set('fontStyle', 'italic');
+                    }
+                    if (this.id === 'text-cmd-underline') {
+                        canvas.getActiveObject().set('textDecoration', 'underline');
+                    }
+                    if (this.id === 'text-cmd-linethrough') {
+                        canvas.getActiveObject().set('textDecoration', 'line-through');
+                    }
+                    if (this.id === 'text-cmd-overline') {
+                        canvas.getActiveObject().set('textDecoration', 'overline');
+                    }
+
+
+
+                } else {
+                    if (this.id === 'text-cmd-bold') {
+                        canvas.getActiveObject().set('fontWeight', '');
+                    }
+                    if (this.id === 'text-cmd-italic') {
+                        canvas.getActiveObject().set('fontStyle', '');
+                    }
+                    if (this.id === 'text-cmd-underline') {
+                        canvas.getActiveObject().set('textDecoration', '');
+                    }
+                    if (this.id === 'text-cmd-linethrough') {
+                        canvas.getActiveObject().set('textDecoration', '');
+                    }
+                    if (this.id === 'text-cmd-overline') {
+                        canvas.getActiveObject().set('textDecoration', '');
+                    }
+                }
+
+
+                canvas.renderAll();
+            }
+        }
+        console.log('ready!');
+        // });
+    </script>
