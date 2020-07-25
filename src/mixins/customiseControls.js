@@ -1,6 +1,11 @@
 
 (function() {
-  var degreesToRadians = fabric.util.degreesToRadians,
+  var fabric = window.fabric || ( window.fabric = {} ),
+      isVML = function() {
+        // eslint-disable-next-line camelcase
+        return typeof G_vmlCanvasManager !== 'undefined';
+      },
+      degreesToRadians = fabric.util.degreesToRadians,
       cursorOffset = {
         mt: 0, // n
         tr: 1, // ne
@@ -111,8 +116,9 @@
          */
 
     loadIcon: function(corner, cornerConfig, callback) {
-      var self = this;
-      var icon = new Image();
+      // eslint-disable-next-line consistent-this
+      var self = this,
+          icon = new Image();
 
       icon.onload = function() {
         self[corner + 'Icon'] = this;
@@ -350,7 +356,7 @@
         }
       }
       else {
-        this.transparentCorners || ctx.clearRect(left, top, size, size);
+        isVML() || this.transparentCorners || ctx.clearRect(left, top, size, size);
         ctx[methodName + 'Rect'](left, top, size, size);
         if (!this.transparentCorners && cornerStroke) {
           ctx.strokeRect(left, top, size, size);
@@ -704,6 +710,4 @@
       return false;
     },
   });
-
-
 })();
