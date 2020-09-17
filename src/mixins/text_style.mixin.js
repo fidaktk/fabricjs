@@ -276,7 +276,7 @@
     },
 
     /**
-     * @param {Number} lineIndex
+     * @param {Number} lineIndex 
      * @param {Number} charIndex
      * @param {Object} style
      * @private

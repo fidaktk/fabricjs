@@ -140,6 +140,7 @@ var filesToInclude = [
 
   ifSpecifiedInclude('animation', 'src/util/animate.js'),
   ifSpecifiedInclude('animation', 'src/util/animate_color.js'),
+  //'src/util/animate.js',
   ifSpecifiedInclude('easing', 'src/util/anim_ease.js'),
 
   ifSpecifiedInclude('parser', 'src/parser.js'),
@@ -177,7 +178,7 @@ var filesToInclude = [
   'src/mixins/object_stacking.mixin.js',
   'src/mixins/object.svg_export.js',
   'src/mixins/stateful.mixin.js',
-  
+
   ifSpecifiedInclude('interaction', 'src/mixins/object_interactivity.mixin.js'),
 
   ifSpecifiedInclude('animation', 'src/mixins/animation.mixin.js'),
@@ -227,8 +228,7 @@ var filesToInclude = [
   ifSpecifiedInclude('itext', 'src/mixins/itext.svg_export.js'),
 
   ifSpecifiedInclude('textbox', 'src/shapes/textbox.class.js'),
-
-  'src/mixins/customiseControls.js',
+	'src/mixins/customiseControls.js',
 ];
 
 if (buildMinified) {

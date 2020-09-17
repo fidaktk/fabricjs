@@ -93,8 +93,10 @@
       this._clearCache();
       // clear dynamicMinWidth as it will be different after we re-wrap line
       this.dynamicMinWidth = 0;
+
       // wrap lines
-      this._styleMap = this._generateStyleMap(this._splitText());
+     this._styleMap = this._generateStyleMap(this._splitText());
+
       // if after wrapping, the width is smaller than dynamicMinWidth, change the width and re-wrap
       if (this.dynamicMinWidth > this.width) {
         this._set('width', this.dynamicMinWidth);
@@ -291,32 +293,19 @@
       var width = 0, prevGrapheme, skipLeft = true;
       charOffset = charOffset || 0;
       var nextChar;
-      // if (this._reURDUSpaceAndTab.test(word.join(''))) {
-      //   console.log(this._getGraphemeBox(word.join('')));
-      // } else {
-      // var wholeWord = word.join('');
-      // if (this._reURDUSpaceAndTab.test(wholeWord)) {
-      //   var grapheme = wholeWord;
-      //   var box =  this._getGraphemeBox(grapheme, lineIndex, 0, prevGrapheme, skipLeft, false);
+      // if (this._reURDUSpaceAndTab.test(word)) {
+      //   var box = this._getGraphemeBox(word, lineIndex, 0, undefined, skipLeft, false);
       //   width += box.kernedWidth;
-      //   prevGrapheme = grapheme;
       // }
       // else {
-
-      for (var i = 0, len = word.length; i < len; i++) {
-        nextChar = ((i + 1) > word.length) ? false : word[i + 1];
-        var box = this._getGraphemeBox(word[i], lineIndex, i + charOffset, prevGrapheme, skipLeft, nextChar);
-        width += box.kernedWidth;
-        prevGrapheme = word[i];
-        // }
-      }
-      // console.log('-----------START------------');
-      // console.log(word.join(''));
-      // if (this._reURDUSpaceAndTab.test(word.join(''))){
-      //   console.log(this._getGraphemeBox(word.join('')));
+        for (var i = 0, len = word.length; i < len; i++) {
+          nextChar = ((i + 1) > word.length) ? false : word[i + 1];
+          var box = this._getGraphemeBox(word[i], lineIndex, i + charOffset, prevGrapheme, skipLeft, nextChar);
+          width += box.kernedWidth;
+          prevGrapheme = word[i];
+        }
       // }
-      // console.log(width);
-      // console.log('-----------END-----------');
+
       return width;
     },
 
@@ -350,25 +339,26 @@
         words.push([]);
       }
       desiredWidth -= reservedSpace;
+
+      // console.log('-------------------------------------------------------------');
       for (var i = 0; i < words.length; i++) {
         // if using splitByGrapheme words are already in graphemes.
 
-        // word = splitByGrapheme ? words[i] : fabric.util.string.graphemeSplit(words[i]);
-        // wordWidth = this._measureWord(word, lineIndex, offset);
-        // offset += word.length;
-
         if (this._reURDUSpaceAndTab.test(words[i])) {
+          var skipLeft = true;
+          var prevGrapheme = (i === 0) ? undefined : ' ' ;// words[i - 1] || '';
+          var nextChar = (i === words.length - 1) ? undefined : ' ' ;//words[i + 1] || '';
           word = words[i];
-          wordWidth = this.getMeasuringContext().measureText(words[i]).width * this.fontSize /  this.CACHE_FONT_SIZE;
-          offset += word.length;
+          var wordWidth = this._getGraphemeBox(word, lineIndex, offset, prevGrapheme, skipLeft, nextChar);
+          wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth : wordWidth.width;
+          // console.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
+          offset += 1;
         }
         else {
           word = splitByGrapheme ? words[i] : fabric.util.string.graphemeSplit(words[i]);
           wordWidth = this._measureWord(word, lineIndex, offset);
           offset += word.length;
         }
-        // if(words[i])
-
 
         lineWidth += infixWidth + wordWidth - additionalSpace;
 
@@ -388,7 +378,13 @@
         line = line.concat(word);
 
         infixWidth = this._measureWord([infix], lineIndex, offset);
-        offset++;
+        // if (this._reURDUSpaceAndTab.test(words[i])) {
+        //  if(i < words.length - 1) offset++;
+          
+          
+        // } else {
+         offset++;
+        // }
         lineJustStarted = false;
         // keep track of largest word
         if (wordWidth > largestWordWidth) {
@@ -443,9 +439,9 @@
     * @override
     */
     _splitTextIntoLines: function (text) {
-      var newText = fabric.Text.prototype._splitTextIntoLines.call(this, text),
-          graphemeLines = this._wrapText(newText.lines, this.width),
-          lines = new Array(graphemeLines.length);
+      var newText = fabric.Text.prototype._splitTextIntoLines.call(this, text);
+      var    graphemeLines = this._wrapText(newText.lines, this.width);
+      var    lines = new Array(graphemeLines.length);
       for (var i = 0; i < graphemeLines.length; i++) {
         lines[i] = graphemeLines[i].join('');
       }

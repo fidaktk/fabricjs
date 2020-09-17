@@ -1136,7 +1136,12 @@
      * @returns Boolean
      */
     hasStroke: function() {
-      return this.stroke && this.stroke !== 'transparent' && this.strokeWidth !== 0;
+      if (this._objects){
+        return this._objects[0].stroke && this._objects[0].stroke !== 'transparent' && this._objects[0].strokeWidth !== 0;
+      }
+      else {
+        return this.stroke && this.stroke !== 'transparent' && this.strokeWidth !== 0;
+      }
     },
 
     /**

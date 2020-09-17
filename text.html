@@ -121,7 +121,6 @@
 <script src="/src/mixins/itext.svg_export.js"></script>
 <script src="/src/shapes/textbox.class.js"></script>
 
-<button onclick="Addtext()">Add Texto</button>
 
 <div class="box">
 
@@ -187,6 +186,10 @@
             <label for="text-line-height">Line height:</label>
             <input type="range" value="" min="0" max="10" step="0.1" id="text-line-height">
         </div>
+        <div>
+            <label for="char-spacing">Char Spacing:</label>
+            <input type="range" value="0" min="-500" max="500" step="1" id="char-spacing">
+        </div>
     </div>
     <div id="text-controls-additional">
         <input type='checkbox' name='fonttype' id="text-cmd-bold">
@@ -205,7 +208,13 @@
         Overline
 
     </div>
-
+   
+<textarea name="" id="shairText" cols="30" rows="10" dir="rtl" style="direction: rtl !important">فدا Fida ur Rehman خان خٹک
+Fida ur Rehman خان خٹک
+خان خٹک Fida ur Rehman</textarea>
+    <br>
+    <button id="word-color">Word Color</button>
+    <button id="shairTextBtn">Change Text</button>
     <script>
         // $(function () {
         function createCanvas() {
@@ -220,7 +229,7 @@
 
             const canvas = window.canvas = new fabric.Canvas('c');
             canvas.setHeight(window.innerHeight - 100);
-            canvas.setWidth(500);
+            canvas.setWidth(800);
             var line = new fabric.Line([canvas.width / 2, 0, canvas.width / 2, canvas.height], {
                 strokeWidth: 1,
                 stroke: 'red',
@@ -276,17 +285,20 @@
 
 
 
-            const shair = 'حج اسلام کی عملی عبادات میں سے ایک ہے جس کے معنی مکہ جا کر خانہ کعبہ کی زیارت اور اس سے متعلق مخصوص اعمال کو انجام دینا ہے۔ حج ایک عبادت ہونے کے ساتھ';
+             const shair = 'fida ur rehman فدا لر حمان\nkhattak خٹک کے خلاف';
+            // const shair = 'fida ur rehman khattak kay khelaf\nhum sab ne kaha hai keh';
             const text = new fabric.Textbox(shair);
             text.set({
-                fontFamily: 'Times New Roman',
+                fontFamily: 'kushada',
                 textAlign: 'right',
                 isRTL: true,
                 originX: 'right',
-                fontSize: 20,
-                editable: false,
+                fontSize: 40,
+                isEditable: false,
+                charSpacing:0,
                 top: 30,
-                left: 300 + text.width
+                left: 600 + text.width,
+                width: 300
             });
             canvas.add(text);
             line.left = text.left;
@@ -295,26 +307,26 @@
             canvas.setActiveObject(text);
             canvas.getActiveObject().setCoords();
 
-            text.clone(function (clonedObj) {
-                canvas.discardActiveObject();
-                clonedObj.set({
-                    fontFamily: 'kushada',
-                    top: clonedObj.top + text.height + 10,
-                    evented: true,
-                });
-                canvas.add(clonedObj);
+            // text.clone(function (clonedObj) {
+            //     canvas.discardActiveObject();
+            //     clonedObj.set({
+            //         fontFamily: 'kushada',
+            //         top: clonedObj.top + text.height + 10,
+            //         evented: true,
+            //     });
+            //     canvas.add(clonedObj);
 
-                clonedObj.clone(function (clonedObj2) {
-                    canvas.discardActiveObject();
-                    clonedObj2.set({
-                        fontFamily: 'mehrannastaleeq',
-                        top: clonedObj2.top + clonedObj.height + 10,
-                        evented: true,
-                    });
-                    canvas.add(clonedObj2);
+            //     clonedObj.clone(function (clonedObj2) {
+            //         canvas.discardActiveObject();
+            //         clonedObj2.set({
+            //             fontFamily: 'mehrannastaleeq',
+            //             top: clonedObj2.top + clonedObj.height + 10,
+            //             evented: true,
+            //         });
+            //         canvas.add(clonedObj2);
 
-                });
-            });
+            //     });
+            // });
 
 
 
@@ -348,6 +360,76 @@
         //     }));
         // // }
         // $(function () {
+        document.getElementById('word-color').onclick = function () {
+            canvas.getActiveObject().styles = {};
+            canvas.renderAll();
+            canvas.getActiveObject().setSelectionStyles({fontSize: 40},0,1);
+            canvas.getActiveObject().setSelectionStyles({fontSize: 20},2,3);
+            canvas.getActiveObject().setSelectionStyles({fontSize: 60},4,5);
+            canvas.getActiveObject().setSelectionStyles({underline: true, fill: 'red'},4,5);
+            canvas.getActiveObject().setSelectionStyles({fill: 'blue'},8,9);
+            canvas.renderAll();
+        };
+        document.getElementById('shairTextBtn').onclick = function () {
+            
+        let shair2 = document.getElementById('shairText').value.replace(/<br.*?>\n/g, '\n');
+        shair2 = shair2.replace(/\n<br.*?>/g, '\n');
+        shair2 = shair2.replace(/<br.*?>/g, '\n');
+        shair2 = shair2.replace(/<\/?[^>]+(>|$)/g, '');
+        shair2 = shair2.trim();
+
+        if (shair2.length > 0) {
+
+          let shair = '';
+
+
+          const arabic = /[\u0600-\u06FF]/;
+          const english = /[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\(\)\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°]/;
+
+          if (arabic.test(shair2) && english.test(shair2)) {
+            for (var i = 0; i < shair2.length; i++) {
+            //   if (i === 0) {
+            //     // console.log('first+++++++++++++++++++');
+            //     // console.log(shair2.charAt(i));
+            //     shair = '\u202A'
+            //   }
+              if (english.test(shair2.charAt(i))) {
+                if (shair2.charAt(i - 1)) {
+                  if (!english.test(shair2.charAt(i - 1))) {
+                    shair = shair + '\u202B' + shair2.charAt(i);
+                  } else {
+                    shair = shair + shair2.charAt(i);
+                  }
+                } else {
+                  shair = shair + '\u202B' + shair2.charAt(i);
+                }
+
+                if (shair2.charAt(i + 1)) {
+                  if (!english.test(shair2.charAt(i + 1))) {
+                    shair = shair + '\u202C';
+                  }
+                } else {
+                  shair = shair + '\u202C';
+                }
+              } else {
+                shair = shair + shair2.charAt(i);
+              }
+              if (i === shair2.length - 1) {
+                // console.log('last+++++++++++++++');
+                // console.log(shair2.charAt(i));
+                // shair = shair + '\u202C';
+                window.canvas.getActiveObject().setText(shair);
+              }
+
+            }
+          } else {
+            window.canvas.getActiveObject().setText(shair2);
+            // shair = shair2;
+          }
+        }
+            // window.canvas.getActiveObject().setText( document.getElementById('shairText').value);
+            window.canvas.renderAll();
+        };
         document.getElementById('text-color').onchange = function () {
             canvas.getActiveObject().setFill(this.value);
             canvas.renderAll();
@@ -383,10 +465,14 @@
         };
 
         document.getElementById('text-font-size').onchange = function () {
-            canvas.getActiveObject().setFontSize(this.value);
+            // canvas.getActiveObject().setFontSize(this.value);
+            canvas.getActiveObject().setSelectionStyles({fontSize: this.value},2,3);
             canvas.renderAll();
         };
-
+        document.getElementById('char-spacing').onchange = function () {
+            canvas.getActiveObject().set('charSpacing', parseInt(this.value));
+            canvas.renderAll();
+        };
         document.getElementById('text-line-height').onchange = function () {
             canvas.getActiveObject().setLineHeight(this.value);
             canvas.renderAll();
@@ -396,7 +482,7 @@
             window.canvas.getActiveObject().setTextAlign(this.value);
             window.canvas.renderAll();
         };
-
+ 
 
         radios5 = document.getElementsByName('fonttype');  // wijzig naar button
         for (var i = 0, max = radios5.length; i < max; i++) {

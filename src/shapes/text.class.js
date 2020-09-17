@@ -662,6 +662,7 @@
         var ctx = this.getMeasuringContext();
         // send a TRUE to specify measuring font size CACHE_FONT_SIZE
         this._setTextStyles(ctx, charStyle, true);
+        // console.log(_char,'---',charStyle.fontSize);
       }
       if (width === undefined) {
         kernedWidth = width = ctx.measureText(_char).width;
@@ -717,13 +718,7 @@
           graphemeInfo, numOfSpaces = 0, lineBounds = new Array(line.length);
 
       this.__charBounds[lineIndex] = lineBounds;
-      // var _line = line.join('');
 
-      // if (this._reURDUSpaceAndTab.test(this.textLines[lineIndex])) {
-      //  // width = this.getMeasuringContext().measureText(this.textLines[lineIndex]).width * this.fontSize /  this.CACHE_FONT_SIZE;
-      //  line = this.textLines[lineIndex].split(this._wordJoiners);
-      // }
-      // else {
       for (i = 0; i < line.length; i++) {
         grapheme = line[i];
         graphemeInfo = this._getGraphemeBox(grapheme, lineIndex, i, prevGrapheme);
@@ -731,12 +726,11 @@
         width += graphemeInfo.kernedWidth;
         prevGrapheme = grapheme;
       }
-      // }
 
-      if (this._reURDUSpaceAndTab.test(this.textLines[lineIndex])) {
-        width = this.getMeasuringContext().measureText(this.textLines[lineIndex]).width * this.fontSize / this.CACHE_FONT_SIZE;
-        // line = this.textLines[lineIndex].split(this._wordJoiners);
-      }
+
+      // if (this._reURDUSpaceAndTab.test(this.textLines[lineIndex])) {
+      //   width = this.getMeasuringContext().measureText(this.textLines[lineIndex]).width * this.fontSize / this.CACHE_FONT_SIZE;
+      // }
 
       // this latest bound box represent the last character of the line
       // to simplify cursor handling in interactive mode.
@@ -867,7 +861,8 @@
         var heightOfLine = this.getHeightOfLine(i),
             maxHeight = heightOfLine / this.lineHeight,
             leftOffset = this._getLineLeftOffset(i);
-        this._renderTextLine(
+
+        this._renderChars(
           method,
           ctx,
           this._textLines[i],
@@ -875,6 +870,15 @@
           top + lineHeights + maxHeight - offsets.offsetY,
           i
         );
+
+        // this._renderTextLine(
+        //   method,
+        //   ctx,
+        //   this._textLines[i],
+        //   left + leftOffset - offsets.offsetX,
+        //   top + lineHeights + maxHeight - offsets.offsetY,
+        //   i
+        // );
         lineHeights += heightOfLine;
       }
       ctx.restore();
@@ -934,7 +938,10 @@
           boxWidth = 0,
           timeToRender,
           isUrdu = this._reURDUSpaceAndTab.test(this.textLines[lineIndex]),
-          shortCut = !isJustify && this.charSpacing === 0 && this.isEmptyStyles(lineIndex);
+          shortCut = !isJustify && this.charSpacing === 0 && this.isEmptyStyles(lineIndex) && !isUrdu;
+      var ur = /[\u0600-\u06FF]/;
+      var en = /[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\(\)\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°]/;
+      var urEnMix = ur.test(line) && en.test(line);
 
       ctx.save();
       top -= lineHeight * this._fontSizeFraction / this.lineHeight;
@@ -946,7 +953,11 @@
       }
       if (isUrdu) {
         for (var i = line.length - 1, len = 0; i >= len; i--) {
+          // for (var i = 0, len = line.length - 1; i <= len; i++) {
           timeToRender = i === len;// || this.charSpacing;
+
+          if ( urEnMix && i === line.length - 1 ) {  charsToRender = '\u202A'; }
+
           charsToRender += line[i];
 
           charBox = this.__charBounds[lineIndex][i];
@@ -957,27 +968,70 @@
           else {
             boxWidth += charBox.kernedWidth;
           }
+          // if (isJustify && !timeToRender) {
+          if (this._reSpaceAndTab.test(line[i]) && this._reURDUSpaceAndTab.test(charsToRender)) {
+            timeToRender = true;
+          }
+          // }
 
-          if (!isJustify && !timeToRender) {
-            if (!this._reSpaceAndTab.test(line[i]) && ((!this._reURDUSpaceAndTab.test(line[i]) && this._reURDUSpaceAndTab.test(line[i - 1])) || (this._reSpaceAndTab.test(line[i - 1]) && !this._reURDUSpaceAndTab.test(line[i])))) {
+
+          if (this._reSpaceAndTab.test(line[i - 1]) && this._reURDUSpaceAndTab.test(charsToRender)) {
+            timeToRender = true;
+          }
+          if (this._reSpaceAndTab.test(line[i - 1]) && !this._reURDUSpaceAndTab.test(charsToRender)) {
+            // if (line[i - 2]) {
+            if (this._reURDUSpaceAndTab.test(line[i - 2])) {
               timeToRender = true;
             }
+            // }
+
           }
 
+          if (this.charSpacing !== 0 && !timeToRender && this._reURDUSpaceAndTab.test(charsToRender)) {
+            timeToRender = true;
+          }
 
-          if (isJustify && !timeToRender) {
-            if (this._reSpaceAndTab.test(line[i]) || (!this._reURDUSpaceAndTab.test(line[i]) && this._reURDUSpaceAndTab.test(line[i - 1]))) {
-              timeToRender = true;
-            }
-          }
-          if (!timeToRender) {
-            // if we have charSpacing, we render char by char
-            actualStyle = actualStyle || this.getCompleteStyleDeclaration(lineIndex, i);
-            nextStyle = this.getCompleteStyleDeclaration(lineIndex, i - 1);
-            timeToRender = this._hasStyleChanged(actualStyle, nextStyle);
-          }
+          // }
+          // if (!isJustify && !timeToRender) {
+          //   if (!this._reSpaceAndTab.test(line[i]) && ((!this._reURDUSpaceAndTab.test(line[i]) && this._reURDUSpaceAndTab.test(line[i - 1])) || (this._reSpaceAndTab.test(line[i - 1]) && !this._reURDUSpaceAndTab.test(line[i])))) {
+          //     timeToRender = true;
+          //   }
+          // }
+
+
+          // if (isJustify && !timeToRender) {
+          //   if (this._reSpaceAndTab.test(line[i]) || (!this._reURDUSpaceAndTab.test(line[i]) && this._reURDUSpaceAndTab.test(line[i - 1]))) {
+          //     timeToRender = true;
+          //   }
+          // }
+
+          // if (this.charSpacing !== 0 && !timeToRender) {
+          //   // if (this._reSpaceAndTab.test(line[i]) || (!this._reURDUSpaceAndTab.test(line[i]) && this._reURDUSpaceAndTab.test(line[i - 1]))) {
+          //   timeToRender = true;
+          //   // }
+          // }
+
+          // if (!timeToRender && this._reURDUSpaceAndTab.test(charsToRender)) {
+          //   // if we have charSpacing, we render char by char
+          //   actualStyle = actualStyle || this.getCompleteStyleDeclaration(lineIndex, i);
+          //   nextStyle = this.getCompleteStyleDeclaration(lineIndex, i - 1);
+          //   timeToRender = this._hasStyleChanged(actualStyle, nextStyle);
+          // }
+
           if (timeToRender) {
             // console.log(charsToRender);
+            // if (charsToRender.length !== 0) {
+
+            // }
+            if (!this._reURDUSpaceAndTab.test(charsToRender)) {
+              charsToRender = charsToRender.split(' ').reverse().join(' ');
+              charsToRender = charsToRender.split('').reverse().join('');
+            }
+
+            if ( urEnMix &&  i === 0 ) {  charsToRender += '\u202C'; }
+
+            // }
+            console.log(charsToRender,i,lineIndex);
             //charsToRender = charsToRender.split('').reverse().join('');
             this._renderChar(method, ctx, lineIndex, i, charsToRender, left, top, lineHeight);
             charsToRender = '';
@@ -988,50 +1042,36 @@
         }
       }
       else {
-      for (var i = 0, len = line.length - 1; i <= len; i++) {
-        timeToRender = i === len || this.charSpacing;
-        charsToRender += line[i];
-        charBox = this.__charBounds[lineIndex][i];
-        if (boxWidth === 0) {
-          // if (isUrdu){
-          //   left -= charBox.kernedWidth + charBox.width;
-          //   boxWidth -= charBox.width;
-          // } else {
+        for (var i = 0, len = line.length - 1; i <= len; i++) {
+          timeToRender = i === len || this.charSpacing;
+          charsToRender += line[i];
+          charBox = this.__charBounds[lineIndex][i];
+          if (boxWidth === 0) {
             left += charBox.kernedWidth - charBox.width;
             boxWidth += charBox.width;
-          // }
-        }
-        else {
-          // if (isUrdu){
-          //   boxWidth -= charBox.kernedWidth;
-          // } else {
+          }
+          else {
             boxWidth += charBox.kernedWidth;
-          // }
-          
-        }
-        if (isJustify && !timeToRender) {
-          if (this._reSpaceAndTab.test(line[i])) {
-            timeToRender = true;
+          }
+          if (isJustify && !timeToRender) {
+            if (this._reSpaceAndTab.test(line[i])) {
+              timeToRender = true;
+            }
+          }
+          if (!timeToRender) {
+            // if we have charSpacing, we render char by char
+            actualStyle = actualStyle || this.getCompleteStyleDeclaration(lineIndex, i);
+            nextStyle = this.getCompleteStyleDeclaration(lineIndex, i + 1);
+            timeToRender = this._hasStyleChanged(actualStyle, nextStyle);
+          }
+          if (timeToRender) {
+            this._renderChar(method, ctx, lineIndex, i, charsToRender, left, top, lineHeight);
+            charsToRender = '';
+            actualStyle = nextStyle;
+            left += boxWidth;
+            boxWidth = 0;
           }
         }
-        if (!timeToRender) {
-          // if we have charSpacing, we render char by char
-          actualStyle = actualStyle || this.getCompleteStyleDeclaration(lineIndex, i);
-          nextStyle = this.getCompleteStyleDeclaration(lineIndex, i + 1);
-          timeToRender = this._hasStyleChanged(actualStyle, nextStyle);
-        }
-        if (timeToRender) {
-          this._renderChar(method, ctx, lineIndex, i, charsToRender, left, top, lineHeight);
-          charsToRender = '';
-          actualStyle = nextStyle;
-          // if (isUrdu){
-          // left -= boxWidth;
-          // } else {
-            left += boxWidth;
-          // }
-          boxWidth = 0;
-        }
-      }
       }
       ctx.restore();
     },
@@ -1264,39 +1304,76 @@
         top = topOffset + maxHeight * (1 - this._fontSizeFraction);
         size = this.getHeightOfChar(i, 0);
         dy = this.getValueOfPropertyAt(i, 0, 'deltaY');
-        for (var j = 0, jlen = line.length; j < jlen; j++) {
-          charBox = this.__charBounds[i][j];
-          currentDecoration = this.getValueOfPropertyAt(i, j, type);
-          currentFill = this.getValueOfPropertyAt(i, j, 'fill');
-          _size = this.getHeightOfChar(i, j);
-          _dy = this.getValueOfPropertyAt(i, j, 'deltaY');
-          if ((currentDecoration !== lastDecoration || currentFill !== lastFill || _size !== size || _dy !== dy) &&
-            boxWidth > 0) {
-            ctx.fillStyle = lastFill;
-            lastDecoration && lastFill && ctx.fillRect(
-              leftOffset + lineLeftOffset + boxStart,
-              top + this.offsets[type] * size + dy,
-              boxWidth,
-              this.fontSize / 15
-            );
-            boxStart = charBox.left;
-            boxWidth = charBox.width;
-            lastDecoration = currentDecoration;
-            lastFill = currentFill;
-            size = _size;
-            dy = _dy;
-          }
-          else {
-            boxWidth += charBox.kernedWidth;
+        var isUrdu = this._reURDUSpaceAndTab.test(line);
+        
+        if (isUrdu) {
+          var lineWidth = this.getLineWidth(i);
+          for (var j = 0, jlen = line.length; j < jlen; j++) {
+          // for (var j = line.length, jlen = 0; j >= jlen; j--) {
+            charBox = this.__charBounds[i][j];
+            currentDecoration = this.getValueOfPropertyAt(i, j, type);
+            currentFill = this.getValueOfPropertyAt(i, j, 'fill');
+            _size = this.getHeightOfChar(i, j);
+            _dy = this.getValueOfPropertyAt(i, j, 'deltaY');
+            if ((currentDecoration !== lastDecoration || currentFill !== lastFill || _size !== size || _dy !== dy) &&
+              boxWidth > 0) {
+              ctx.fillStyle = lastFill;
+              lastDecoration && lastFill && ctx.fillRect(
+              //  lineWidth,
+                lineWidth + leftOffset + lineLeftOffset + boxStart,
+                top + this.offsets[type] * size - dy,
+                boxWidth,
+                this.fontSize / 15
+              );
+              boxStart = charBox.left;
+              boxWidth = charBox.width;
+              lastDecoration = currentDecoration;
+              lastFill = currentFill;
+              size = _size;
+              dy = _dy;
+            }
+            else {
+              boxWidth += charBox.kernedWidth;
+            }
           }
         }
-        ctx.fillStyle = currentFill;
-        currentDecoration && currentFill && ctx.fillRect(
-          leftOffset + lineLeftOffset + boxStart,
-          top + this.offsets[type] * size + dy,
-          boxWidth - charSpacing,
-          this.fontSize / 15
-        );
+        else {
+
+
+          for (var j = 0, jlen = line.length; j < jlen; j++) {
+            charBox = this.__charBounds[i][j];
+            currentDecoration = this.getValueOfPropertyAt(i, j, type);
+            currentFill = this.getValueOfPropertyAt(i, j, 'fill');
+            _size = this.getHeightOfChar(i, j);
+            _dy = this.getValueOfPropertyAt(i, j, 'deltaY');
+            if ((currentDecoration !== lastDecoration || currentFill !== lastFill || _size !== size || _dy !== dy) &&
+              boxWidth > 0) {
+              ctx.fillStyle = lastFill;
+              lastDecoration && lastFill && ctx.fillRect(
+                leftOffset + lineLeftOffset + boxStart,
+                top + this.offsets[type] * size + dy,
+                boxWidth,
+                this.fontSize / 15
+              );
+              boxStart = charBox.left;
+              boxWidth = charBox.width;
+              lastDecoration = currentDecoration;
+              lastFill = currentFill;
+              size = _size;
+              dy = _dy;
+            }
+            else {
+              boxWidth += charBox.kernedWidth;
+            }
+          }
+        }
+        // ctx.fillStyle = currentFill;
+        // currentDecoration && currentFill && ctx.fillRect(
+        //   leftOffset + lineLeftOffset + boxStart,
+        //   top + this.offsets[type] * size + dy,
+        //   boxWidth - charSpacing,
+        //   this.fontSize / 15
+        // );
         topOffset += heightOfLine;
       }
       // if there is text background color no
@@ -1355,7 +1432,13 @@
           newLine = ['\n'],
           newText = [];
       for (var i = 0; i < lines.length; i++) {
-        newLines[i] = fabric.util.string.graphemeSplit(lines[i]);
+        if (this._reURDUSpaceAndTab.test(lines[i])) {
+          newLines[i] = lines[i].split(/(\s+)/);
+        }
+        else {
+          newLines[i] = fabric.util.string.graphemeSplit(lines[i]);
+        }
+
         newText = newText.concat(newLines[i], newLine);
       }
       newText.pop();
