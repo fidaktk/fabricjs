@@ -293,7 +293,7 @@
       var width = 0, prevGrapheme, skipLeft = true;
       charOffset = charOffset || 0;
       var nextChar;
-      // if (this._reURDUSpaceAndTab.test(word)) {
+      // if (this._reRTL.test(word)) {
       //   var box = this._getGraphemeBox(word, lineIndex, 0, undefined, skipLeft, false);
       //   width += box.kernedWidth;
       // }
@@ -340,18 +340,18 @@
       }
       desiredWidth -= reservedSpace;
 
-      // console.log('-------------------------------------------------------------');
+      // // console.log('-------------------------------------------------------------');
       for (var i = 0; i < words.length; i++) {
         // if using splitByGrapheme words are already in graphemes.
 
-        if (this._reURDUSpaceAndTab.test(words[i])) {
+        if (this._reRTL.test(words[i])) {
           var skipLeft = true;
           var prevGrapheme = (i === 0) ? undefined : ' ' ;// words[i - 1] || '';
           var nextChar = (i === words.length - 1) ? undefined : ' ' ;//words[i + 1] || '';
           word = words[i];
           var wordWidth = this._getGraphemeBox(word, lineIndex, offset, prevGrapheme, skipLeft, nextChar);
           wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth : wordWidth.width;
-          // console.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
+          // // console.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
           offset += 1;
         }
         else {
@@ -378,7 +378,7 @@
         line = line.concat(word);
 
         infixWidth = this._measureWord([infix], lineIndex, offset);
-        // if (this._reURDUSpaceAndTab.test(words[i])) {
+        // if (this._reRTL.test(words[i])) {
         //  if(i < words.length - 1) offset++;
           
           

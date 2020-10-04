@@ -208,10 +208,8 @@
         Overline
 
     </div>
-   
-<textarea name="" id="shairText" cols="30" rows="10" dir="rtl" style="direction: rtl !important">فدا Fida ur Rehman خان خٹک
-Fida ur Rehman خان خٹک
-خان خٹک Fida ur Rehman</textarea>
+
+    <textarea name="" id="shairText" cols="30" rows="10" dir="rtl" style="direction: rtl !important">فدا الرحمان Fida ur Rehman خٹک</textarea>
     <br>
     <button id="word-color">Word Color</button>
     <button id="shairTextBtn">Change Text</button>
@@ -285,7 +283,7 @@ Fida ur Rehman خان خٹک
 
 
 
-             const shair = 'fida ur rehman فدا لر حمان\nkhattak خٹک کے خلاف';
+            const shair = 'فداالرحمان خٹک کیا بات ہے۔ مطلب کیا ہے۔';
             // const shair = 'fida ur rehman khattak kay khelaf\nhum sab ne kaha hai keh';
             const text = new fabric.Textbox(shair);
             text.set({
@@ -295,7 +293,7 @@ Fida ur Rehman خان خٹک
                 originX: 'right',
                 fontSize: 40,
                 isEditable: false,
-                charSpacing:0,
+                charSpacing: 0,
                 top: 30,
                 left: 600 + text.width,
                 width: 300
@@ -347,7 +345,7 @@ Fida ur Rehman خان خٹک
         });
         document.fonts.ready.then(function (font_face_set) {
             // all fonts have been loaded
-            console.log('all fonts loaded');
+            // console.log('all fonts loaded');
         });
         // // function Addtext() {
         //     canvas.add(new fabric.Textbox('Tap and Type', {
@@ -363,70 +361,70 @@ Fida ur Rehman خان خٹک
         document.getElementById('word-color').onclick = function () {
             canvas.getActiveObject().styles = {};
             canvas.renderAll();
-            canvas.getActiveObject().setSelectionStyles({fontSize: 40},0,1);
-            canvas.getActiveObject().setSelectionStyles({fontSize: 20},2,3);
-            canvas.getActiveObject().setSelectionStyles({fontSize: 60},4,5);
-            canvas.getActiveObject().setSelectionStyles({underline: true, fill: 'red'},4,5);
-            canvas.getActiveObject().setSelectionStyles({fill: 'blue'},8,9);
+            // canvas.getActiveObject().setSelectionStyles({ fontSize: 40 }, 0, 1);
+            // canvas.getActiveObject().setSelectionStyles({ fontSize: 20 }, 2, 3);
+            // canvas.getActiveObject().setSelectionStyles({ fontSize: 60 }, 4, 5);
+            canvas.getActiveObject().setSelectionStyles({ underline: true }, 0, 1);
+            // canvas.getActiveObject().setSelectionStyles({ fill: 'blue' }, 8, 9);
             canvas.renderAll();
         };
         document.getElementById('shairTextBtn').onclick = function () {
-            
-        let shair2 = document.getElementById('shairText').value.replace(/<br.*?>\n/g, '\n');
-        shair2 = shair2.replace(/\n<br.*?>/g, '\n');
-        shair2 = shair2.replace(/<br.*?>/g, '\n');
-        shair2 = shair2.replace(/<\/?[^>]+(>|$)/g, '');
-        shair2 = shair2.trim();
 
-        if (shair2.length > 0) {
+            let shair2 = document.getElementById('shairText').value.replace(/<br.*?>\n/g, '\n');
+            shair2 = shair2.replace(/\n<br.*?>/g, '\n');
+            shair2 = shair2.replace(/<br.*?>/g, '\n');
+            shair2 = shair2.replace(/<\/?[^>]+(>|$)/g, '');
+            shair2 = shair2.trim();
 
-          let shair = '';
+            if (shair2.length > 0) {
+
+                let shair = '';
 
 
-          const arabic = /[\u0600-\u06FF]/;
-          const english = /[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\(\)\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°]/;
+                const arabic = /[\u0600-\u06FF]/;
+                const english = /[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\(\)\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°]/;
 
-          if (arabic.test(shair2) && english.test(shair2)) {
-            for (var i = 0; i < shair2.length; i++) {
-            //   if (i === 0) {
-            //     // console.log('first+++++++++++++++++++');
-            //     // console.log(shair2.charAt(i));
-            //     shair = '\u202A'
-            //   }
-              if (english.test(shair2.charAt(i))) {
-                if (shair2.charAt(i - 1)) {
-                  if (!english.test(shair2.charAt(i - 1))) {
-                    shair = shair + '\u202B' + shair2.charAt(i);
-                  } else {
-                    shair = shair + shair2.charAt(i);
-                  }
-                } else {
-                  shair = shair + '\u202B' + shair2.charAt(i);
-                }
+                // if (arabic.test(shair2) && english.test(shair2)) {
+                //     for (var i = 0; i < shair2.length; i++) {
+                //         //   if (i === 0) {
+                //         //     // // console.log('first+++++++++++++++++++');
+                //         //     // // console.log(shair2.charAt(i));
+                //         //     shair = '\u202A'
+                //         //   }
+                //         // if (english.test(shair2.charAt(i))) {
+                //         //     if (shair2.charAt(i - 1)) {
+                //         //         if (!english.test(shair2.charAt(i - 1))) {
+                //         //             shair = shair + '\u202B' + shair2.charAt(i);
+                //         //         } else {
+                //         //             shair = shair + shair2.charAt(i);
+                //         //         }
+                //         //     } else {
+                //         //         shair = shair + '\u202B' + shair2.charAt(i);
+                //         //     }
 
-                if (shair2.charAt(i + 1)) {
-                  if (!english.test(shair2.charAt(i + 1))) {
-                    shair = shair + '\u202C';
-                  }
-                } else {
-                  shair = shair + '\u202C';
-                }
-              } else {
-                shair = shair + shair2.charAt(i);
-              }
-              if (i === shair2.length - 1) {
-                // console.log('last+++++++++++++++');
-                // console.log(shair2.charAt(i));
-                // shair = shair + '\u202C';
-                window.canvas.getActiveObject().setText(shair);
-              }
+                //         //     if (shair2.charAt(i + 1)) {
+                //         //         if (!english.test(shair2.charAt(i + 1))) {
+                //         //             shair = shair + '\u202C';
+                //         //         }
+                //         //     } else {
+                //         //         shair = shair + '\u202C';
+                //         //     }
+                //         // } else {
+                //         //     shair = shair + shair2.charAt(i);
+                //         // }
+                //         // if (i === shair2.length - 1) {
+                //             // // console.log('last+++++++++++++++');
+                //             // // console.log(shair2.charAt(i));
+                //             // shair = shair + '\u202C';
+                //             window.canvas.getActiveObject().setText(shair);
+                //         // }
 
+                //     }
+                // } else {
+                    window.canvas.getActiveObject().setText(shair2);
+                    // shair = shair2;
+                // }
             }
-          } else {
-            window.canvas.getActiveObject().setText(shair2);
-            // shair = shair2;
-          }
-        }
             // window.canvas.getActiveObject().setText( document.getElementById('shairText').value);
             window.canvas.renderAll();
         };
@@ -466,7 +464,7 @@ Fida ur Rehman خان خٹک
 
         document.getElementById('text-font-size').onchange = function () {
             // canvas.getActiveObject().setFontSize(this.value);
-            canvas.getActiveObject().setSelectionStyles({fontSize: this.value},2,3);
+            canvas.getActiveObject().setSelectionStyles({ fontSize: this.value }, 2, 3);
             canvas.renderAll();
         };
         document.getElementById('char-spacing').onchange = function () {
@@ -482,7 +480,7 @@ Fida ur Rehman خان خٹک
             window.canvas.getActiveObject().setTextAlign(this.value);
             window.canvas.renderAll();
         };
- 
+
 
         radios5 = document.getElementsByName('fonttype');  // wijzig naar button
         for (var i = 0, max = radios5.length; i < max; i++) {
@@ -529,6 +527,6 @@ Fida ur Rehman خان خٹک
                 canvas.renderAll();
             }
         }
-        console.log('ready!');
+        // console.log('ready!');
         // });
     </script>
