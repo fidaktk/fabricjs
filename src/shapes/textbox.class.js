@@ -95,7 +95,7 @@
       this.dynamicMinWidth = 0;
 
       // wrap lines
-     this._styleMap = this._generateStyleMap(this._splitText());
+      this._styleMap = this._generateStyleMap(this._splitText());
 
       // if after wrapping, the width is smaller than dynamicMinWidth, change the width and re-wrap
       if (this.dynamicMinWidth > this.width) {
@@ -298,12 +298,12 @@
       //   width += box.kernedWidth;
       // }
       // else {
-        for (var i = 0, len = word.length; i < len; i++) {
-          nextChar = ((i + 1) > word.length) ? false : word[i + 1];
-          var box = this._getGraphemeBox(word[i], lineIndex, i + charOffset, prevGrapheme, skipLeft, nextChar);
-          width += box.kernedWidth;
-          prevGrapheme = word[i];
-        }
+      for (var i = 0, len = word.length; i < len; i++) {
+        nextChar = ((i + 1) > word.length) ? false : word[i + 1];
+        var box = this._getGraphemeBox(word[i], lineIndex, i + charOffset, prevGrapheme, skipLeft, nextChar);
+        width += box.kernedWidth;
+        prevGrapheme = word[i];
+      }
       // }
 
       return width;
@@ -380,10 +380,10 @@
         infixWidth = this._measureWord([infix], lineIndex, offset);
         // if (this._reRTL.test(words[i])) {
         //  if(i < words.length - 1) offset++;
-          
-          
+
+
         // } else {
-         offset++;
+        offset++;
         // }
         lineJustStarted = false;
         // keep track of largest word

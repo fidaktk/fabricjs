@@ -1495,10 +1495,12 @@
      */
     _renderPaintInOrder: function(ctx) {
       if (this.paintFirst === 'stroke') {
+        // this._outLine(ctx);
         this._renderStroke(ctx);
         this._renderFill(ctx);
       }
       else {
+        // this._outLine(ctx);
         this._renderFill(ctx);
         this._renderStroke(ctx);
       }
@@ -2128,3 +2130,5 @@
    */
   fabric.Object.__uid = 0;
 })(typeof exports !== 'undefined' ? exports : this);
+
+

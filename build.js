@@ -217,7 +217,7 @@ var filesToInclude = [
   ifSpecifiedInclude('image_filters', 'src/filters/gamma_filter.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/composed_filter.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/hue_rotation.class.js'),
-
+  ifSpecifiedInclude('image_filters', 'src/filters/outline.class.js'),
   ifSpecifiedInclude('text', 'src/shapes/text.class.js'),
   ifSpecifiedInclude('text', 'src/mixins/text_style.mixin.js'),
 

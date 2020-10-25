@@ -1,11 +1,12 @@
-(function(global) {
+/* eslint-disable no-unused-expressions */
+(function (global) {
 
   'use strict';
 
   var extend = fabric.util.object.extend;
 
   if (!global.fabric) {
-    global.fabric = { };
+    global.fabric = {};
   }
 
   if (global.fabric.Image) {
@@ -37,6 +38,16 @@
      */
     crossOrigin: '',
 
+    outline: {
+      width: 3,
+      color: 'red',
+      blur: 1
+    },
+    glow: {
+      width: 0,
+      color: '',
+      blur: 0
+    },
     /**
      * Width of a stroke.
      * For image quality a stroke multiple of 2 gives better results.
@@ -131,8 +142,8 @@
      * @param {function} [callback] callback function to call after eventual filters applied.
      * @return {fabric.Image} thisArg
      */
-    initialize: function(element, options) {
-      options || (options = { });
+    initialize: function (element, options) {
+      options || (options = {});
       this.filters = [];
       this.cacheKey = 'texture' + fabric.Object.__uid++;
       this.callSuper('initialize', options);
@@ -143,7 +154,7 @@
      * Returns image element which this instance if based on
      * @return {HTMLImageElement} Image element
      */
-    getElement: function() {
+    getElement: function () {
       return this._element || {};
     },
 
@@ -156,7 +167,7 @@
      * @return {fabric.Image} thisArg
      * @chainable
      */
-    setElement: function(element, options) {
+    setElement: function (element, options) {
       this.removeTexture(this.cacheKey);
       this.removeTexture(this.cacheKey + '_filtered');
       this._element = element;
@@ -178,7 +189,7 @@
     /**
      * Delete a single texture if in webgl mode
      */
-    removeTexture: function(key) {
+    removeTexture: function (key) {
       var backend = fabric.filterBackend;
       if (backend && backend.evictCachesForKey) {
         backend.evictCachesForKey(key);
@@ -188,11 +199,11 @@
     /**
      * Delete textures, reference to elements and eventually JSDOM cleanup
      */
-    dispose: function() {
+    dispose: function () {
       this.removeTexture(this.cacheKey);
       this.removeTexture(this.cacheKey + '_filtered');
       this._cacheContext = undefined;
-      ['_originalElement', '_element', '_filteredEl', '_cacheCanvas'].forEach((function(element) {
+      ['_originalElement', '_element', '_filteredEl', '_cacheCanvas'].forEach((function (element) {
         fabric.util.cleanUpJsdomNode(this[element]);
         this[element] = undefined;
       }).bind(this));
@@ -203,7 +214,7 @@
      * @return {fabric.Image} thisArg
      * @chainable
      */
-    setCrossOrigin: function(value) {
+    setCrossOrigin: function (value) {
       this.crossOrigin = value;
       this._element.crossOrigin = value;
 
@@ -214,7 +225,7 @@
      * Returns original size of an image
      * @return {Object} Object with "width" and "height" properties
      */
-    getOriginalSize: function() {
+    getOriginalSize: function () {
       var element = this.getElement();
       return {
         width: element.naturalWidth || element.width,
@@ -226,7 +237,7 @@
      * @private
      * @param {CanvasRenderingContext2D} ctx Context to render on
      */
-    _stroke: function(ctx) {
+    _stroke: function (ctx) {
       if (!this.stroke || this.strokeWidth === 0) {
         return;
       }
@@ -238,13 +249,14 @@
       ctx.lineTo(-w, h);
       ctx.lineTo(-w, -h);
       ctx.closePath();
+
     },
 
     /**
      * @private
      * @param {CanvasRenderingContext2D} ctx Context to render on
      */
-    _renderDashedStroke: function(ctx) {
+    _renderDashedStroke: function (ctx) {
       var x = -this.width / 2,
           y = -this.height / 2,
           w = this.width,
@@ -267,10 +279,10 @@
      * @param {Array} [propertiesToInclude] Any properties that you might want to additionally include in the output
      * @return {Object} Object representation of an instance
      */
-    toObject: function(propertiesToInclude) {
+    toObject: function (propertiesToInclude) {
       var filters = [];
 
-      this.filters.forEach(function(filterObj) {
+      this.filters.forEach(function (filterObj) {
         if (filterObj) {
           filters.push(filterObj.toObject());
         }
@@ -293,7 +305,7 @@
      * Returns true if an image has crop applied, inspecting values of cropX,cropY,width,hight.
      * @return {Boolean}
      */
-    hasCrop: function() {
+    hasCrop: function () {
       return this.cropX || this.cropY || this.width < this._element.width || this.height < this._element.height;
     },
 
@@ -303,7 +315,7 @@
      * @return {Array} an array of strings with the specific svg representation
      * of the instance
      */
-    _toSVG: function() {
+    _toSVG: function () {
       var svgString = [], imageMarkup = [], strokeSvg,
           x = -this.width / 2, y = -this.height / 2, clipPath = '';
       if (this.hasCrop()) {
@@ -352,7 +364,7 @@
      * @param {Boolean} filtered indicates if the src is needed for svg
      * @return {String} Source of an image
      */
-    getSrc: function(filtered) {
+    getSrc: function (filtered) {
       var element = filtered ? this._element : this._originalElement;
       if (element) {
         if (element.toDataURL) {
@@ -379,8 +391,8 @@
      * @return {fabric.Image} thisArg
      * @chainable
      */
-    setSrc: function(src, callback, options) {
-      fabric.util.loadImage(src, function(img) {
+    setSrc: function (src, callback, options) {
+      fabric.util.loadImage(src, function (img) {
         this.setElement(img, options);
         this._setWidthHeight();
         callback && callback(this);
@@ -392,11 +404,11 @@
      * Returns string representation of an instance
      * @return {String} String representation of an instance
      */
-    toString: function() {
+    toString: function () {
       return '#<fabric.Image: { src: "' + this.getSrc() + '" }>';
     },
 
-    applyResizeFilters: function() {
+    applyResizeFilters: function () {
       var filter = this.resizeFilter,
           minimumScale = this.minimumScaleTrigger,
           objectScale = this.getTotalObjectScaling(),
@@ -439,10 +451,10 @@
      * @return {thisArg} return the fabric.Image object
      * @chainable
      */
-    applyFilters: function(filters) {
+    applyFilters: function (filters) {
 
       filters = filters || this.filters || [];
-      filters = filters.filter(function(filter) { return filter && !filter.isNeutralState(); });
+      filters = filters.filter(function (filter) { return filter && !filter.isNeutralState(); });
       this.set('dirty', true);
 
       // needs to clear out or WEBGL will not resize correctly
@@ -494,7 +506,7 @@
      * @private
      * @param {CanvasRenderingContext2D} ctx Context to render on
      */
-    _render: function(ctx) {
+    _render: function (ctx) {
       if (this.isMoving !== true && this.resizeFilter && this._needsResize()) {
         this.applyResizeFilters();
       }
@@ -513,11 +525,12 @@
      * A full performance audit should be done.
      * @return {Boolean}
      */
-    shouldCache: function() {
+    shouldCache: function () {
       return this.needsItsOwnCache();
     },
 
-    _renderFill: function(ctx) {
+
+    _renderFill: function (ctx) {
       var elementToDraw = this._element,
           w = this.width, h = this.height,
           sW = Math.min(elementToDraw.naturalWidth || elementToDraw.width, w * this._filterScalingX),
@@ -525,7 +538,79 @@
           x = -w / 2, y = -h / 2,
           sX = Math.max(0, this.cropX * this._filterScalingX),
           sY = Math.max(0, this.cropY * this._filterScalingY);
+      if (this.outline && !this.isMoving) {
+        if (this.outline.width && this.outline.color && this.outline.color !== '') {
+          ctx.save();
+          //m1
+          // ctx.shadowColor = this.outline.color;
+          // ctx.shadowBlur = this.outline.blur;
+          // for (var xx = -this.outline.width; xx <= this.outline.width; xx++) {
+          //   for (var yy = -this.outline.width; yy <= this.outline.width; yy++) {
+          //     ctx.shadowOffsetX = xx;
+          //     ctx.shadowOffsetY = yy;
+          //     // console.log(xx,yy)
+          //     // ctx.filter = 'drop-shadow(' + xx + 'px ' + yy + 'px ' + this.outline.blur + 'px ' + this.outline.color + ')';
+          //     elementToDraw && ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, w, h);
+          //   }
 
+          // }
+
+          //m2
+          // var cCO =  ctx.globalCompositeOperation;
+          // var dArr = [-1,-1, 0,-1, 1,-1, -1,0, 1,0, -1,1, 0,1, 1,1],
+          //     s = this.outline.width;
+
+          // for (var i = 0; i < dArr.length; i += 1){
+          //   console.log(i);
+          //   ctx.drawImage(elementToDraw, x + dArr[i] * s, y + dArr[i + 1] * s);
+          // }
+          // ctx.globalCompositeOperation = 'source-in';
+          // ctx.fillStyle = this.outline.color;
+          // ctx.fillRect(x,y,w, h);
+
+          // // draw original image in normal mode
+          // ctx.globalCompositeOperation = cCO;
+
+          //m3
+
+          // var ct, data, imgData, points, cw = this.canvas.width, ch;
+
+          // if (!this.cachePoints) {
+          //   if (!this.cacheDataurl){
+
+          //     var fCanvas = fabric.util.createCanvasElement();
+          //     fCanvas.height = h / 4;
+          //     fCanvas.width = w / 4;
+          //     var fCtx = fCanvas.getContext('2d');
+          //     var defineNonTransparent = function (x, y) {
+          //       var a = data[(y * fCanvas.width + x) * 4 + 3];
+          //       console.log(x,y);
+          //       return (a > 20);
+          //     };
+          //     fCtx.drawImage(elementToDraw, fCanvas.height, fCanvas.width);
+          //     imgData = ctx.getImageData(0,0,fCanvas.height, fCanvas.width);
+          //     data = imgData.data;
+          //     points = this._geomCounter(defineNonTransparent);
+
+          //     //   this.dataurl=this.toDataURL();
+          //     // }
+          //     // console.log(this.toDataURL());
+          //     // var can = document.createElement('canvas');
+          //     // can.width = cw = w + this.outline.width;
+          //     // can.height = ch = h + this.outline.width;
+          //     // ct = can.getContext('2d');
+          //     // ctx.drawImage(elementToDraw, w, h);
+          //     // imgData = ctx.getImageData(0, 0, can.width, can.height);
+          //     // data = imgData.data;
+          //     // this.points = geom.contour(defineNonTransparent);
+          //     console.log(points);
+          //   }
+          // }
+
+
+          ctx.restore();
+        }
+      }
       elementToDraw && ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, w, h);
     },
 
@@ -533,7 +618,7 @@
      * needed to check if image needs resize
      * @private
      */
-    _needsResize: function() {
+    _needsResize: function () {
       var scale = this.getTotalObjectScaling();
       return (scale.scaleX !== this._lastScaleX || scale.scaleY !== this._lastScaleY);
     },
@@ -541,7 +626,7 @@
     /**
      * @private
      */
-    _resetWidthHeight: function() {
+    _resetWidthHeight: function () {
       this.set(this.getOriginalSize());
     },
 
@@ -552,7 +637,7 @@
      * @param {HTMLImageElement|String} element The element representing the image
      * @param {Object} [options] Options object
      */
-    _initElement: function(element, options) {
+    _initElement: function (element, options) {
       this.setElement(fabric.util.getById(element), options);
       fabric.util.addClass(this.getElement(), fabric.Image.CSS_CANVAS);
     },
@@ -561,8 +646,8 @@
      * @private
      * @param {Object} [options] Options object
      */
-    _initConfig: function(options) {
-      options || (options = { });
+    _initConfig: function (options) {
+      options || (options = {});
       this.setOptions(options);
       this._setWidthHeight(options);
       if (this._element && this.crossOrigin) {
@@ -575,9 +660,9 @@
      * @param {Array} filters to be initialized
      * @param {Function} callback Callback to invoke when all fabric.Image.filters instances are created
      */
-    _initFilters: function(filters, callback) {
+    _initFilters: function (filters, callback) {
       if (filters && filters.length) {
-        fabric.util.enlivenObjects(filters, function(enlivenedObjects) {
+        fabric.util.enlivenObjects(filters, function (enlivenedObjects) {
           callback && callback(enlivenedObjects);
         }, 'fabric.Image.filters');
       }
@@ -592,8 +677,8 @@
      * options.
      * @param {Object} [options] Object with width/height properties
      */
-    _setWidthHeight: function(options) {
-      options || (options = { });
+    _setWidthHeight: function (options) {
+      options || (options = {});
       var el = this.getElement();
       this.width = options.width || el.naturalWidth || el.width || 0;
       this.height = options.height || el.naturalHeight || el.height || 0;
@@ -605,7 +690,7 @@
      * @private
      * @return {Object}
      */
-    parsePreserveAspectRatioAttribute: function() {
+    parsePreserveAspectRatioAttribute: function () {
       var pAR = fabric.util.parsePreserveAspectRatioAttribute(this.preserveAspectRatio || ''),
           rWidth = this._element.width, rHeight = this._element.height,
           scaleX = 1, scaleY = 1, offsetLeft = 0, offsetTop = 0, cropX = 0, cropY = 0,
@@ -685,18 +770,18 @@
    * @param {Object} object Object to create an instance from
    * @param {Function} callback Callback to invoke when an image instance is created
    */
-  fabric.Image.fromObject = function(_object, callback) {
+  fabric.Image.fromObject = function (_object, callback) {
     var object = fabric.util.object.clone(_object);
-    fabric.util.loadImage(object.src, function(img, error) {
+    fabric.util.loadImage(object.src, function (img, error) {
       if (error) {
         callback && callback(null, error);
         return;
       }
-      fabric.Image.prototype._initFilters.call(object, object.filters, function(filters) {
+      fabric.Image.prototype._initFilters.call(object, object.filters, function (filters) {
         object.filters = filters || [];
-        fabric.Image.prototype._initFilters.call(object, [object.resizeFilter], function(resizeFilters) {
+        fabric.Image.prototype._initFilters.call(object, [object.resizeFilter], function (resizeFilters) {
           object.resizeFilter = resizeFilters[0];
-          fabric.util.enlivenObjects([object.clipPath], function(enlivedProps) {
+          fabric.util.enlivenObjects([object.clipPath], function (enlivedProps) {
             object.clipPath = enlivedProps[0];
             var image = new fabric.Image(img, object);
             callback(image);
@@ -713,8 +798,8 @@
    * @param {Function} [callback] Callback to invoke when image is created (newly created image is passed as a first argument)
    * @param {Object} [imgOptions] Options object
    */
-  fabric.Image.fromURL = function(url, callback, imgOptions) {
-    fabric.util.loadImage(url, function(img) {
+  fabric.Image.fromURL = function (url, callback, imgOptions) {
+    fabric.util.loadImage(url, function (img) {
       callback && callback(new fabric.Image(img, imgOptions));
     }, null, imgOptions && imgOptions.crossOrigin);
   };
@@ -736,11 +821,12 @@
    * @param {Function} callback Callback to execute when fabric.Image object is created
    * @return {fabric.Image} Instance of fabric.Image
    */
-  fabric.Image.fromElement = function(element, callback, options) {
+  fabric.Image.fromElement = function (element, callback, options) {
     var parsedAttributes = fabric.parseAttributes(element, fabric.Image.ATTRIBUTE_NAMES);
     fabric.Image.fromURL(parsedAttributes['xlink:href'], callback,
-      extend((options ? fabric.util.object.clone(options) : { }), parsedAttributes));
+      extend((options ? fabric.util.object.clone(options) : {}), parsedAttributes));
   };
   /* _FROM_SVG_END_ */
 
 })(typeof exports !== 'undefined' ? exports : this);
+

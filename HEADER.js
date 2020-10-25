@@ -115,7 +115,7 @@ fabric.charWidthsCache = { };
  * @type Number
  * @default
  */
-fabric.textureSize = 2048;
+fabric.textureSize = 50048;
 
 /**
  * When 'true', style information is not retained when copy/pasting text, making

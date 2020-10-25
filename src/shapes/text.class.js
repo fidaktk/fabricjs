@@ -5,7 +5,7 @@
   'use strict';
 
   var fabric = global.fabric || (global.fabric = {}),
-    clone = fabric.util.object.clone;
+      clone = fabric.util.object.clone;
 
   if (fabric.Text) {
     fabric.warn('fabric.Text is already defined');
@@ -545,11 +545,11 @@
         return;
       }
       var lineTopOffset = 0, heightOfLine,
-        lineLeftOffset, originalFill = ctx.fillStyle,
-        line, lastColor,
-        leftOffset = this._getLeftOffset(),
-        topOffset = this._getTopOffset(),
-        boxStart = 0, boxWidth = 0, charBox, currentColor;
+          lineLeftOffset, originalFill = ctx.fillStyle,
+          line, lastColor,
+          leftOffset = this._getLeftOffset(),
+          topOffset = this._getTopOffset(),
+          boxStart = 0, boxWidth = 0, charBox, currentColor;
 
       for (var i = 0, len = this._textLines.length; i < len; i++) {
         heightOfLine = this.getHeightOfLine(i);
@@ -612,7 +612,7 @@
         fabric.charWidthsCache[fontFamily] = {};
       }
       var cache = fabric.charWidthsCache[fontFamily],
-        cacheProp = decl.fontStyle.toLowerCase() + '_' + (decl.fontWeight + '').toLowerCase();
+          cacheProp = decl.fontStyle.toLowerCase() + '_' + (decl.fontWeight + '').toLowerCase();
       if (!cache[cacheProp]) {
         cache[cacheProp] = {};
       }
@@ -734,7 +734,7 @@
      */
     _measureLine: function (lineIndex) {
       var width = 0, i, grapheme, line = this._textLines[lineIndex], prevGrapheme,
-        graphemeInfo, numOfSpaces = 0, lineBounds = new Array(line.length);
+          graphemeInfo, numOfSpaces = 0, lineBounds = new Array(line.length);
 
       this.__charBounds[lineIndex] = lineBounds;
 
@@ -809,9 +809,9 @@
       }
 
       var line = this._textLines[lineIndex],
-        // char 0 is measured before the line cycle because it nneds to char
-        // emptylines
-        maxHeight = this.getHeightOfChar(lineIndex, 0);
+          // char 0 is measured before the line cycle because it nneds to char
+          // emptylines
+          maxHeight = this.getHeightOfChar(lineIndex, 0);
       for (var i = 1, len = line.length; i < len; i++) {
         maxHeight = Math.max(this.getHeightOfChar(lineIndex, i), maxHeight);
       }
@@ -859,7 +859,7 @@
         return { offsetX: 0, offsetY: 0 };
       }
       var offsetX = -this.width / 2 + filler.offsetX || 0,
-        offsetY = -this.height / 2 + filler.offsetY || 0;
+          offsetY = -this.height / 2 + filler.offsetY || 0;
 
       ctx.transform(1, 0, 0, 1, offsetX, offsetY);
       return { offsetX: offsetX, offsetY: offsetY };
@@ -878,8 +878,8 @@
       var offsets = this._applyPatternGradientTransform(ctx, method === 'fillText' ? this.fill : this.stroke);
       for (var i = 0, len = this._textLines.length; i < len; i++) {
         var heightOfLine = this.getHeightOfLine(i),
-          maxHeight = heightOfLine / this.lineHeight,
-          leftOffset = this._getLineLeftOffset(i);
+            maxHeight = heightOfLine / this.lineHeight,
+            leftOffset = this._getLineLeftOffset(i);
 
         this._renderChars(
           method,
@@ -949,15 +949,15 @@
     _renderChars: function (method, ctx, line, left, top, lineIndex) {
       // set proper line offset
       var lineHeight = this.getHeightOfLine(lineIndex),
-        isJustify = this.textAlign.indexOf('justify') !== -1,
-        actualStyle,
-        nextStyle,
-        charsToRender = '',
-        charBox,
-        boxWidth = 0,
-        timeToRender,
-        isUrdu = this._reRTL.test(this.textLines[lineIndex]),
-        shortCut = !isJustify && this.charSpacing === 0 && this.isEmptyStyles(lineIndex) && !isUrdu;
+          isJustify = this.textAlign.indexOf('justify') !== -1,
+          actualStyle,
+          nextStyle,
+          charsToRender = '',
+          charBox,
+          boxWidth = 0,
+          timeToRender,
+          isUrdu = this._reRTL.test(this.textLines[lineIndex]),
+          shortCut = !isJustify && this.charSpacing === 0 && this.isEmptyStyles(lineIndex) && !isUrdu;
       // var ur = /([\u0600-\u06FF]|[\u0750-\u077F]|[\uFB50-\uFDFF]|[\uFE70-\uFEFF]|[\u10840-\u1085F]|[\u0780-\u07BF]|[\u0590-\u05FF]|[\uFB1D-\uFB4F]])/;
       var en = /[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\(\)\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°]/;
       var urEnMix = this._reRTL.test(line) && en.test(line);
@@ -972,11 +972,11 @@
       }
       if (isUrdu) {
         // left = this.__charBounds[lineIndex][this.__charBounds[lineIndex].length - 1].left;
-        if (urEnMix) {
-          for (var i = line.length - 1, len = 0; i >= len; i--) {
+        // if (urEnMix) {
+        //   for (var i = line.length - 1, len = 0; i >= len; i--) {
 
-          }
-        }
+        //   }
+        // }
         for (var i = line.length - 1, len = 0; i >= len; i--) {
           // for (var i = 0, len = line.length - 1; i <= len; i++) {
           timeToRender = i === len;// || this.charSpacing;
@@ -1096,7 +1096,6 @@
           // console.log('i: ' + i);
           // console.log('charsToRender: ' + charsToRender);
           // console.log('timeToRender: ' + timeToRender);
-
 
 
           if (timeToRender) {
@@ -1220,7 +1219,26 @@
       if (decl && decl.deltaY) {
         top += decl.deltaY;
       }
+      ///////////////////////
+      // var dArr = [-1,-1, 0,-1, 1,-1, -1,0, 1,0, -1,1, 0,1, 1,1], // offset array
+      //     s = 2,  // thickness scale
+      //     i = 0,  // iterator
+      //     x = 5,  // final position
+      //     y = 5;
 
+      // // draw images at offsets from the array scaled by s
+      // for (; i < dArr.length; i += 2)
+      //   ctx.fillText(_char, x + dArr[i] * s, y + dArr[i + 1] * s);
+
+      // // fill with color
+      // ctx.globalCompositeOperation = 'source-in';
+      // ctx.fillStyle = 'red';
+      // ctx.fillRect(0,0, 10000, 10000);
+
+      // // draw original image in normal mode
+      // ctx.globalCompositeOperation = 'source-over';
+
+      /////////
       shouldFill && ctx.fillText(_char, left, top);
       shouldStroke && ctx.strokeText(_char, left, top);
       decl && ctx.restore();
@@ -1259,9 +1277,9 @@
      */
     _setScript: function (start, end, schema) {
       var loc = this.get2DCursorLocation(start, true),
-        fontSize = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'fontSize'),
-        dy = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'deltaY'),
-        style = { fontSize: fontSize * schema.size, deltaY: dy + fontSize * schema.baseline };
+          fontSize = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'fontSize'),
+          dy = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'deltaY'),
+          style = { fontSize: fontSize * schema.size, deltaY: dy + fontSize * schema.baseline };
       this.setSelectionStyles(style, start, end);
       return this;
     },
@@ -1465,7 +1483,7 @@
      */
     _getFontDeclaration: function (styleObject, forMeasuring) {
       var style = styleObject || this, family = this.fontFamily,
-        fontIsGeneric = fabric.Text.genericFonts.indexOf(family.toLowerCase()) > -1;
+          fontIsGeneric = fabric.Text.genericFonts.indexOf(family.toLowerCase()) > -1;
       var fontFamily = family === undefined ||
         family.indexOf('\'') > -1 || family.indexOf(',') > -1 ||
         family.indexOf('"') > -1 || fontIsGeneric
@@ -1505,9 +1523,9 @@
      */
     _splitTextIntoLines: function (text) {
       var lines = text.split(this._reNewline),
-        newLines = new Array(lines.length),
-        newLine = ['\n'],
-        newText = [];
+          newLines = new Array(lines.length),
+          newLine = ['\n'],
+          newText = [];
       for (var i = 0; i < lines.length; i++) {
         if (this._reRTL.test(lines[i])) {
           newLines[i] = lines[i].split(/(\s+)/);
@@ -1612,7 +1630,7 @@
     }
 
     var parsedAttributes = fabric.parseAttributes(element, fabric.Text.ATTRIBUTE_NAMES),
-      parsedAnchor = parsedAttributes.textAnchor || 'left';
+        parsedAnchor = parsedAttributes.textAnchor || 'left';
     options = fabric.util.object.extend((options ? clone(options) : {}), parsedAttributes);
 
     options.top = options.top || 0;
@@ -1661,11 +1679,11 @@
     options.strokeWidth = 0;
 
     var text = new fabric.Text(textContent, options),
-      textHeightScaleFactor = text.getScaledHeight() / text.height,
-      lineHeightDiff = (text.height + text.strokeWidth) * text.lineHeight - text.height,
-      scaledDiff = lineHeightDiff * textHeightScaleFactor,
-      textHeight = text.getScaledHeight() + scaledDiff,
-      offX = 0;
+        textHeightScaleFactor = text.getScaledHeight() / text.height,
+        lineHeightDiff = (text.height + text.strokeWidth) * text.lineHeight - text.height,
+        scaledDiff = lineHeightDiff * textHeightScaleFactor,
+        textHeight = text.getScaledHeight() + scaledDiff,
+        offX = 0;
     /*
       Adjust positioning:
         x/y attributes in SVG correspond to the bottom-left corner of text bounding box
