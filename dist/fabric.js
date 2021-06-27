@@ -1,7 +1,7 @@
 /* build: `node build.js modules=ALL exclude=animation minifier=uglifyjs` */
 /*! Fabric.js Copyright 2008-2015, Printio (Juriy Zaytsev, Maxim Chernyak) */
 
-var fabric = fabric || { version: '3.7.0' };
+var fabric = fabric || { version: '3.7.1' };
 if (typeof exports !== 'undefined') {
   exports.fabric = fabric;
 }
