@@ -133,6 +133,8 @@
             img = new fabric.Image(c);
             if(!xy) return;
         this.canvas.add(img);
+        img.originX = 'left';
+        img.originY = 'top';
         img.set({ left: xy.x / pixelRatio, top: xy.y / pixelRatio, 'scaleX': 1 / pixelRatio, 'scaleY': 1 / pixelRatio }).setCoords();
         this.canvas.clearContext(this.canvas.contextTop);
     }
@@ -147,7 +149,7 @@
         return n > max ? max : n < min ? min : n;
     };
 
-    fabric.Stroke = fabric.util.createClass(fabric.Object, {
+    fabric.Stroke = fabric.util.createClass(fabric.Object, { 
         color: null,
         inkAmount: null,
         lineWidth: null,
