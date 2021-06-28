@@ -11832,9 +11832,10 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         pix.y.sort(fn);
         n = pix.x.length - 1;
 
-        //if (n == -1) {
-        //	// Nothing to trim... empty canvas?
-        //}
+        if (n == -1) {
+        	// Nothing to trim... empty canvas?
+            return 0;
+        }
 
         w = pix.x[n] - pix.x[0];
         h = pix.y[n] - pix.y[0];
@@ -11921,6 +11922,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
             c = fabric.util.copyCanvasElement(this.canvas.upperCanvasEl),
             xy = fabric.util.trimCanvas(c),
             img = new fabric.Image(c);
+            if(!xy) return;
         this.canvas.add(img);
         img.set({ left: xy.x / pixelRatio, top: xy.y / pixelRatio, 'scaleX': 1 / pixelRatio, 'scaleY': 1 / pixelRatio }).setCoords();
         this.canvas.clearContext(this.canvas.contextTop);
