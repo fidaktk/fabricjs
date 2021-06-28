@@ -64,6 +64,7 @@
 <script src="/src/brushes/circle_brush.class.js"></script>
 <script src="/src/brushes/spray_brush.class.js"></script>
 <script src="/src/brushes/pattern_brush.class.js"></script>
+<script src="/src/brushes/custom_brushes.class.js"></script>
 <script src="/src/canvas.class.js"></script>
 <script src="/src/mixins/canvas_events.mixin.js"></script>
 <script src="/src/mixins/canvas_grouping.mixin.js"></script>
@@ -246,6 +247,14 @@
             const canvas = window.canvas = new fabric.Canvas('c');
             canvas.setHeight(window.innerHeight - 100);
             canvas.setWidth(800);
+            canvas.set('isDrawingMode',true);
+                canvas.freeDrawingBrush = new fabric.InkBrush(this.canvas, {
+                width: 200,
+                opacity: 1,
+                color: "#ff0000",
+                originX:'left',
+                originY:'top'
+                });
             var line = new fabric.Line([canvas.width / 2, 0, canvas.width / 2, canvas.height], {
                 strokeWidth: 1,
                 stroke: 'red',
