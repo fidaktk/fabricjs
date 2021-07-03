@@ -1,20 +1,28 @@
 <style>
     @font-face {
-        font-family: 'mehrannastaleeq';
-        src: url('/mehrnastaleeq.ttf');
-        src: url('/mehrnastaleeq.ttf') format('truetype');
+        font-family: 'a-jameel-noori-nastaleeq';
+        src: url('/a-jameel-noori-nastaleeq.ttf');
+        src: url('/a-jameel-noori-nastaleeq.ttf') format('truetype');
     }
 
     body {
-        font-family: 'mehrannastaleeq', sans-serif;
+        font-family: 'a-jameel-noori-nastaleeq', sans-serif;
     }
 
     #c {
         border: 1px solid red;
         top: 22px;
         left: 0px;
-        height: 100%;
+        height: 50%;
         width: 99%;
+    }
+
+    #htmlCanvas {
+        border: 1px solid red;
+        /* top: 22px;
+        left: 0px;
+        height: 50%;
+        width: 99%; */
     }
 
     .box {
@@ -128,6 +136,7 @@
 <div class="box">
 
     <canvas id="c"></canvas>
+    <canvas id="htmlCanvas"></canvas>
 </div>
 
 
@@ -228,14 +237,22 @@
 
     </div>
 
-    <textarea name="" id="shairText" cols="30" rows="10" dir="rtl" style="direction: rtl !important">فدا الرحمان Fida ur Rehman خٹک</textarea>
+    <textarea name="" id="shairText" cols="30" rows="10" dir="rtl"
+        style="direction: rtl !important">فداالرحمان (فدا) Khattak فد فدا (FIDA) خان (FIDA فدا) الرحمان</textarea>
     <br>
     <button id="word-color">Word Color</button>
     <button id="shairTextBtn">Change Text</button>
     <script>
+
+
+
+
+
+
         // $(function () {
         function createCanvas() {
 
+            
 
             fabric.Object.prototype.transparentCorners = false;
             fabric.Object.prototype.padding = 5;
@@ -247,14 +264,14 @@
             const canvas = window.canvas = new fabric.Canvas('c');
             canvas.setHeight(window.innerHeight - 100);
             canvas.setWidth(800);
-            canvas.set('isDrawingMode',true);
-                canvas.freeDrawingBrush = new fabric.InkBrush(this.canvas, {
-                width: 200,
-                opacity: 1,
-                color: "#ff0000",
-                originX:'left',
-                originY:'top'
-                });
+            // canvas.set('isDrawingMode',true);
+            //     canvas.freeDrawingBrush = new fabric.InkBrush(this.canvas, {
+            //     width: 200,
+            //     opacity: 1,
+            //     color: "#ff0000",
+            //     originX:'left',
+            //     originY:'top'
+            //     });
             var line = new fabric.Line([canvas.width / 2, 0, canvas.width / 2, canvas.height], {
                 strokeWidth: 1,
                 stroke: 'red',
@@ -271,11 +288,11 @@
 
 
 
-            const shair = 'فداالرحمان خٹک کیا بات ہے۔ مطلب کیا ہے۔';
+            const shair = 'فداالرحمان (فدا) Khattak فدا\nفدا (FIDA) خان (FIDA فدا) الرحمان فداالرحمان۔';
             // const shair = 'fida ur rehman khattak kay khelaf\nhum sab ne kaha hai keh';
             const text = new fabric.Textbox(shair);
             text.set({
-                fontFamily: 'kushada',
+                fontFamily: 'a-jameel-noori-nastaleeq',
                 textAlign: 'right',
                 isRTL: true,
                 originX: 'right',
@@ -293,57 +310,43 @@
             canvas.setActiveObject(text);
             canvas.getActiveObject().setCoords();
 
-            // text.clone(function (clonedObj) {
-            //     canvas.discardActiveObject();
-            //     clonedObj.set({
-            //         fontFamily: 'kushada',
-            //         top: clonedObj.top + text.height + 10,
-            //         evented: true,
-            //     });
-            //     canvas.add(clonedObj);
+            var canvas2 = document.getElementById("htmlCanvas");
+            var ctx2 = canvas2.getContext("2d");
+            ctx2.font = "50px a-jameel-noori-nastaleeq";
+            ctx2.fillText(shair, 10, 50);
 
-            //     clonedObj.clone(function (clonedObj2) {
-            //         canvas.discardActiveObject();
-            //         clonedObj2.set({
-            //             fontFamily: 'mehrannastaleeq',
-            //             top: clonedObj2.top + clonedObj.height + 10,
-            //             evented: true,
-            //         });
-            //         canvas.add(clonedObj2);
-
-            //     });
-            // });
+            
             console.log(fabric.Image.filters);
-var im;
-            fabric.Image.fromURL('/man.png', function(oImg) {
+            var im;
+            fabric.Image.fromURL('/man.png', function (oImg) {
                 oImg.crossOrigin = "anonymous";
 
-               // add filter
-               oImg.filters.push(new fabric.Image.filters.Outline({
-                color: 'rgba(255, 0, 0, 1)', width: 2, blur: 2, inset: false
-               }));
-            //    oImg.filters.push(new fabric.Image.filters.Outline({
-            //     color: 'rgba(0, 255, 0, 1)', width: 2, blur: 2, inset: false
-            //    }));
+                // add filter
+                oImg.filters.push(new fabric.Image.filters.Outline({
+                    color: 'rgba(255, 0, 0, 1)', width: 2, blur: 2, inset: false
+                }));
+                //    oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(0, 255, 0, 1)', width: 2, blur: 2, inset: false
+                //    }));
 
 
-            //    oImg.filters.push(new fabric.Image.filters.Outline({
-            //     color: 'rgba(0, 0, 255, 1)', width: 2, blur: 2, inset: false
-            //    }));
+                //    oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(0, 0, 255, 1)', width: 2, blur: 2, inset: false
+                //    }));
                 // oImg.stroke = "#01FF00";
                 // oImg.strokeWidth = 3;
-  canvas.add(oImg);
-  oImg.setCoords();
-  oImg.applyFilters();
-  canvas.renderAll();
-});
+                canvas.add(oImg);
+                oImg.setCoords();
+                oImg.applyFilters();
+                canvas.renderAll();
+            });
 
-//                im.filters.push(new fabric.Image.filters.Grayscale({
-//         color: 'rgba(255, 0, 0, 0.2)',width: 3, blur: 0, noise:19
-//     }));
+            //                im.filters.push(new fabric.Image.filters.Grayscale({
+            //         color: 'rgba(255, 0, 0, 0.2)',width: 3, blur: 0, noise:19
+            //     }));
 
-// // apply filters and re-render canvas when done
-// im.applyFilters(canvas.renderAll.bind(canvas));
+            // // apply filters and re-render canvas when done
+            // im.applyFilters(canvas.renderAll.bind(canvas));
             canvas.add(line);
 
 
@@ -355,11 +358,17 @@ var im;
 
         }
 
-        var mehrannastaleeq = new FontFace('kushada', 'url(/kushada.ttf)');
+        var mehrannastaleeq = new FontFace('a-jameel-noori-nastaleeq', 'url(/a-jameel-noori-nastaleeq.ttf)');
         mehrannastaleeq.load().then(function (loaded_face) {
             document.fonts.add(loaded_face);
-            document.body.style.fontFamily = 'kushada", Arial';
+            document.body.style.fontFamily = 'a-jameel-noori-nastaleeq", Arial';
             createCanvas();
+
+
+            //HTML canvas
+
+
+
         }).catch(function (error) {
             // error occurred
         });
@@ -435,14 +444,14 @@ var im;
                 //         // if (i === shair2.length - 1) {
                 //             // // console.log('last+++++++++++++++');
                 //             // // console.log(shair2.charAt(i));
-                //             // shair = shair + '\u202C';
+                //             // shair = shair + '\u202C'; 
                 //             window.canvas.getActiveObject().setText(shair);
                 //         // }
 
                 //     }
                 // } else {
-                    window.canvas.getActiveObject().setText(shair2);
-                    // shair = shair2;
+                window.canvas.getActiveObject().setText(shair2);
+                // shair = shair2;
                 // }
             }
             // window.canvas.getActiveObject().setText( document.getElementById('shairText').value);

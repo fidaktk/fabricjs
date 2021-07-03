@@ -959,7 +959,7 @@
           isUrdu = this._reRTL.test(this.textLines[lineIndex]),
           shortCut = !isJustify && this.charSpacing === 0 && this.isEmptyStyles(lineIndex) && !isUrdu;
       // var ur = /([\u0600-\u06FF]|[\u0750-\u077F]|[\uFB50-\uFDFF]|[\uFE70-\uFEFF]|[\u10840-\u1085F]|[\u0780-\u07BF]|[\u0590-\u05FF]|[\uFB1D-\uFB4F]])/;
-      var en = /[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\(\)\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°]/;
+      var en = /[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\،\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°\)\(]/;
       var urEnMix = this._reRTL.test(line) && en.test(line);
 
       ctx.save();
@@ -1125,7 +1125,15 @@
                     charsToRender2 = charsToRender2 + '\u202B' + crW;
                   }
                   else {
-                    charsToRender2 = charsToRender2 + crW;
+                    console.log(crW);
+                    console.log(ntW);
+                    console.log(psW);
+                    if(psW && en.test(psW)){
+                      charsToRender2 = charsToRender2 +  '\u202B' + crW;
+                    }
+                    if (ntW && !en.test(ntW)) {
+                    charsToRender2 = charsToRender2 +  '\u202B' + crW;
+                    }
                   }
                   if (ntW && !en.test(ntW)) {
                     charsToRender2 = charsToRender2 + '\u202C';
@@ -1138,13 +1146,13 @@
                   charsToRender2 = charsToRender2 + crW;
                 }
               }
-              // // console.log('----mix ' + charsToRender);
+              
               charsToRender = charsToRender2;
             }
             if (urEnMix && i === 0) { charsToRender = charsToRender + '\u202C'; }
 
             // }
-            // // console.log('"' + charsToRender + '"');
+            // console.log('"' + charsToRender + '"');
             //charsToRender = charsToRender.split('').reverse().join('');
             this._renderChar(method, ctx, lineIndex, i, charsToRender, left, top, lineHeight);
             charsToRender = '';
@@ -1241,6 +1249,7 @@
       /////////
       shouldFill && ctx.fillText(_char, left, top);
       shouldStroke && ctx.strokeText(_char, left, top);
+      // ctx.strokeText(_char, left, top);
       decl && ctx.restore();
     },
 
