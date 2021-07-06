@@ -30731,7 +30731,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
    * @see: http://www.w3.org/TR/SVG/text.html#TextElement
    */
   fabric.Text.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat(
-    'x y dx dy font-family font-style font-weight font-size letter-spacing text-decoration text-anchor'.split(' '));
+    'x y dx dy font-family font-style font-weight font-size letter-spacing text-decoration text-anchor dominant-baseline direction'.split(' '));
 
   /**
    * Default SVG font size

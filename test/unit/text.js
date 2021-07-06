@@ -243,6 +243,8 @@
     elTextWithAttrs.setAttributeNS(namespace, 'letter-spacing', '1em');
     elTextWithAttrs.setAttributeNS(namespace, 'text-decoration', 'underline');
     elTextWithAttrs.setAttributeNS(namespace, 'text-anchor', 'middle');
+    elTextWithAttrs.setAttributeNS(namespace, 'dominant-baseline', 'middle');
+    elTextWithAttrs.setAttributeNS(namespace, 'direction', 'ltr');
 
     fabric.Text.fromElement(elTextWithAttrs, function(textWithAttrs) {
       // temp workaround for text objects not obtaining width under node
