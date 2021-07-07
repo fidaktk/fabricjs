@@ -49,7 +49,9 @@
         opacity:              'opacity',
         'clip-path':          'clipPath',
         'clip-rule':          'clipRule',
-        'vector-effect':      'strokeUniform'
+        'vector-effect':      'strokeUniform',
+        class: 'class',
+        id: 'id'
       },
 
       colorAttributes = {
@@ -135,6 +137,9 @@
       }
     }
     else if (attr === 'href' || attr === 'xlink:href') {
+      return value;
+    } 
+    else if (attr === 'class' || attr === 'id') {
       return value;
     }
     else {

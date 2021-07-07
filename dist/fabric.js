@@ -5798,7 +5798,9 @@ fabric.warn = console.warn;
         opacity:              'opacity',
         'clip-path':          'clipPath',
         'clip-rule':          'clipRule',
-        'vector-effect':      'strokeUniform'
+        'vector-effect':      'strokeUniform',
+        class: 'class',
+        id: 'id'
       },
 
       colorAttributes = {
@@ -5884,6 +5886,9 @@ fabric.warn = console.warn;
       }
     }
     else if (attr === 'href' || attr === 'xlink:href') {
+      return value;
+    } 
+    else if (attr === 'class' || attr === 'id') {
       return value;
     }
     else {
