@@ -1136,7 +1136,7 @@
      * @returns Boolean
      */
     hasStroke: function() {
-      if (this._objects){
+      if (this._objects && this._objects.length > 0){
         return this._objects[0].stroke && this._objects[0].stroke !== 'transparent' && this._objects[0].strokeWidth !== 0;
       }
       else {
