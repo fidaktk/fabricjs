@@ -12045,12 +12045,12 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         onMouseUp: function () {
-            if (this._drawn) {
-                // this.convertToImg();
-            }
-            this._latest = null;
-            this._latestStrokeLength = 0;
-            this.canvas.contextTop.globalAlpha = 1;
+            // if (this._drawn) {
+            //     // this.convertToImg();
+            // }
+            // this._latest = null;
+            // this._latestStrokeLength = 0;
+            // this.canvas.contextTop.globalAlpha = 1;
         },
 
         set: function (p) {
@@ -12168,9 +12168,9 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         onMouseUp: function (pointer) {
-            if (this._count > 0) {
-                // this.convertToImg();
-            }
+            // if (this._count > 0) {
+            //     // this.convertToImg();
+            // }
         },
 
         _render: function () { }
@@ -12243,7 +12243,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         onMouseUp: function () {
 
             // this.convertToImg();
-            this.canvas.contextTop.globalAlpha = 1;
+            // this.canvas.contextTop.globalAlpha = 1;
         },
 
         drawSplash: function (pointer, maxSize) {
@@ -12354,9 +12354,9 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         onMouseUp: function (pointer) {
-            if (this._count > 0) {
-                // this.convertToImg();
-            }
+            // if (this._count > 0) {
+            //     // this.convertToImg();
+            // }
         },
 
         _render: function () { }
@@ -12563,9 +12563,9 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         onMouseUp: function (pointer) {
-            if (this._points.length > 1) {
-                // this.convertToImg();
-            }
+            // if (this._points.length > 1) {
+            //     // this.convertToImg();
+            // }
         },
 
         _render: function () { }
@@ -12634,9 +12634,9 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         onMouseUp: function (pointer) {
-            if (this._count > 0) {
-                // this.convertToImg();
-            }
+            // if (this._count > 0) {
+            //     // this.convertToImg();
+            // }
         },
 
         _render: function () { }
@@ -12705,11 +12705,11 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         onMouseUp: function () {
-            var self = this;
-            setTimeout(function () {
-                self.convertToImg();
-                self._reset();
-            }, this._interval);
+            // var self = this;
+            // setTimeout(function () {
+            //     self.convertToImg();
+            //     self._reset();
+            // }, this._interval);
         },
 
         _render: function () {
@@ -12807,10 +12807,10 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         onMouseUp: function (pointer) {
-            if (this._drawn) {
-                // this.convertToImg();
-            }
-            this.canvas.contextTop.globalAlpha = 1;
+            // if (this._drawn) {
+            //     // this.convertToImg();
+            // }
+            // this.canvas.contextTop.globalAlpha = 1;
         },
 
         _render: function () { }
@@ -12878,9 +12878,9 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         onMouseUp: function (pointer) {
-            if (this._count > 0) {
-                // this.convertToImg();
-            }
+            // if (this._count > 0) {
+            //     // this.convertToImg();
+            // }
         },
 
         _render: function () { }

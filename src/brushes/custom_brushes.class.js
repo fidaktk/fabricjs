@@ -244,12 +244,12 @@
         },
 
         onMouseUp: function () {
-            if (this._drawn) {
-                // this.convertToImg();
-            }
-            this._latest = null;
-            this._latestStrokeLength = 0;
-            this.canvas.contextTop.globalAlpha = 1;
+            // if (this._drawn) {
+            //     // this.convertToImg();
+            // }
+            // this._latest = null;
+            // this._latestStrokeLength = 0;
+            // this.canvas.contextTop.globalAlpha = 1;
         },
 
         set: function (p) {
@@ -367,9 +367,9 @@
         },
 
         onMouseUp: function (pointer) {
-            if (this._count > 0) {
-                // this.convertToImg();
-            }
+            // if (this._count > 0) {
+            //     // this.convertToImg();
+            // }
         },
 
         _render: function () { }
@@ -442,7 +442,7 @@
         onMouseUp: function () {
 
             // this.convertToImg();
-            this.canvas.contextTop.globalAlpha = 1;
+            // this.canvas.contextTop.globalAlpha = 1;
         },
 
         drawSplash: function (pointer, maxSize) {
@@ -553,9 +553,9 @@
         },
 
         onMouseUp: function (pointer) {
-            if (this._count > 0) {
-                // this.convertToImg();
-            }
+            // if (this._count > 0) {
+            //     // this.convertToImg();
+            // }
         },
 
         _render: function () { }
@@ -762,9 +762,9 @@
         },
 
         onMouseUp: function (pointer) {
-            if (this._points.length > 1) {
-                // this.convertToImg();
-            }
+            // if (this._points.length > 1) {
+            //     // this.convertToImg();
+            // }
         },
 
         _render: function () { }
@@ -833,9 +833,9 @@
         },
 
         onMouseUp: function (pointer) {
-            if (this._count > 0) {
-                // this.convertToImg();
-            }
+            // if (this._count > 0) {
+            //     // this.convertToImg();
+            // }
         },
 
         _render: function () { }
@@ -904,11 +904,11 @@
         },
 
         onMouseUp: function () {
-            var self = this;
-            setTimeout(function () {
-                self.convertToImg();
-                self._reset();
-            }, this._interval);
+            // var self = this;
+            // setTimeout(function () {
+            //     self.convertToImg();
+            //     self._reset();
+            // }, this._interval);
         },
 
         _render: function () {
@@ -1006,10 +1006,10 @@
         },
 
         onMouseUp: function (pointer) {
-            if (this._drawn) {
-                // this.convertToImg();
-            }
-            this.canvas.contextTop.globalAlpha = 1;
+            // if (this._drawn) {
+            //     // this.convertToImg();
+            // }
+            // this.canvas.contextTop.globalAlpha = 1;
         },
 
         _render: function () { }
@@ -1077,9 +1077,9 @@
         },
 
         onMouseUp: function (pointer) {
-            if (this._count > 0) {
-                // this.convertToImg();
-            }
+            // if (this._count > 0) {
+            //     // this.convertToImg();
+            // }
         },
 
         _render: function () { }
