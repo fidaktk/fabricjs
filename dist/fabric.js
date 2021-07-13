@@ -12046,7 +12046,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
 
         onMouseUp: function () {
             if (this._drawn) {
-                this.convertToImg();
+                // this.convertToImg();
             }
             this._latest = null;
             this._latestStrokeLength = 0;
@@ -12169,7 +12169,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
 
         onMouseUp: function (pointer) {
             if (this._count > 0) {
-                this.convertToImg();
+                // this.convertToImg();
             }
         },
 
@@ -12242,7 +12242,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
 
         onMouseUp: function () {
 
-            this.convertToImg();
+            // this.convertToImg();
             this.canvas.contextTop.globalAlpha = 1;
         },
 
@@ -12355,7 +12355,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
 
         onMouseUp: function (pointer) {
             if (this._count > 0) {
-                this.convertToImg();
+                // this.convertToImg();
             }
         },
 
@@ -12498,7 +12498,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
 
         onMouseUp: function (pointer) {
             clearInterval(this._interval);
-            this.convertToImg();
+            // this.convertToImg();
         },
 
         _render: function () { }
@@ -12564,7 +12564,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
 
         onMouseUp: function (pointer) {
             if (this._points.length > 1) {
-                this.convertToImg();
+                // this.convertToImg();
             }
         },
 
@@ -12635,7 +12635,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
 
         onMouseUp: function (pointer) {
             if (this._count > 0) {
-                this.convertToImg();
+                // this.convertToImg();
             }
         },
 
@@ -12808,7 +12808,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
 
         onMouseUp: function (pointer) {
             if (this._drawn) {
-                this.convertToImg();
+                // this.convertToImg();
             }
             this.canvas.contextTop.globalAlpha = 1;
         },
@@ -12879,7 +12879,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
 
         onMouseUp: function (pointer) {
             if (this._count > 0) {
-                this.convertToImg();
+                // this.convertToImg();
             }
         },
 

@@ -242,6 +242,8 @@
     <br>
     <button id="word-color">Word Color</button>
     <button id="shairTextBtn">Change Text</button>
+
+    <button id="bti">brush to image</button>
     <script>
 
 
@@ -264,14 +266,18 @@
             const canvas = window.canvas = new fabric.Canvas('c');
             canvas.setHeight(window.innerHeight - 100);
             canvas.setWidth(800);
-            // canvas.set('isDrawingMode',true);
-            //     canvas.freeDrawingBrush = new fabric.InkBrush(this.canvas, {
-            //     width: 200,
-            //     opacity: 1,
-            //     color: "#ff0000",
-            //     originX:'left',
-            //     originY:'top'
-            //     });
+
+
+            canvas.set('isDrawingMode',true);
+                canvas.freeDrawingBrush = new fabric.InkBrush(this.canvas, {
+                width: 200,
+                opacity: 1,
+                color: "#ff0000",
+                originX:'left',
+                originY:'top'
+                });
+
+
             var line = new fabric.Line([canvas.width / 2, 0, canvas.width / 2, canvas.height], {
                 strokeWidth: 1,
                 stroke: 'red',
@@ -376,6 +382,19 @@
             // all fonts have been loaded
             // console.log('all fonts loaded');
         });
+        document.getElementById('bti').onclick = function () {
+            var pixelRatio = canvas.getRetinaScaling(),
+            c = fabric.util.copyCanvasElement(canvas.upperCanvasEl),
+            xy = fabric.util.trimCanvas(c),
+            img = new fabric.Image(c);
+        if (!xy) return;
+        canvas.add(img);
+        img.originX = 'left';
+        img.originY = 'top';
+        img.set({ left: xy.x / pixelRatio, top: xy.y / pixelRatio, 'scaleX': 1 / pixelRatio, 'scaleY': 1 / pixelRatio }).setCoords();
+        canvas.clearContext(canvas.contextTop);
+            canvas.renderAll();
+        };
         // // function Addtext() {
         //     canvas.add(new fabric.Textbox('Tap and Type', {
         //         fontFamily: 'mn',

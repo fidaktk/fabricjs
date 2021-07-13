@@ -245,7 +245,7 @@
 
         onMouseUp: function () {
             if (this._drawn) {
-                this.convertToImg();
+                // this.convertToImg();
             }
             this._latest = null;
             this._latestStrokeLength = 0;
@@ -368,7 +368,7 @@
 
         onMouseUp: function (pointer) {
             if (this._count > 0) {
-                this.convertToImg();
+                // this.convertToImg();
             }
         },
 
@@ -441,7 +441,7 @@
 
         onMouseUp: function () {
 
-            this.convertToImg();
+            // this.convertToImg();
             this.canvas.contextTop.globalAlpha = 1;
         },
 
@@ -554,7 +554,7 @@
 
         onMouseUp: function (pointer) {
             if (this._count > 0) {
-                this.convertToImg();
+                // this.convertToImg();
             }
         },
 
@@ -697,7 +697,7 @@
 
         onMouseUp: function (pointer) {
             clearInterval(this._interval);
-            this.convertToImg();
+            // this.convertToImg();
         },
 
         _render: function () { }
@@ -763,7 +763,7 @@
 
         onMouseUp: function (pointer) {
             if (this._points.length > 1) {
-                this.convertToImg();
+                // this.convertToImg();
             }
         },
 
@@ -834,7 +834,7 @@
 
         onMouseUp: function (pointer) {
             if (this._count > 0) {
-                this.convertToImg();
+                // this.convertToImg();
             }
         },
 
@@ -1007,7 +1007,7 @@
 
         onMouseUp: function (pointer) {
             if (this._drawn) {
-                this.convertToImg();
+                // this.convertToImg();
             }
             this.canvas.contextTop.globalAlpha = 1;
         },
@@ -1078,7 +1078,7 @@
 
         onMouseUp: function (pointer) {
             if (this._count > 0) {
-                this.convertToImg();
+                // this.convertToImg();
             }
         },
 
