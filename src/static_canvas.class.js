@@ -936,6 +936,7 @@
       var v = this.viewportTransform, path = this.clipPath;
       this.cancelRequestedRender();
       this.calcViewportBoundaries();
+      if(!ctx) return;
       this.clearContext(ctx);
       this.fire('before:render', { ctx: ctx, });
       if (this.clipTo) {

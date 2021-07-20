@@ -9996,6 +9996,7 @@ fabric.ElementsParser = function(elements, callback, options, reviver, parsingOp
       var v = this.viewportTransform, path = this.clipPath;
       this.cancelRequestedRender();
       this.calcViewportBoundaries();
+      if(!ctx) return;
       this.clearContext(ctx);
       this.fire('before:render', { ctx: ctx, });
       if (this.clipTo) {
@@ -13297,6 +13298,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
      * @chainable
      */
     renderAll: function () {
+      if(!this.contextTop) return; 
       if (this.contextTopDirty && !this._groupSelector && !this.isDrawingMode) {
         this.clearContext(this.contextTop);
         this.contextTopDirty = false;
@@ -13310,6 +13312,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
     },
 
     renderTopLayer: function(ctx) {
+      if(!ctx) return;
       ctx.save();
       if (this.isDrawingMode && this._isCurrentlyDrawing) {
         this.freeDrawingBrush && this.freeDrawingBrush._render();
@@ -13330,6 +13333,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
      * @chainable
      */
     renderTop: function () {
+      if(!this.contextTop) return;
       var ctx = this.contextTop;
       this.clearContext(ctx);
       this.renderTopLayer(ctx);
@@ -30255,7 +30259,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
                     console.log(psW);
                     if(psW && en.test(psW)){
                       charsToRender2 = charsToRender2 +  '\u202B' + crW;
-                    }
+                    }else
                     if (ntW && !en.test(ntW)) {
                     charsToRender2 = charsToRender2 +  '\u202B' + crW;
                     }

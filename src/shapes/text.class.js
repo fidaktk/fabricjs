@@ -1130,7 +1130,7 @@
                     console.log(psW);
                     if(psW && en.test(psW)){
                       charsToRender2 = charsToRender2 +  '\u202B' + crW;
-                    }
+                    }else
                     if (ntW && !en.test(ntW)) {
                     charsToRender2 = charsToRender2 +  '\u202B' + crW;
                     }

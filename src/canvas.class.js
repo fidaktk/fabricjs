@@ -407,6 +407,7 @@
      * @chainable
      */
     renderAll: function () {
+      if(!this.contextTop) return; 
       if (this.contextTopDirty && !this._groupSelector && !this.isDrawingMode) {
         this.clearContext(this.contextTop);
         this.contextTopDirty = false;
@@ -420,6 +421,7 @@
     },
 
     renderTopLayer: function(ctx) {
+      if(!ctx) return;
       ctx.save();
       if (this.isDrawingMode && this._isCurrentlyDrawing) {
         this.freeDrawingBrush && this.freeDrawingBrush._render();
@@ -440,6 +442,7 @@
      * @chainable
      */
     renderTop: function () {
+      if(!this.contextTop) return;
       var ctx = this.contextTop;
       this.clearContext(ctx);
       this.renderTopLayer(ctx);
