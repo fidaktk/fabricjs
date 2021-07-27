@@ -123,6 +123,7 @@
 <script src="/src/filters/hue_rotation.class.js"></script>
 <!-- <script src="/src/filters/glow.class.js"></script> -->
 <script src="/src/filters/outline.class.js"></script>
+<script src="/src/filters/feather.class.js"></script>
 <script src="/src/shapes/text.class.js"></script>
 <script src="/src/mixins/text_style.mixin.js"></script>
 <script src="/src/shapes/itext.class.js"></script>
@@ -328,24 +329,37 @@
                 oImg.crossOrigin = "anonymous";
 
                 // add filter
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(255, 0, 0, 1)', width: 2, blur: 2, inset: false
-                }));
-                //    oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(0, 255, 0, 1)', width: 2, blur: 2, inset: false
-                //    }));
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(255, 0, 0, 1)', width: 30, blur: 5, inset: false
+                // }));
+                // oImg.filters.push(new fabric.Image.filters.Feather({
+                // width: 10, blur: 5
+                // }));
 
-
-                //    oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(0, 0, 255, 1)', width: 2, blur: 2, inset: false
-                //    }));
                 // oImg.stroke = "#01FF00";
                 // oImg.strokeWidth = 3;
+                oImg.scaleToHeight(400);
                 canvas.add(oImg);
                 oImg.setCoords();
                 oImg.applyFilters();
                 canvas.renderAll();
             });
+
+            fabric.Image.fromURL('/love.jpg', function (a) {
+                a.crossOrigin = "anonymous";
+
+                // add filter
+
+                a.stroke = "#01FF00";
+                a.strokeWidth = 3;
+
+                canvas.add(a);
+                a.setCoords();
+                a.applyFilters();
+                canvas.renderAll();
+            });
+
+
 
             //                im.filters.push(new fabric.Image.filters.Grayscale({
             //         color: 'rgba(255, 0, 0, 0.2)',width: 3, blur: 0, noise:19

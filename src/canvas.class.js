@@ -407,7 +407,7 @@
      * @chainable
      */
     renderAll: function () {
-      if(!this.contextTop) return; 
+      if(!this.contextTop) return;  
       if (this.contextTopDirty && !this._groupSelector && !this.isDrawingMode) {
         this.clearContext(this.contextTop);
         this.contextTopDirty = false;
