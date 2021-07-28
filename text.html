@@ -122,6 +122,7 @@
 <script src="/src/filters/composed_filter.class.js"></script>
 <script src="/src/filters/hue_rotation.class.js"></script>
 <!-- <script src="/src/filters/glow.class.js"></script> -->
+<script src="/src/filters/inner_shadow.class.js"></script>
 <script src="/src/filters/outline.class.js"></script>
 <script src="/src/filters/feather.class.js"></script>
 <script src="/src/shapes/text.class.js"></script>
@@ -310,12 +311,12 @@
                 left: 600 + text.width,
                 width: 300
             });
-            canvas.add(text);
-            line.left = text.left;
+            // canvas.add(text);
+            // line.left = text.left;
 
             // canvas.centerObject(text);
-            canvas.setActiveObject(text);
-            canvas.getActiveObject().setCoords();
+            // canvas.setActiveObject(text);
+            // canvas.getActiveObject().setCoords();
 
             var canvas2 = document.getElementById("htmlCanvas");
             var ctx2 = canvas2.getContext("2d");
@@ -330,34 +331,67 @@
 
                 // add filter
                 // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(255, 0, 0, 1)', width: 30, blur: 5, inset: false
+                //     color: 'rgba(255, 255, 0, 1)', width: 30, blur: 5, inset: false
                 // }));
                 // oImg.filters.push(new fabric.Image.filters.Feather({
-                // width: 10, blur: 5
+                // width: 50, blur: 10
                 // }));
+                // oImg.filters.push(new fabric.Image.filters.Feather({
+                // from: 1, to: 20,
+                // t: 'edges',
+                // edges: {
+                //     top: true,
+                //     right: true,
+                //     left: true,
+                //     bottom: true
+                // },
+                // invert: false,
+                // circle: {
+                //     x: 50,
+                //     y: 50,
+                //     r: 50
+                // }
+
+                // }));
+                oImg.filters.push(new fabric.Image.filters.InnerShadow({
+                width: 10, blur:10,
+                color: 'red',
+                x: 10,
+                y: 10
+        
+
+                }));
+
+
+
+
 
                 // oImg.stroke = "#01FF00";
                 // oImg.strokeWidth = 3;
                 oImg.scaleToHeight(400);
                 canvas.add(oImg);
+                oImg.center();
                 oImg.setCoords();
                 oImg.applyFilters();
+                canvas.backgroundColor="red";
+                canvas.setActiveObject(oImg);
+// canvas.renderTop();
                 canvas.renderAll();
             });
 
-            fabric.Image.fromURL('/love.jpg', function (a) {
-                a.crossOrigin = "anonymous";
+            // fabric.Image.fromURL('/love.jpg', function (a) {
+            //     a.crossOrigin = "anonymous";
 
-                // add filter
+            //     // add filter
 
-                a.stroke = "#01FF00";
-                a.strokeWidth = 3;
+            //     a.stroke = "#01FF00";
+            //     a.strokeWidth = 3;
 
-                canvas.add(a);
-                a.setCoords();
-                a.applyFilters();
-                canvas.renderAll();
-            });
+            //     canvas.add(a);
+            //     a.setCoords();
+            //     a.applyFilters();
+            //     canvas.renderAll();
+            // });
 
 
 

@@ -20,14 +20,14 @@
    * object.filters.push(filter);
    * object.applyFilters();
    */
-  filters.Feather = createClass(filters.BaseFilter, /** @lends fabric.Image.filters.Outline.prototype */ {
+  filters.InnerShadow = createClass(filters.BaseFilter, /** @lends fabric.Image.filters.Outline.prototype */ {
 
     /**
      * Filter type
      * @param {String} type
      * @default
      */
-    type: 'Feather',
+    type: 'InnerShadow',
     color: '#000000',
     // /**
     //  * Fragment source for the myParameter program
@@ -45,22 +45,11 @@
 
     width: 0,
     blur: 0,
-    from: 15, to: 20,
-    t: 'edges',
-    edges: {
-      top: true,
-      right: true,
-      left: true,
-      bottom: true
-    },
-    circle: {
-      x: 100,
-      y: 100,
-      r: 100
-  },
-    invert: false,
-    canvases: [],
-    applyTo2d1: function (options) {
+    x:10,
+    y:10,
+
+    applyTo2d: function (options) {
+
       if (this.width === 0 && this.blur === 0) {
         // early return if the parameter value has a neutral value
         return;
@@ -74,8 +63,11 @@
       var ct = can.getContext('2d');
       ct.fillStyle = "black";
       ct.filter = "blur(" + this.width + "px)";
-      ct.shadowColor = "white";
+      ct.shadowColor = "black";
       ct.shadowBlur = this.width;
+      shadowOffsetX = this.x;
+      ct.shadowOffsetY = this.y;
+
       ct.fillRect(0, 0, w, h);
       ct.globalCompositeOperation = "destination-out";
       ct.drawImage(options.canvasEl, 0, 0, w, h);
@@ -94,86 +86,12 @@
       can1.height = h;
       var ct1 = can1.getContext("2d");
       ct1.drawImage(options.originalEl, 0, 0);
-      ct1.globalCompositeOperation = "destination-out";
+      // ct1.globalCompositeOperation = "destination-out";
       ct1.drawImage(can2, 0, 0);
       ct1.globalCompositeOperation = "source-over";
 
 
       var trimmedCanvas = this.trimCanvas(can1);
-
-      options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
-    },
-    applyTo2d: function (options) {
-      // if (this.from <= 0 && this.to <= 0) {
-      //   // early return if the parameter value has a neutral value
-      //   return;
-      // }
-      var f = parseFloat(this.from / 100);
-      var t = parseFloat(this.to / 100);
-      var w = options.sourceWidth;
-      var h = options.sourceHeight;
-      var can = fabric.util.createCanvasElement();
-      can.width = w;
-      can.height = h;
-      var i = 1;
-      var ctx = can.getContext('2d');
-      if(this.invert){
-        [f, t] = [t, f];
-      }
-      console.log(f, t);
-      // ctx.save();
-      if (this.t === 'edges') {
-        if(this.edges.left){
-        var grd1 = ctx.createLinearGradient(0, 0, w, 0);
-        grd1.addColorStop(t, "rgba(0,0,0,0");
-        grd1.addColorStop(f, "black");
-        ctx.fillStyle = grd1;
-        ctx.fillRect(0, 0, w, h);
-        }
-
-        if(this.edges.top){
-        var grd2 = ctx.createLinearGradient(0, 0, 0, h);
-        grd2.addColorStop(t, "rgba(0,0,0,0");
-        grd2.addColorStop(f, "black");
-        ctx.fillStyle = grd2;
-        ctx.fillRect(0, 0, w, h);
-        }
-        if(this.edges.bottom){
-        var grd3 = ctx.createLinearGradient(0, h, 0, 0);
-        grd3.addColorStop(t, "rgba(0,0,0,0");
-        grd3.addColorStop(f, "black");
-        ctx.fillStyle = grd3;
-        ctx.fillRect(0, 0, w, h);
-        }
-        if(this.edges.right){
-        var grd4 = ctx.createLinearGradient(w, 0, 0, 0);
-        grd4.addColorStop(t, "rgba(0,0,0,0");
-        grd4.addColorStop(f, "black");
-        ctx.fillStyle = grd4;
-        ctx.fillRect(0, 0, w, h);
-        }
-      }
-
-      if(this.t === 'circle'){
-        var x = (w/100)*this.circle.x;
-        var y = (h/100)*this.circle.y;
-        var s = w>h?h:w;
-        var r = (s/100)*this.circle.r;
-        var grd1 = ctx.createRadialGradient(x, y, 0, x, y, r);
-        grd1.addColorStop(f, "rgba(0,0,0,0");
-        grd1.addColorStop(t, "black");
-        ctx.fillStyle = grd1;
-        ctx.fillRect(0, 0, w, h);
-      }
-
-
-      ctx.globalCompositeOperation = "source-out";
-      ctx.drawImage(options.canvasEl, 0, 0, w, h);
-
-
-      
-
-      var trimmedCanvas = can; //sthis.trimCanvas(can);
 
       options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
     },

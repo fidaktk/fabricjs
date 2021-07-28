@@ -20,18 +20,19 @@
    * object.filters.push(filter);
    * object.applyFilters();
    */
-  filters.Feather = createClass(filters.BaseFilter, /** @lends fabric.Image.filters.Outline.prototype */ {
+  filters.Outline = createClass(filters.BaseFilter, /** @lends fabric.Image.filters.Outline.prototype */ {
 
     /**
      * Filter type
      * @param {String} type
      * @default
      */
-    type: 'Feather',
+    type: 'Outline',
 
 
     width: 0,
     blur: 0,
+    color: '#000000',
     // inset: false,
     canvases: [],
 
