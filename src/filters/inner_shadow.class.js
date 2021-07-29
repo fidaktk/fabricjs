@@ -43,17 +43,21 @@
     //     'gl_FragColor = color;\n' +
     //   '}',
 
-    width: 0,
-    blur: 0,
-    x:10,
-    y:10,
+   
+    blur: 10,
+    offsetX: 10,
+    offsetY: 10,
+    blend: 'multiply',
+
+
 
     applyTo2d: function (options) {
 
-      if (this.width === 0 && this.blur === 0) {
+      if (this.blur === 0 && this.offsetX ===0  && this.offsetY===0) {
         // early return if the parameter value has a neutral value
         return;
       }
+      var imageData = options.imageData;
       var w = options.sourceWidth;
       var h = options.sourceHeight;
       var can = fabric.util.createCanvasElement();
@@ -61,41 +65,43 @@
       can.height = options.sourceHeight;
       var i = 1;
       var ct = can.getContext('2d');
-      ct.fillStyle = "black";
-      ct.filter = "blur(" + this.width + "px)";
-      ct.shadowColor = "black";
-      ct.shadowBlur = this.width;
-      shadowOffsetX = this.x;
-      ct.shadowOffsetY = this.y;
 
+      ct.fillStyle = "black";
       ct.fillRect(0, 0, w, h);
       ct.globalCompositeOperation = "destination-out";
+
       ct.drawImage(options.canvasEl, 0, 0, w, h);
+      ct.globalCompositeOperation = "source-out";
 
-      var can2 = fabric.util.createCanvasElement();
-      can2.width = options.sourceWidth;
-      can2.height = options.sourceHeight;
-      var ct2 = can2.getContext('2d');
-      ct2.drawImage(can, 0, 0);
-      for (; i < this.blur; i++) {
-        ct2.drawImage(can, 0, 0);
-      }
+      ct.shadowColor = "black";
+      ct.shadowBlur = this.blur * 2;
+      ct.shadowOffsetX = this.offsetX;
+      ct.shadowOffsetY = this.offsetY;
+      ct.drawImage(options.canvasEl, 0, 0, w, h);
+      ct.globalCompositeOperation = "source-in";
+      ct.shadowColor = "transparent";
+      ct.fillStyle = this.color;
+      ct.fillRect(0, 0, w, h);
+  
 
-      var can1 = document.createElement("canvas");
-      can1.width = w;
-      can1.height = h;
-      var ct1 = can1.getContext("2d");
-      ct1.drawImage(options.originalEl, 0, 0);
-      // ct1.globalCompositeOperation = "destination-out";
-      ct1.drawImage(can2, 0, 0);
-      ct1.globalCompositeOperation = "source-over";
+      // var can2 = fabric.util.createCanvasElement();
+      // can2.width = options.sourceWidth;
+      // can2.height = options.sourceHeight;
+      // var ct2 = can2.getContext('2d');
+      // ct2.drawImage(options.canvasEl, 0, 0);
+      var orgBlend =  options.ctx.globalCompositeOperation ;
+      options.ctx.globalCompositeOperation = this.blend; 
+      options.ctx.drawImage(can, 0, 0);
+      options.ctx.globalCompositeOperation = orgBlend;
 
+      var imageData =  options.ctx.getImageData(0, 0,w,h);
+      options.imageData = imageData;
+     
 
-      var trimmedCanvas = this.trimCanvas(can1);
+      // var trimmedCanvas = can2;//this.trimCanvas(can);
 
-      options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
+      // options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
     },
-
     trimCanvas: function (c) {
       var ctx = c.getContext('2d'),
         copy = document.createElement('canvas').getContext('2d'),
@@ -171,7 +177,7 @@
  * @param {function} [callback] to be invoked after filter creation
  * @return {fabric.Image.filters.Outline} Instance of fabric.Image.filters.Outline
  */
-  fabric.Image.filters.Outline.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+  fabric.Image.filters.InnerShadow.fromObject = fabric.Image.filters.BaseFilter.fromObject;
   // fabric.Image.filters.Outline.fromObject = function(object, callback) {
   //   fabric.Image.fromObject(object.image, function(image) {
   //     var options = fabric.util.object.clone(object);

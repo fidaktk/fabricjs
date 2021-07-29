@@ -256,7 +256,7 @@
         // $(function () {
         function createCanvas() {
 
-            
+
 
             fabric.Object.prototype.transparentCorners = false;
             fabric.Object.prototype.padding = 5;
@@ -323,22 +323,20 @@
             ctx2.font = "50px a-jameel-noori-nastaleeq";
             ctx2.fillText(shair, 10, 50);
 
-            
+
             console.log(fabric.Image.filters);
             var im;
             fabric.Image.fromURL('/man.png', function (oImg) {
                 oImg.crossOrigin = "anonymous";
 
                 // add filter
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(255, 255, 0, 1)', width: 30, blur: 5, inset: false
-                // }));
+
+
+
+
                 // oImg.filters.push(new fabric.Image.filters.Feather({
-                // width: 50, blur: 10
-                // }));
-                // oImg.filters.push(new fabric.Image.filters.Feather({
-                // from: 1, to: 20,
-                // t: 'edges',
+                // from: 40, to: 61,
+                // t: 'circle',
                 // edges: {
                 //     top: true,
                 //     right: true,
@@ -349,20 +347,26 @@
                 // circle: {
                 //     x: 50,
                 //     y: 50,
-                //     r: 50
+                //     r: 60
                 // }
-
                 // }));
-                oImg.filters.push(new fabric.Image.filters.InnerShadow({
-                width: 10, blur:10,
-                color: 'red',
-                x: 10,
-                y: 10
-        
 
+
+                oImg.filters.push(new fabric.Image.filters.InnerShadow({
+                    blur: 10,
+                    color: 'yellow',
+                    offsetX: 100,
+                    offsetY: 100,
+                    blend: 'source-over'
                 }));
 
+                oImg.filters.push(new fabric.Image.filters.Outline({
+                    color: 'rgba(255, 0, 0, 1)', width: 1, blur: 10, inset: false
+                }));
 
+                oImg.filters.push(new fabric.Image.filters.Outline({
+                    color: 'rgba(255, 0, 255, 1)', width: 2, blur: 10, inset: false
+                }));
 
 
 
@@ -373,9 +377,9 @@
                 oImg.center();
                 oImg.setCoords();
                 oImg.applyFilters();
-                canvas.backgroundColor="red";
+                // canvas.backgroundColor="red";
                 canvas.setActiveObject(oImg);
-// canvas.renderTop();
+                // canvas.renderTop();
                 canvas.renderAll();
             });
 
@@ -432,15 +436,15 @@
         });
         document.getElementById('bti').onclick = function () {
             var pixelRatio = canvas.getRetinaScaling(),
-            c = fabric.util.copyCanvasElement(canvas.upperCanvasEl),
-            xy = fabric.util.trimCanvas(c),
-            img = new fabric.Image(c);
-        if (!xy) return;
-        canvas.add(img);
-        img.originX = 'left';
-        img.originY = 'top';
-        img.set({ left: xy.x / pixelRatio, top: xy.y / pixelRatio, 'scaleX': 1 / pixelRatio, 'scaleY': 1 / pixelRatio }).setCoords();
-        canvas.clearContext(canvas.contextTop);
+                c = fabric.util.copyCanvasElement(canvas.upperCanvasEl),
+                xy = fabric.util.trimCanvas(c),
+                img = new fabric.Image(c);
+            if (!xy) return;
+            canvas.add(img);
+            img.originX = 'left';
+            img.originY = 'top';
+            img.set({ left: xy.x / pixelRatio, top: xy.y / pixelRatio, 'scaleX': 1 / pixelRatio, 'scaleY': 1 / pixelRatio }).setCoords();
+            canvas.clearContext(canvas.contextTop);
             canvas.renderAll();
         };
         // // function Addtext() {

@@ -60,49 +60,7 @@
   },
     invert: false,
     canvases: [],
-    applyTo2d1: function (options) {
-      if (this.width === 0 && this.blur === 0) {
-        // early return if the parameter value has a neutral value
-        return;
-      }
-      var w = options.sourceWidth;
-      var h = options.sourceHeight;
-      var can = fabric.util.createCanvasElement();
-      can.width = options.sourceWidth;
-      can.height = options.sourceHeight;
-      var i = 1;
-      var ct = can.getContext('2d');
-      ct.fillStyle = "black";
-      ct.filter = "blur(" + this.width + "px)";
-      ct.shadowColor = "white";
-      ct.shadowBlur = this.width;
-      ct.fillRect(0, 0, w, h);
-      ct.globalCompositeOperation = "destination-out";
-      ct.drawImage(options.canvasEl, 0, 0, w, h);
 
-      var can2 = fabric.util.createCanvasElement();
-      can2.width = options.sourceWidth;
-      can2.height = options.sourceHeight;
-      var ct2 = can2.getContext('2d');
-      ct2.drawImage(can, 0, 0);
-      for (; i < this.blur; i++) {
-        ct2.drawImage(can, 0, 0);
-      }
-
-      var can1 = document.createElement("canvas");
-      can1.width = w;
-      can1.height = h;
-      var ct1 = can1.getContext("2d");
-      ct1.drawImage(options.originalEl, 0, 0);
-      ct1.globalCompositeOperation = "destination-out";
-      ct1.drawImage(can2, 0, 0);
-      ct1.globalCompositeOperation = "source-over";
-
-
-      var trimmedCanvas = this.trimCanvas(can1);
-
-      options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
-    },
     applyTo2d: function (options) {
       // if (this.from <= 0 && this.to <= 0) {
       //   // early return if the parameter value has a neutral value
@@ -112,17 +70,18 @@
       var t = parseFloat(this.to / 100);
       var w = options.sourceWidth;
       var h = options.sourceHeight;
-      var can = fabric.util.createCanvasElement();
-      can.width = w;
-      can.height = h;
+      // var can = fabric.util.createCanvasElement();
+      // can.width = w;
+      // can.height = h;
       var i = 1;
-      var ctx = can.getContext('2d');
+      var ctx = options.ctx;//can.getContext('2d');
       if(this.invert){
         [f, t] = [t, f];
       }
       console.log(f, t);
       // ctx.save();
       if (this.t === 'edges') {
+        ctx.globalCompositeOperation = "destination-out";
         if(this.edges.left){
         var grd1 = ctx.createLinearGradient(0, 0, w, 0);
         grd1.addColorStop(t, "rgba(0,0,0,0");
@@ -155,6 +114,7 @@
       }
 
       if(this.t === 'circle'){
+        ctx.globalCompositeOperation = "destination-out";
         var x = (w/100)*this.circle.x;
         var y = (h/100)*this.circle.y;
         var s = w>h?h:w;
@@ -167,15 +127,15 @@
       }
 
 
-      ctx.globalCompositeOperation = "source-out";
-      ctx.drawImage(options.canvasEl, 0, 0, w, h);
+      // ctx.globalCompositeOperation = "source-out";
+      // ctx.drawImage(options.canvasEl, 0, 0, w, h);
 
 
-      
-
-      var trimmedCanvas = can; //sthis.trimCanvas(can);
-
-      options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
+      var imageData = ctx.getImageData(0, 0,w,h);
+      options.imageData = imageData;
+      // var trimmedCanvas = can; //sthis.trimCanvas(can);
+      // options.ctx.drawImage(options.canvasEl, 0, 0);
+      // options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
     },
 
     trimCanvas: function (c) {
@@ -253,7 +213,7 @@
  * @param {function} [callback] to be invoked after filter creation
  * @return {fabric.Image.filters.Outline} Instance of fabric.Image.filters.Outline
  */
-  fabric.Image.filters.Outline.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+  fabric.Image.filters.Feather.fromObject = fabric.Image.filters.BaseFilter.fromObject;
   // fabric.Image.filters.Outline.fromObject = function(object, callback) {
   //   fabric.Image.fromObject(object.image, function(image) {
   //     var options = fabric.util.object.clone(object);

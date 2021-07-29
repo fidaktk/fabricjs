@@ -35,15 +35,47 @@
     color: '#000000',
     // inset: false,
     canvases: [],
-
     applyTo2d: function (options) {
+      if (this.width === 0 && this.blur === 0) {
+        return;
+      }
+      var imageData = options.imageData;
+      var offset = (this.width *2) + (this.blur * 2);
+      var h = imageData.height + offset ;
+      var w = imageData.width + offset;
+
+
+
+      var canvas1 = fabric.util.createCanvasElement();
+      canvas1.width = w;
+      canvas1.height = h;
+      var ctx = canvas1.getContext('2d');
+      ctx.shadowColor = this.color;
+      ctx.shadowBlur = this.blur;
+
+
+
+      for (var x = -this.width; x <= this.width; x++) {
+        for (var y = -this.width; y <= this.width; y++) {
+          ctx.shadowOffsetX = x;
+          ctx.shadowOffsetY = y;
+          ctx.drawImage(options.canvasEl, offset, offset,w-(offset*2),h-(offset*2));
+        }
+      }
+
+
+      var imageData = ctx.getImageData(0, 0, w, h);
+      options.imageData = imageData;
+
+    },
+    applyTo2d2: function (options) {
       if (this.width === 0 && this.blur === 0) {
         return;
       }
       var imageData = options.imageData, data = imageData.data, i, len = data.length;
 
       console.log(new Date().getMilliseconds());
-      
+
       var ratio = (parseFloat(this.width) * 2) + (this.blur * 2) * 5;
       var width = options.sourceWidth + ratio * 2;
       var height = options.sourceHeight + ratio * 2;
@@ -52,13 +84,13 @@
       canvas1.height = height;
       var offx, offy;
       offx = offy = ratio / 2;
-      var ctx = canvas1.getContext('2d');
+      var ctx = options.ctx;//canvas1.getContext('2d');
       ctx.shadowColor = this.color;
-      i = 0;  
+      i = 0;
       ctx.save();
 
       ctx.filter = 'blur(' + this.blur + 'px)';
-      for (i = 0; i < 360; i += 20) {
+      for (i = 0; i < 360; i += 1) {
         ctx.drawImage(options.canvasEl, offx + Math.sin(i) * this.width, offy + Math.cos(i) * this.width);
       }
 
@@ -68,21 +100,21 @@
       ctx.fillStyle = this.color;
 
 
-      ctx.fillRect(0, 0,width, height);
-     
+      ctx.fillRect(0, 0, width, height);
+
       ctx.restore();
       // ctx.globalCompositeOperation = "source-over";
       ctx.drawImage(options.canvasEl, offy, offy);
       console.log(new Date().getMilliseconds());
-     
-      var trimmedCanvas = this.trimCanvas(canvas1);
 
-    
+      var trimmedCanvas = canvas1;//this.trimCanvas(canvas1);
+
+
       options.canvasEl = trimmedCanvas;
       options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
     },
 
-   
+
     trimCanvas: function (c) {
       var ctx = c.getContext('2d'),
         copy = document.createElement('canvas').getContext('2d'),
