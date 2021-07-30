@@ -43,17 +43,17 @@
     //     'gl_FragColor = color;\n' +
     //   '}',
 
-   
-    blur: 10,
-    offsetX: 10,
-    offsetY: 10,
+
+    innershadow: 0,
+    x: 0,
+    y: 0,
     blend: 'multiply',
-    mainParameter: 'blur',
+    mainParameter: 'innershadow',
 
 
     applyTo2d: function (options) {
 
-      if (this.blur === 0 && this.offsetX ===0  && this.offsetY===0) {
+      if (this.innershadow === 0 && this.offsetX === 0 && this.offsetY === 0) {
         // early return if the parameter value has a neutral value
         return;
       }
@@ -74,29 +74,29 @@
       ct.globalCompositeOperation = "source-out";
 
       ct.shadowColor = "black";
-      ct.shadowBlur = this.blur * 2;
-      ct.shadowOffsetX = this.offsetX;
-      ct.shadowOffsetY = this.offsetY;
+      ct.shadowBlur = this.innershadow * 2;
+      ct.shadowOffsetX = this.x;
+      ct.shadowOffsetY = this.y;
       ct.drawImage(options.canvasEl, 0, 0, w, h);
       ct.globalCompositeOperation = "source-in";
       ct.shadowColor = "transparent";
       ct.fillStyle = this.color;
       ct.fillRect(0, 0, w, h);
-  
+
 
       // var can2 = fabric.util.createCanvasElement();
       // can2.width = options.sourceWidth;
       // can2.height = options.sourceHeight;
       // var ct2 = can2.getContext('2d');
       // ct2.drawImage(options.canvasEl, 0, 0);
-      var orgBlend =  options.ctx.globalCompositeOperation ;
-      options.ctx.globalCompositeOperation = this.blend; 
+      var orgBlend = options.ctx.globalCompositeOperation;
+      options.ctx.globalCompositeOperation = this.blend;
       options.ctx.drawImage(can, 0, 0);
       options.ctx.globalCompositeOperation = orgBlend;
 
-      var imageData =  options.ctx.getImageData(0, 0,w,h);
+      var imageData = options.ctx.getImageData(0, 0, w, h);
       options.imageData = imageData;
-     
+
 
       // var trimmedCanvas = can2;//this.trimCanvas(can);
 
@@ -164,7 +164,16 @@
     },
 
 
-
+    toObject: function () {
+      var ob = {
+        blend: this.blend,
+        innershadow: this.innershadow,
+        color: this.color,
+        x: this.x,
+        y: this.y
+      };
+      return fabric.util.object.extend(this.callSuper('toObject'), ob);
+    }
 
 
 

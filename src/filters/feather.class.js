@@ -28,24 +28,9 @@
      * @default
      */
     type: 'Feather',
-    color: '#000000',
-    // /**
-    //  * Fragment source for the myParameter program
-    //  */
-    // fragmentSource: 'precision highp float;\n' +
-    //   'uniform sampler2D uTexture;\n' +
-    //   'uniform vec4 uLow;\n' +
-    //   'uniform vec4 uHigh;\n' +
-    //   'varying vec2 vTexCoord;\n' +
-    //   'void main() {\n' +
-    //     'vec4 color = texture2D(uTexture, vTexCoord);\n' +
-    //     // add your gl code here
-    //     'gl_FragColor = color;\n' +
-    //   '}',
 
-    width: 0,
-    blur: 0,
-    from: 15, to: 20,
+    from: 0, 
+    to: 0,
     feather: 'edges',
     edges: {
       top: true,
@@ -62,14 +47,14 @@
     mainParameter: 'feather',
 
     applyTo2d: function (options) {
-      // if (this.from <= 0 && this.to <= 0) {
-      //   // early return if the parameter value has a neutral value
-      //   return;
-      // }
+      if ((this.from == 0 && this.to == 0) || (this.from >100 && this.to >100)) {
+        // early return if the parameter value has a neutral value
+        return;
+      }
       var f = parseFloat(this.from / 100);
       var t = parseFloat(this.to / 100);
-      var w = options.sourceWidth;
-      var h = options.sourceHeight;
+      var w = options.imageData.width;
+      var h = options.imageData.height;
       // var can = fabric.util.createCanvasElement();
       // can.width = w;
       // can.height = h;
@@ -199,7 +184,23 @@
       return copy.canvas;
     },
 
-
+    toObject: function() {
+      var ob = {
+        width: this.width,
+        blur: this.blur,
+        from: this.from,
+        to: this.to,
+        feather: this.feather,
+        invert: this.invert,
+      };
+      if(this.feather == 'edges'){
+        ob['edges'] = this.edges
+      }else{
+        ob['circle'] = this.circle
+      }
+      return fabric.util.object.extend(this.callSuper('toObject'), ob);
+    }
+ 
 
 
 

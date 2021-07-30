@@ -270,6 +270,20 @@
             canvas.setWidth(800);
 
 
+            var loadFromJson = false;
+
+            if(loadFromJson){
+                canvas.loadFromJSON(JSON.parse('{\"version\":\"3.7.1\",\"objects\":[{\"type\":\"line\",\"version\":\"3.7.1\",\"originX\":\"left\",\"originY\":\"top\",\"left\":400,\"top\":0,\"width\":0,\"height\":869,\"fill\":\"rgb(0,0,0)\",\"stroke\":\"red\",\"strokeWidth\":1,\"strokeDashArray\":null,\"strokeLineCap\":\"butt\",\"strokeDashOffset\":0,\"strokeLineJoin\":\"miter\",\"strokeMiterLimit\":4,\"scaleX\":1,\"scaleY\":1,\"angle\":0,\"flipX\":false,\"flipY\":false,\"opacity\":1,\"shadow\":null,\"visible\":true,\"clipTo\":null,\"backgroundColor\":\"\",\"fillRule\":\"nonzero\",\"paintFirst\":\"fill\",\"globalCompositeOperation\":\"source-over\",\"transformMatrix\":null,\"skewX\":0,\"skewY\":0,\"x1\":0,\"x2\":0,\"y1\":-434.5,\"y2\":434.5},{\"type\":\"image\",\"version\":\"3.7.1\",\"originX\":\"left\",\"originY\":\"top\",\"left\":405.52,\"top\":3,\"width\":737,\"height\":789,\"fill\":\"rgb(0,0,0)\",\"stroke\":null,\"strokeWidth\":0,\"strokeDashArray\":null,\"strokeLineCap\":\"butt\",\"strokeDashOffset\":0,\"strokeLineJoin\":\"miter\",\"strokeMiterLimit\":4,\"scaleX\":0.16,\"scaleY\":0.16,\"angle\":0,\"flipX\":false,\"flipY\":false,\"opacity\":1,\"shadow\":null,\"visible\":true,\"clipTo\":null,\"backgroundColor\":\"\",\"fillRule\":\"nonzero\",\"paintFirst\":\"fill\",\"globalCompositeOperation\":\"source-over\",\"transformMatrix\":null,\"skewX\":0,\"skewY\":0,\"crossOrigin\":\"anonymous\",\"cropX\":0,\"cropY\":0,\"src\":\"http://localhost:8000/man.png\",\"filters\":[{\"type\":\"Feather\",\"feather\":\"circle\",\"width\":0,\"blur\":0,\"from\":40,\"to\":61,\"invert\":true,\"circle\":{\"x\":50,\"y\":50,\"r\":60}}]}]}'),async () => {
+                      canvas.renderAll();
+                });
+
+              
+                return;
+            }
+
+
+
+
             // canvas.set('isDrawingMode',true);
             //     canvas.freeDrawingBrush = new fabric.InkBrush(this.canvas, {
             //     width: 200,
@@ -334,39 +348,39 @@
 
 
 
-                // oImg.filters.push(new fabric.Image.filters.Feather({
-                // from: 40, to: 61,
-                // t: 'circle',
-                // edges: {
-                //     top: true,
-                //     right: true,
-                //     left: true,
-                //     bottom: true
-                // },
-                // invert: false,
-                // circle: {
-                //     x: 50,
-                //     y: 50,
-                //     r: 60
-                // }
-                // }));
+                oImg.filters.push(new fabric.Image.filters.Feather({
+                from: 40, to: 61,
+                feather: 'circle',
+                edges: {
+                    top: true,
+                    right: true,
+                    left: true,
+                    bottom: true
+                },
+                invert: false,
+                circle: {
+                    x: 50,
+                    y: 50,
+                    r: 60
+                }
+                }));
 
 
                 oImg.filters.push(new fabric.Image.filters.InnerShadow({
-                    blur: 10,
-                    color: 'yellow',
-                    offsetX: 100,
-                    offsetY: 100,
+                    innershadow: 10,
+                    color: 'red',
+                    x: 0,
+                    y: 0,
                     blend: 'source-over'
                 }));
 
                 oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(255, 0, 0, 1)', width: 1, blur: 10, inset: false
+                    color: 'rgba(0, 255, 255, 1)', outline: 5, blur: 10
                 }));
 
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(255, 0, 255, 1)', width: 2, blur: 10, inset: false
-                }));
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(255, 0, 255, 1)', width: 2, blur: 10, inset: false
+                // }));
 
 
 

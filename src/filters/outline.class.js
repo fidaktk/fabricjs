@@ -178,7 +178,15 @@
     },
 
 
-
+    toObject: function() {
+      var ob = {
+        outline: this.outline,
+        blur: this.blur,
+        color: this.color
+      };
+      return fabric.util.object.extend(this.callSuper('toObject'), ob);
+    }
+ 
 
 
 
