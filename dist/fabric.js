@@ -28667,7 +28667,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
      * @default
      */
     type: 'InnerShadow',
-    color: '#000000',
+    color: '',
     // /**
     //  * Fragment source for the myParameter program
     //  */
@@ -28686,7 +28686,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
     innershadow: 0,
     x: 0,
     y: 0,
-    blend: 'multiply',
+    blend: '',
     mainParameter: 'innershadow',
 
 
@@ -28699,6 +28699,14 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var imageData = options.imageData;
       var w = options.sourceWidth;
       var h = options.sourceHeight;
+
+      var can1 = fabric.util.createCanvasElement();
+      can1.width = w;
+      can1.height = h;
+      var ctxOrg = can1.getContext('2d');
+      ctxOrg.putImageData(options.imageData, 0, 0);
+
+
       var can = fabric.util.createCanvasElement();
       can.width = options.sourceWidth;
       can.height = options.sourceHeight;
@@ -28709,31 +28717,27 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       ct.fillRect(0, 0, w, h);
       ct.globalCompositeOperation = "destination-out";
 
-      ct.drawImage(options.canvasEl, 0, 0, w, h);
+      ct.drawImage(can1, 0, 0, w, h);
       ct.globalCompositeOperation = "source-out";
 
       ct.shadowColor = "black";
       ct.shadowBlur = this.innershadow * 2;
       ct.shadowOffsetX = this.x;
       ct.shadowOffsetY = this.y;
-      ct.drawImage(options.canvasEl, 0, 0, w, h);
+      ct.drawImage(can1, 0, 0, w, h);
       ct.globalCompositeOperation = "source-in";
       ct.shadowColor = "transparent";
       ct.fillStyle = this.color;
       ct.fillRect(0, 0, w, h);
 
 
-      // var can2 = fabric.util.createCanvasElement();
-      // can2.width = options.sourceWidth;
-      // can2.height = options.sourceHeight;
-      // var ct2 = can2.getContext('2d');
-      // ct2.drawImage(options.canvasEl, 0, 0);
-      var orgBlend = options.ctx.globalCompositeOperation;
-      options.ctx.globalCompositeOperation = this.blend;
-      options.ctx.drawImage(can, 0, 0);
-      options.ctx.globalCompositeOperation = orgBlend;
+      
 
-      var imageData = options.ctx.getImageData(0, 0, w, h);
+      ctxOrg.globalCompositeOperation = this.blend;
+      ctxOrg.drawImage(can, 0, 0);
+      ctxOrg.globalCompositeOperation = "source-over";
+
+      var imageData =ctxOrg.getImageData(0, 0, w, h);
       options.imageData = imageData;
 
 
@@ -28883,6 +28887,11 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var h = imageData.height + offset ;
       var w = imageData.width + offset;
 
+      var can = fabric.util.createCanvasElement();
+      can.width = w;
+      can.height = h;
+      var ctxOrg = can.getContext('2d');
+      ctxOrg.putImageData(options.imageData, 0, 0);
 
 
       var canvas1 = fabric.util.createCanvasElement();
@@ -28898,7 +28907,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
         for (var y = -this.outline; y <= this.outline; y++) {
           ctx.shadowOffsetX = x;
           ctx.shadowOffsetY = y;
-          ctx.drawImage(options.canvasEl, offset, offset,w-(offset*2),h-(offset*2));
+          ctx.drawImage(can, offset, offset,w-(offset*2),h-(offset*2));
         }
       }
 
@@ -29081,12 +29090,12 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
     from: 0, 
     to: 0,
-    feather: 'edges',
+    feather: '',
     edges: {
-      top: true,
-      right: true,
-      left: true,
-      bottom: true
+      top: false,
+      right: false,
+      left: false,
+      bottom: false
     },
     circle: {
       x: 100,
@@ -29105,11 +29114,15 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var t = parseFloat(this.to / 100);
       var w = options.imageData.width;
       var h = options.imageData.height;
-      // var can = fabric.util.createCanvasElement();
-      // can.width = w;
-      // can.height = h;
+      var can = fabric.util.createCanvasElement();
+      can.width = w;
+      can.height = h;
+      var ctx = can.getContext('2d');
+      ctx.putImageData(options.imageData, 0, 0);
+
+
       var i = 1;
-      var ctx = options.ctx;//can.getContext('2d');
+      
       if(this.invert){
         [f, t] = [t, f];
       }

@@ -45,6 +45,11 @@
       var h = imageData.height + offset ;
       var w = imageData.width + offset;
 
+      var can = fabric.util.createCanvasElement();
+      can.width = w;
+      can.height = h;
+      var ctxOrg = can.getContext('2d');
+      ctxOrg.putImageData(options.imageData, 0, 0);
 
 
       var canvas1 = fabric.util.createCanvasElement();
@@ -60,7 +65,7 @@
         for (var y = -this.outline; y <= this.outline; y++) {
           ctx.shadowOffsetX = x;
           ctx.shadowOffsetY = y;
-          ctx.drawImage(options.canvasEl, offset, offset,w-(offset*2),h-(offset*2));
+          ctx.drawImage(can, offset, offset,w-(offset*2),h-(offset*2));
         }
       }
 

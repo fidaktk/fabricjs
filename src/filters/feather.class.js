@@ -31,12 +31,12 @@
 
     from: 0, 
     to: 0,
-    feather: 'edges',
+    feather: '',
     edges: {
-      top: true,
-      right: true,
-      left: true,
-      bottom: true
+      top: false,
+      right: false,
+      left: false,
+      bottom: false
     },
     circle: {
       x: 100,
@@ -55,11 +55,15 @@
       var t = parseFloat(this.to / 100);
       var w = options.imageData.width;
       var h = options.imageData.height;
-      // var can = fabric.util.createCanvasElement();
-      // can.width = w;
-      // can.height = h;
+      var can = fabric.util.createCanvasElement();
+      can.width = w;
+      can.height = h;
+      var ctx = can.getContext('2d');
+      ctx.putImageData(options.imageData, 0, 0);
+
+
       var i = 1;
-      var ctx = options.ctx;//can.getContext('2d');
+      
       if(this.invert){
         [f, t] = [t, f];
       }

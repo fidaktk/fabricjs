@@ -349,8 +349,8 @@
 
 
                 oImg.filters.push(new fabric.Image.filters.Feather({
-                from: 40, to: 61,
-                feather: 'circle',
+                from: 29, to: 30,
+                feather: 'edges',
                 edges: {
                     top: true,
                     right: true,
@@ -367,19 +367,25 @@
 
 
                 oImg.filters.push(new fabric.Image.filters.InnerShadow({
-                    innershadow: 10,
-                    color: 'red',
-                    x: 0,
+                    innershadow: 20,
+                    color: 'black',
+                    x: 20,
                     y: 0,
-                    blend: 'source-over'
+                    blend: 'multiply'
                 }));
-
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(0, 255, 255, 1)', outline: 5, blur: 10
+                oImg.filters.push(new fabric.Image.filters.InnerShadow({
+                    innershadow: 20,
+                    color: 'white',
+                    x: -20,
+                    y: 0,
+                    // blend: 'source-over'
                 }));
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(0, 255, 255, 1)', outline: 5, blur: 10
+                // }));
 
                 // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(255, 0, 255, 1)', width: 2, blur: 10, inset: false
+                //     color: 'rgba(255, 0, 0, 1)', outline: 5, blur: 10
                 // }));
 
 
