@@ -1,13 +1,13 @@
 var fs = require('fs'),
-    exec = require('child_process').exec;
+  exec = require('child_process').exec;
 
 var buildArgs = process.argv.slice(2),
-    buildArgsAsObject = { },
-    rootPath = process.cwd();
+  buildArgsAsObject = {},
+  rootPath = process.cwd();
 
-buildArgs.forEach(function(arg) {
+buildArgs.forEach(function (arg) {
   var key = arg.split('=')[0],
-      value = arg.split('=')[1];
+    value = arg.split('=')[1];
 
   buildArgsAsObject[key] = value;
 });
@@ -63,13 +63,13 @@ var noSVGImport = (modulesToInclude.indexOf('parser') === -1 && !includeAllModul
 
 var distFileContents =
   '/* build: `node build.js modules=' +
-    modulesToInclude.join(',') +
-    (modulesToExclude.length ? (' exclude=' + modulesToExclude.join(',')) : '') +
-    (noStrict ? ' no-strict' : '') +
-    (noSVGExport ? ' no-svg-export' : '') +
-    (requirejs ? ' requirejs' : '') +
-    (sourceMap ? ' sourcemap' : '') +
-    ' minifier=' + minifier +
+  modulesToInclude.join(',') +
+  (modulesToExclude.length ? (' exclude=' + modulesToExclude.join(',')) : '') +
+  (noStrict ? ' no-strict' : '') +
+  (noSVGExport ? ' no-svg-export' : '') +
+  (requirejs ? ' requirejs' : '') +
+  (sourceMap ? ' sourcemap' : '') +
+  ' minifier=' + minifier +
   '` */';
 
 function appendFileContents(fileNames, callback) {
@@ -219,9 +219,9 @@ var filesToInclude = [
   ifSpecifiedInclude('image_filters', 'src/filters/composed_filter.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/hue_rotation.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/inner_shadow.class.js'),
-ifSpecifiedInclude('image_filters', 'src/filters/outline.class.js'),
-ifSpecifiedInclude('image_filters', 'src/filters/feather.class.js'),
-
+  ifSpecifiedInclude('image_filters', 'src/filters/outline.class.js'),
+  ifSpecifiedInclude('image_filters', 'src/filters/feather.class.js'),
+  ifSpecifiedInclude('image_filters', 'src/filters/embossed.class.js'),
   ifSpecifiedInclude('text', 'src/shapes/text.class.js'),
   ifSpecifiedInclude('text', 'src/mixins/text_style.mixin.js'),
 
@@ -232,7 +232,7 @@ ifSpecifiedInclude('image_filters', 'src/filters/feather.class.js'),
   ifSpecifiedInclude('itext', 'src/mixins/itext.svg_export.js'),
 
   ifSpecifiedInclude('textbox', 'src/shapes/textbox.class.js'),
-	'src/mixins/customiseControls.js',
+  'src/mixins/customiseControls.js',
 ];
 
 if (buildMinified) {
@@ -246,7 +246,7 @@ else {
   // change the current working directory
   process.chdir(distributionPath);
 
-  appendFileContents(filesToInclude, function() {
+  appendFileContents(filesToInclude, function () {
     fs.writeFile('fabric.js', distFileContents, function (err) {
       if (err) {
         console.log(err);
