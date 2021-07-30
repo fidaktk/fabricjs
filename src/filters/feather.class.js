@@ -46,7 +46,7 @@
     width: 0,
     blur: 0,
     from: 15, to: 20,
-    t: 'edges',
+    feather: 'edges',
     edges: {
       top: true,
       right: true,
@@ -59,7 +59,7 @@
       r: 100
   },
     invert: false,
-    canvases: [],
+    mainParameter: 'feather',
 
     applyTo2d: function (options) {
       // if (this.from <= 0 && this.to <= 0) {
@@ -80,7 +80,7 @@
       }
       console.log(f, t);
       // ctx.save();
-      if (this.t === 'edges') {
+      if (this.feather === 'edges') {
         ctx.globalCompositeOperation = "destination-out";
         if(this.edges.left){
         var grd1 = ctx.createLinearGradient(0, 0, w, 0);
@@ -113,7 +113,7 @@
         }
       }
 
-      if(this.t === 'circle'){
+      if(this.feather === 'circle'){
         ctx.globalCompositeOperation = "destination-out";
         var x = (w/100)*this.circle.x;
         var y = (h/100)*this.circle.y;

@@ -48,7 +48,7 @@
     offsetX: 10,
     offsetY: 10,
     blend: 'multiply',
-
+    mainParameter: 'blur',
 
 
     applyTo2d: function (options) {
