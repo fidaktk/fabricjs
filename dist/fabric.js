@@ -29321,8 +29321,8 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
     shadow: '',
     embossed: 0,
     invert: false,
-    angle: 0,
-    distance: 0,
+    blur: 0,
+    tune: false,
     mainParameter: 'embossed',
     applyTo2d: function (options) {
 
@@ -29353,17 +29353,18 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       // var y = this.distance * Math.sin(this.angle);
       var xOffset = 0;
       var yOffset = 0;
-      var angle = this.angle * Math.PI / 180;
-
-      var x = this.distance * Math.sin(angle) + xOffset;
-      var y = this.distance * Math.cos(angle) + yOffset;
+      var angle = this.angle?this.angle:50 * Math.PI / 180;
+      this.blur = this.blur?this.blur:10;
+      var x = this.embossed * Math.sin(angle) + xOffset;
+      var y = this.embossed * Math.cos(angle) + yOffset;
 
 
 
 
 
       if (this.invert) {
-        [x, y] = [y, x];
+        
+        [x, y] = [-y, -x];
       }
 
 
@@ -29375,10 +29376,15 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       ct.drawImage(can1, 0, 0, w, h);
       ct.globalCompositeOperation = "source-out";
       ct.shadowColor = "black";
-      ct.shadowBlur = this.embossed;
-      ct.save();
-      ct.shadowOffsetX = x;
-      ct.shadowOffsetY = y;
+      ct.shadowBlur = this.blur;
+      if (this.tune){
+        ct.filter = 'blur('+this.blur+'px)';
+      }
+      
+      // ct.save();
+      
+      ct.shadowOffsetX = -x;
+      ct.shadowOffsetY = -y;
       ct.drawImage(can1, 0, 0, w, h);
       ct.globalCompositeOperation = "source-in";
       ct.shadowColor = "transparent";
@@ -29387,18 +29393,18 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       // ctxOrg.globalCompositeOperation = 'darken'; //change
       // ctxOrg.drawImage(can, 0, 0);
       // ctxOrg.globalCompositeOperation = "source-over";
-      ct.restore();
+      // ct.restore();
 
-      // ct.save();
-      ct.shadowOffsetX = y;
-      ct.shadowOffsetY = x;
-      ct.drawImage(can1, 0, 0, w, h);
-      ct.globalCompositeOperation = "source-in";
-      ct.shadowColor = "transparent";
-      ct.fillStyle = this.shadow; /// change
-      ct.fillRect(0, 0, w, h);
+      // // ct.save();
+      // ct.shadowOffsetX = -y;
+      // ct.shadowOffsetY = -x;
+      // ct.drawImage(can1, 0, 0, w, h);
+      // ct.globalCompositeOperation = "source-in";
+      // ct.shadowColor = "transparent";
+      // ct.fillStyle = this.shadow; /// change
+      // ct.fillRect(0, 0, w, h);
 
-      ct.restore();
+      // ct.restore();
       ctxOrg.globalCompositeOperation = 'multiply'; //change
       ctxOrg.drawImage(can, 0, 0);
       ctxOrg.globalCompositeOperation = "source-over";
@@ -29412,35 +29418,49 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       ct.drawImage(can1, 0, 0, w, h);
       ct.globalCompositeOperation = "source-out";
       ct.shadowColor = "black";
-      ct.shadowBlur = this.embossed;
-      ct.save();
-      ct.shadowOffsetX = -x;
-      ct.shadowOffsetY = -y;
+      ct.shadowBlur = this.blur;
+      if (this.tune){
+        ct.filter = 'blur('+this.blur+'px)';
+      }
+      
+      // ct.save();
+      ct.shadowOffsetX = x;
+      ct.shadowOffsetY = y;
       ct.drawImage(can1, 0, 0, w, h);
       ct.globalCompositeOperation = "source-in";
       ct.shadowColor = "transparent";
       ct.fillStyle = this.light; /// change
       ct.fillRect(0, 0, w, h);
+
+   
+
       // ctxOrg.globalCompositeOperation = 'screen'; //change
       // ctxOrg.drawImage(can, 0, 0);
       // ctxOrg.globalCompositeOperation = "source-over";
-      ct.restore();
+      // ct.restore();
 
-      // ct.save();
-      ct.shadowOffsetX = -y;
-      ct.shadowOffsetY = -x;
-      ct.drawImage(can1, 0, 0, w, h);
-      ct.globalCompositeOperation = "source-in";
-      ct.shadowColor = "transparent";
-      ct.fillStyle = this.light; /// change
-      ct.fillRect(0, 0, w, h);
+      // // ct.save();
+      // ct.shadowOffsetX = y;
+      // ct.shadowOffsetY = x;
+      // ct.drawImage(can1, 0, 0, w, h);
+      // ct.globalCompositeOperation = "source-in";
+      // ct.shadowColor = "transparent";
+      // ct.fillStyle = this.light; /// change
+      // ct.fillRect(0, 0, w, h);
 
-      ct.restore();
+      // ct.restore();
 
-      ctxOrg.globalCompositeOperation = 'screen'; //change
+//  ct.globalCompositeOperation = "destination-out";
+//       ct.drawImage(ctxOrg, 0, 0, w, h);
+
+
+
+      
+      ctxOrg.globalCompositeOperation = 'lighter'; //change
       ctxOrg.drawImage(can, 0, 0);
-      ctxOrg.globalCompositeOperation = "source-over";
 
+      // ctxOrg.globalCompositeOperation = "source-over";
+     
 
 
 
@@ -29652,8 +29672,8 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
         shadow: this.shadow,
         embossed: this.embossed,
         invert: this.invert,
-        angle: this.angle,
-        distance: this.distance,
+        blur: this.blur,
+        fine: this.fine,
       };
       return fabric.util.object.extend(this.callSuper('toObject'), ob);
     }

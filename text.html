@@ -273,12 +273,12 @@
 
             var loadFromJson = false;
 
-            if(loadFromJson){
-                canvas.loadFromJSON(JSON.parse('{\"version\":\"3.7.1\",\"objects\":[{\"type\":\"line\",\"version\":\"3.7.1\",\"originX\":\"left\",\"originY\":\"top\",\"left\":400,\"top\":0,\"width\":0,\"height\":869,\"fill\":\"rgb(0,0,0)\",\"stroke\":\"red\",\"strokeWidth\":1,\"strokeDashArray\":null,\"strokeLineCap\":\"butt\",\"strokeDashOffset\":0,\"strokeLineJoin\":\"miter\",\"strokeMiterLimit\":4,\"scaleX\":1,\"scaleY\":1,\"angle\":0,\"flipX\":false,\"flipY\":false,\"opacity\":1,\"shadow\":null,\"visible\":true,\"clipTo\":null,\"backgroundColor\":\"\",\"fillRule\":\"nonzero\",\"paintFirst\":\"fill\",\"globalCompositeOperation\":\"source-over\",\"transformMatrix\":null,\"skewX\":0,\"skewY\":0,\"x1\":0,\"x2\":0,\"y1\":-434.5,\"y2\":434.5},{\"type\":\"image\",\"version\":\"3.7.1\",\"originX\":\"left\",\"originY\":\"top\",\"left\":405.52,\"top\":3,\"width\":737,\"height\":789,\"fill\":\"rgb(0,0,0)\",\"stroke\":null,\"strokeWidth\":0,\"strokeDashArray\":null,\"strokeLineCap\":\"butt\",\"strokeDashOffset\":0,\"strokeLineJoin\":\"miter\",\"strokeMiterLimit\":4,\"scaleX\":0.16,\"scaleY\":0.16,\"angle\":0,\"flipX\":false,\"flipY\":false,\"opacity\":1,\"shadow\":null,\"visible\":true,\"clipTo\":null,\"backgroundColor\":\"\",\"fillRule\":\"nonzero\",\"paintFirst\":\"fill\",\"globalCompositeOperation\":\"source-over\",\"transformMatrix\":null,\"skewX\":0,\"skewY\":0,\"crossOrigin\":\"anonymous\",\"cropX\":0,\"cropY\":0,\"src\":\"http://localhost:8000/man.png\",\"filters\":[{\"type\":\"Feather\",\"feather\":\"circle\",\"width\":0,\"blur\":0,\"from\":40,\"to\":61,\"invert\":true,\"circle\":{\"x\":50,\"y\":50,\"r\":60}}]}]}'),async () => {
-                      canvas.renderAll();
+            if (loadFromJson) {
+                canvas.loadFromJSON(JSON.parse('{\"version\":\"3.7.1\",\"objects\":[{\"type\":\"line\",\"version\":\"3.7.1\",\"originX\":\"left\",\"originY\":\"top\",\"left\":400,\"top\":0,\"width\":0,\"height\":869,\"fill\":\"rgb(0,0,0)\",\"stroke\":\"red\",\"strokeWidth\":1,\"strokeDashArray\":null,\"strokeLineCap\":\"butt\",\"strokeDashOffset\":0,\"strokeLineJoin\":\"miter\",\"strokeMiterLimit\":4,\"scaleX\":1,\"scaleY\":1,\"angle\":0,\"flipX\":false,\"flipY\":false,\"opacity\":1,\"shadow\":null,\"visible\":true,\"clipTo\":null,\"backgroundColor\":\"\",\"fillRule\":\"nonzero\",\"paintFirst\":\"fill\",\"globalCompositeOperation\":\"source-over\",\"transformMatrix\":null,\"skewX\":0,\"skewY\":0,\"x1\":0,\"x2\":0,\"y1\":-434.5,\"y2\":434.5},{\"type\":\"image\",\"version\":\"3.7.1\",\"originX\":\"left\",\"originY\":\"top\",\"left\":405.52,\"top\":3,\"width\":737,\"height\":789,\"fill\":\"rgb(0,0,0)\",\"stroke\":null,\"strokeWidth\":0,\"strokeDashArray\":null,\"strokeLineCap\":\"butt\",\"strokeDashOffset\":0,\"strokeLineJoin\":\"miter\",\"strokeMiterLimit\":4,\"scaleX\":0.16,\"scaleY\":0.16,\"angle\":0,\"flipX\":false,\"flipY\":false,\"opacity\":1,\"shadow\":null,\"visible\":true,\"clipTo\":null,\"backgroundColor\":\"\",\"fillRule\":\"nonzero\",\"paintFirst\":\"fill\",\"globalCompositeOperation\":\"source-over\",\"transformMatrix\":null,\"skewX\":0,\"skewY\":0,\"crossOrigin\":\"anonymous\",\"cropX\":0,\"cropY\":0,\"src\":\"http://localhost:8000/man.png\",\"filters\":[{\"type\":\"Feather\",\"feather\":\"circle\",\"width\":0,\"blur\":0,\"from\":40,\"to\":61,\"invert\":true,\"circle\":{\"x\":50,\"y\":50,\"r\":60}}]}]}'), async () => {
+                    canvas.renderAll();
                 });
 
-              
+
                 return;
             }
 
@@ -350,29 +350,32 @@
 
 
                 // oImg.filters.push(new fabric.Image.filters.Feather({
-                // from: 29, to: 30,
+                // from: 10, to: 51,
                 // feather: 'edges',
                 // edges: {
-                //     top: true,
+                //     top: false,
                 //     right: true,
                 //     left: true,
-                //     bottom: true
+                //     bottom: false
                 // },
                 // invert: false,
                 // circle: {
                 //     x: 50,
                 //     y: 50,
-                //     r: 60
+                //     // r: 60
                 // }
                 // }));
 
+
+
                 oImg.filters.push(new fabric.Image.filters.Embossed({
-                    light:  'rgba(255,255,255,.5)',
-                    shadow:  'rgba(0,0,0,.5)',
-                    angle : 90,
-                    distance: 10,
-                    embossed: 10,
-                    invert: false
+                    light: 'rgba(255,255,255,.8)',
+                    shadow: 'rgba(0,0,0,.8)',
+                    // angle: 70,
+                    embossed: 30,
+                    blur: 50,
+                    invert: true,
+                    tune: false
                 }));
 
 
@@ -380,13 +383,14 @@
 
 
 
-        //   oImg.filters.push(new fabric.Image.filters.InnerShadow({
-        //             innershadow: 5,
-        //             color: 'rgba(0,0,0,1)',
-        //             x: -10,
-        //             y: 1,
-        //             blend: 'multiply'
-        //         }));
+
+                //   oImg.filters.push(new fabric.Image.filters.InnerShadow({
+                //             innershadow: 5,
+                //             color: 'rgba(0,0,0,1)',
+                //             x: -10,
+                //             y: 1,
+                //             blend: 'multiply'
+                //         }));
                 // oImg.filters.push(new fabric.Image.filters.InnerShadow({
                 //     innershadow: 5,
                 //     color: 'rgba(255,255,255,1)',
@@ -394,13 +398,13 @@
                 //     y: 1,
                 //     blend: 'screen'
                 // }));
-        //         oImg.filters.push(new fabric.Image.filters.InnerShadow({
-        //             innershadow: 5,
-        //             color: 'rgba(0,0,0,1)',
-        //             x: 1,
-        //             y: -10,
-        //             blend: 'multiply'
-        //         }));
+                //         oImg.filters.push(new fabric.Image.filters.InnerShadow({
+                //             innershadow: 5,
+                //             color: 'rgba(0,0,0,1)',
+                //             x: 1,
+                //             y: -10,
+                //             blend: 'multiply'
+                //         }));
                 // oImg.filters.push(new fabric.Image.filters.InnerShadow({
                 //     innershadow: 20,
                 //     color: 'rgba(0,0,0,1)',
@@ -412,9 +416,9 @@
                 //     color: 'rgba(0, 255, 255, 1)', outline: 5, blur: 10
                 // }));
 
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(255, 0, 255, 1)', outline: 1, blur: 5
-                }));
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(255, 0, 255, 1)', outline: 1, blur: 5
+                // }));
 
 
 
