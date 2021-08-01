@@ -384,8 +384,11 @@
         embossed: this.embossed,
         invert: this.invert,
         blur: this.blur,
-        fine: this.fine,
+        tune: this.tune,
       };
+      if(this.angle){
+        ob['angle'] = this.angle
+      }
       return fabric.util.object.extend(this.callSuper('toObject'), ob);
     }
 
