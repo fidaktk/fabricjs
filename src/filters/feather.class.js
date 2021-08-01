@@ -40,8 +40,7 @@
     },
     circle: {
       x: 100,
-      y: 100,
-      r: 100
+      y: 100
   },
     invert: false,
     mainParameter: 'feather',
@@ -107,8 +106,8 @@
         var x = (w/100)*this.circle.x;
         var y = (h/100)*this.circle.y;
         var s = w>h?h:w;
-        var r = (s/100)*this.circle.r;
-        var grd1 = ctx.createRadialGradient(x, y, 0, x, y, r);
+        // var r = (s/100)*this.circle.r;
+        var grd1 = ctx.createRadialGradient(x, y, 0, x, y, s);
         grd1.addColorStop(f, "rgba(0,0,0,0");
         grd1.addColorStop(t, "black");
         ctx.fillStyle = grd1;
