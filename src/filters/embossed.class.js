@@ -35,10 +35,9 @@
     blur: 0,
     tune: false,
     mainParameter: 'embossed',
-    applyTo2d: function (options) {
+    applyTo2d1: function (options) {
 
       if (this.embossed === -1) {
-        // early return if the parameter value has a neutral value
         return;
       }
       var imageData = options.imageData;
@@ -58,10 +57,6 @@
       var i = 1;
       var ct = can.getContext('2d');
 
-
-
-      // var x = this.distance * Math.cos(this.angle);
-      // var y = this.distance * Math.sin(this.angle);
       var xOffset = 0;
       var yOffset = 0;
       var angle = this.angle?this.angle:50 * Math.PI / 180;
@@ -92,7 +87,7 @@
         ct.filter = 'blur('+this.blur+'px)';
       }
       
-      // ct.save();
+     
       
       ct.shadowOffsetX = -x;
       ct.shadowOffsetY = -y;
@@ -101,21 +96,7 @@
       ct.shadowColor = "transparent";
       ct.fillStyle = this.shadow; /// change
       ct.fillRect(0, 0, w, h);
-      // ctxOrg.globalCompositeOperation = 'darken'; //change
-      // ctxOrg.drawImage(can, 0, 0);
-      // ctxOrg.globalCompositeOperation = "source-over";
-      // ct.restore();
-
-      // // ct.save();
-      // ct.shadowOffsetX = -y;
-      // ct.shadowOffsetY = -x;
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-in";
-      // ct.shadowColor = "transparent";
-      // ct.fillStyle = this.shadow; /// change
-      // ct.fillRect(0, 0, w, h);
-
-      // ct.restore();
+  
       ctxOrg.globalCompositeOperation = 'multiply'; //change
       ctxOrg.drawImage(can, 0, 0);
       ctxOrg.globalCompositeOperation = "source-over";
@@ -134,7 +115,6 @@
         ct.filter = 'blur('+this.blur+'px)';
       }
       
-      // ct.save();
       ct.shadowOffsetX = x;
       ct.shadowOffsetY = y;
       ct.drawImage(can1, 0, 0, w, h);
@@ -143,178 +123,60 @@
       ct.fillStyle = this.light; /// change
       ct.fillRect(0, 0, w, h);
 
-   
-
-      // ctxOrg.globalCompositeOperation = 'screen'; //change
-      // ctxOrg.drawImage(can, 0, 0);
-      // ctxOrg.globalCompositeOperation = "source-over";
-      // ct.restore();
-
-      // // ct.save();
-      // ct.shadowOffsetX = y;
-      // ct.shadowOffsetY = x;
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-in";
-      // ct.shadowColor = "transparent";
-      // ct.fillStyle = this.light; /// change
-      // ct.fillRect(0, 0, w, h);
-
-      // ct.restore();
-
-//  ct.globalCompositeOperation = "destination-out";
-//       ct.drawImage(ctxOrg, 0, 0, w, h);
-
-
-
-      
       ctxOrg.globalCompositeOperation = 'lighter'; //change
       ctxOrg.drawImage(can, 0, 0);
-
-      // ctxOrg.globalCompositeOperation = "source-over";
-     
-
-
-
-
-
-
-
-      // ct.save();
-      // ct.fillStyle = "black";
-      // ct.fillRect(0, 0, w, h);
-      // ct.globalCompositeOperation = "destination-out";
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-out";
-      // ct.shadowColor = "black";
-      // ct.shadowBlur = this.embossed;
-      // ct.shadowOffsetX = x+90;
-      // ct.shadowOffsetY = y;
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-in";
-      // ct.shadowColor = "transparent";
-      // ct.fillStyle = this.shadow; /// change
-      // ct.fillRect(0, 0, w, h);
-      // ctxOrg.globalCompositeOperation = 'source-over'; //change
-      // ctxOrg.drawImage(can, 0, 0);
-      // ctxOrg.globalCompositeOperation = "source-over";
-      // ct.restore();
-
-
-
-
-      // ct.fillStyle = "black";
-      // ct.fillRect(0, 0, w, h);
-      // ct.globalCompositeOperation = "destination-out";
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-out";
-      // ct.shadowColor = "black";
-      // ct.shadowBlur = this.embossed;
-      // ct.shadowOffsetX = y;
-      // ct.shadowOffsetY = x;
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-in";
-      // ct.shadowColor = "transparent";
-      // ct.fillStyle = this.shadow; /// change
-      // ct.fillRect(0, 0, w, h);
-      // ctxOrg.globalCompositeOperation = 'multiply'; //change
-      // ctxOrg.drawImage(can, 0, 0);
-      // ctxOrg.globalCompositeOperation = "source-over";
-
-      // ct.fillStyle = "black";
-      // ct.fillRect(0, 0, w, h);
-      // ct.globalCompositeOperation = "destination-out";
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-out";
-      // ct.shadowColor = "black";
-      // ct.shadowBlur = this.embossed;
-      // ct.shadowOffsetX = -y;
-      // ct.shadowOffsetY = x;
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-in";
-      // ct.shadowColor = "transparent";
-      // ct.fillStyle = this.light; /// change
-      // ct.fillRect(0, 0, w, h);
-      // ctxOrg.globalCompositeOperation = 'screen'; //change
-      // ctxOrg.drawImage(can, 0, 0);
-      // ctxOrg.globalCompositeOperation = "source-over";
-
-      // ct.fillStyle = "black";
-      // ct.fillRect(0, 0, w, h);
-      // ct.globalCompositeOperation = "destination-out";
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-out";
-      // ct.shadowColor = "black";
-      // ct.shadowBlur = this.embossed;
-      // ct.shadowOffsetX = x;
-      // ct.shadowOffsetY = -y;
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-in";
-      // ct.shadowColor = "transparent";
-      // ct.fillStyle = this.light; /// change
-      // ct.fillRect(0, 0, w, h);
-      // ctxOrg.globalCompositeOperation = 'screen'; //change
-      // ctxOrg.drawImage(can, 0, 0);
-      // ctxOrg.globalCompositeOperation = "source-over";
-
-
-      // ct.fillStyle = "black";
-      // ct.fillRect(0, 0, w, h);
-      // ct.globalCompositeOperation = "destination-out";
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-out";
-      // ct.shadowColor = "black";
-      // ct.shadowBlur = this.embossed;
-      // ct.shadowOffsetX = y;
-      // ct.shadowOffsetY = -x;
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-in";
-      // ct.shadowColor = "transparent";
-      // ct.fillStyle = this.shadow; /// change
-      // ct.fillRect(0, 0, w, h);
-      // ctxOrg.globalCompositeOperation = 'multiply'; //change
-      // ctxOrg.drawImage(can, 0, 0);
-      // ctxOrg.globalCompositeOperation = "source-over";
-
-
-      // ct.fillStyle = "black";
-      // ct.fillRect(0, 0, w, h);
-      // ct.globalCompositeOperation = "destination-out";
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-out";
-      // ct.shadowColor = "black";
-      // ct.shadowBlur = this.embossed;
-      // ct.shadowOffsetX = -x;
-      // ct.shadowOffsetY = -y;
-      // ct.drawImage(can1, 0, 0, w, h);
-      // ct.globalCompositeOperation = "source-in";
-      // ct.shadowColor = "transparent";
-      // ct.fillStyle = this.light; /// change
-      // ct.fillRect(0, 0, w, h);
-      // ctxOrg.globalCompositeOperation = 'screen'; //change
-      // ctxOrg.drawImage(can, 0, 0);
-      // ctxOrg.globalCompositeOperation = "source-over";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       var imageData = ctxOrg.getImageData(0, 0, w, h);
       options.imageData = imageData;
+  },
+
+  applyTo2d: function (options) {
 
 
-      // var trimmedCanvas = can2;//this.trimCanvas(can);
 
-      // options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
-    },
+    var h = options.imageData.height;
+    var w = options.imageData.width;
+    var tune = this.tune?'in':'over';
+    var invert = this.invert?'250':'-250';
+    var light = this.light || '#ffffff';
+    var blur = this.blur || 1;
+    var embossed = this.embossed || 1;
+    var d = new Date();
+    console.log(d.getMinutes(),d.getSeconds() ,d.getMilliseconds());
+    var canvas1 = fabric.util.createCanvasElement();
+    canvas1.width = w;
+    canvas1.height = h;
+    var ctx = canvas1.getContext('2d');
+    ctx.putImageData(options.imageData, 0, 0);
+ 
+    
+    var el = document.getElementById('svgfilter');
+    if (el) el.remove(); 
+    window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">
+    <feGaussianBlur stdDeviation="${embossed}"  in="SourceGraphic" result="blur2"/>
+    <feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur2" result="specularLighting">
+   <feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting>
+     <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
+    <feComposite in="composite1" in2="SourceGraphic" operator="${tune}"  result="composite2"/>
+    </filter></svg>
+    `);
+
+    
+    ctx.filter = 'url(#filter)';
+    ctx.drawImage(canvas1, 0, 0,);
+
+    el = document.getElementById('svgfilter');
+    if (el) el.remove();
+
+
+
+    // ctxOrg.drawImage(can, 0, 0);
+    var imageData = ctx.getImageData(0, 0, w, h);
+    options.imageData = imageData;
+    d = new Date();
+    console.log(d.getMinutes(),d.getSeconds() ,d.getMilliseconds());
+},
+
+
     trimCanvas: function (c) {
       var ctx = c.getContext('2d'),
         copy = document.createElement('canvas').getContext('2d'),

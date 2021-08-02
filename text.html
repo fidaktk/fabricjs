@@ -367,39 +367,52 @@
                 // }
                 // }));
 
+                // oImg.filters.push(new fabric.Image.filters.InnerShadow({
 
+                //                 color: 'rgba(255,0,0,1)',
+                //                 x: -20,
+                //                 y:0,
+                //                 innershadow:30,
+                //                 blend:'lighten'
+                //             }))
 
-                // oImg.filters.push(new fabric.Image.filters.Embossed({
-                //     light: 'rgba(255,255,255,.8)',
-                //     shadow: 'rgba(0,0,0,.8)',
-                //     // angle: 70,
-                //     embossed: 30,
-                //     blur: 50,
-                //     invert: false,
-                //     tune: false
-                // }));
-
-
-
-
-
-
-
-
-
-//                 oImg.filters.push(new fabric.Image.filters.Svgfilter({
-//                     svgfilter: `<svg id="svgfilter">
-//                         <filter id="filter"
-//                          filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="linearRGB">
-// 	<feMorphology operator="dilate" radius="10 10" in="SourceAlpha" result="morphology"/>
-// 	<feGaussianBlur stdDeviation="10 10" in="morphology" edgeMode="none" result="blur"/>
-// </filter>
-//       </svg>`
-//                 }));
-
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(255, 0, 0,1 )', outline: 5, blur: 0
+                oImg.filters.push(new fabric.Image.filters.Embossed({
+                    light: 'rgba(255,255,255,1)',
+                    shadow: 'rgba(0,0,0,.8)',
+                    // angle: 70,
+                    embossed: 8,
+                    blur: 80,
+                    invert: true,
+                    tune: false
                 }));
+
+
+//  <filter id="filter">
+//                         <feGaussianBlur stdDeviation="15"  in="SourceGraphic" result="blur2"/>
+//                         <feSpecularLighting surfaceScale="15" specularConstant="1" specularExponent="30" lighting-color="#ffffff"  in="blur2" result="specularLighting">
+//                         <feDistantLight azimuth="-128" elevation="50"/></feSpecularLighting>
+//                         <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
+//                         <feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/>
+// </filter>
+
+
+
+
+
+
+    //             oImg.filters.push(new fabric.Image.filters.Svgfilter({
+    //                 svgfilter: `
+    //                 <feGaussianBlur stdDeviation="15"  in="SourceGraphic" result="blur2"/>
+    //                     <feSpecularLighting surfaceScale="15" specularConstant="1" specularExponent="30" lighting-color="#ffffff"  in="blur2" result="specularLighting">
+    //                    <feDistantLight azimuth="-128" elevation="50"/></feSpecularLighting>
+    //                      <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
+    //                     <feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/>
+    //  `
+    //             }));
+
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(255, 0, 0,1 )', outline: 5, blur: 0
+                // }));
 
 
 
@@ -410,7 +423,7 @@
                 oImg.center();
                 oImg.setCoords();
                 oImg.applyFilters();
-                // canvas.backgroundColor="khaki";
+                canvas.backgroundColor="red";
                 canvas.setActiveObject(oImg);
                 // canvas.renderTop();
                 canvas.renderAll();

@@ -31,83 +31,39 @@
     svgfilter: 0,
     mainParameter: 'svgfilter',
     applyTo2d: function (options) {
-      if (this.svgfilter === 0) {
+      if (this.svgfilter === 0 || this.svgfilter=='') {
         return;
       }
 
-      var s = 0,  // thickness scale
-        b = 0,
-        c = 'black',
-        i = 0,  // iterator
-        x = s + b,  // final position
-        y = s + b;
-      var offset = (s * 2) + (b * 2);
-      var h = options.imageData.height + (offset * 2);
-      var w = options.imageData.width + (offset * 2);
-      var can = fabric.util.createCanvasElement();
-      can.width = w;
-      can.height = h;
-      var ctxOrg = can.getContext('2d');
-      ctxOrg.putImageData(options.imageData, x, y);
-
+  
+   
+      var h = options.imageData.height;
+      var w = options.imageData.width;
+      var d = new Date();
+      console.log(d.getMinutes(),d.getSeconds() ,d.getMilliseconds());
       var canvas1 = fabric.util.createCanvasElement();
-      window.document.body.insertAdjacentHTML('afterbegin', this.svgfilter);
-      canvas1.width = w;
-      canvas1.height = h;
+      canvas1.width = w+200;
+      canvas1.height = h+200;
       var ctx = canvas1.getContext('2d');
-      // ctx.drawImage(can, x, y, w, h);
-      //    ctx.shadowColor = this.color;
-      // ctx.shadowBlur = this.blur;
-      // ctx.filter = 'url('+this.svgfilter+'#displacementFilter)';
-      ctx.filter = 'url(#filter)';
-      ctx.drawImage(can, x, y,);
+      ctx.putImageData(options.imageData, 100, 100);
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
-      // ctx.globalCompositeOperation = "source-in";
-      // ctx.drawImage(can, x, y, w, h);
-      //   ctx.globalCompositeOperation = "source-in";
-      // ctx.fillStyle = c;
-      // ctx.fillRect(0, 0, w, h);
+        window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">
+      ${this.svgfilter}
+      </filter></svg>
+      `);
+  
+      
+      ctx.filter = 'url(#filter)';
+      ctx.drawImage(canvas1, 0, 0,);
 
-      // ctx.filter = "none";
-      // ctx.globalCompositeOperation = "source-over";
+       el = document.getElementById('svgfilter');
+      if (el) el.remove();
+      var tcanvas = this.trimCanvas(canvas1);
 
-      // ctx.drawImage(can, x, y, w, h);
-
-
-      // var imageData = options.imageData;
-      // var offset = (this.outline *2) + (this.blur * 2);
-      // var h = imageData.height + offset ;
-      // var w = imageData.width + offset;
-
-      // var can = fabric.util.createCanvasElement();
-      // can.width = w;
-      // can.height = h;
-      // var ctxOrg = can.getContext('2d');
-      // ctxOrg.putImageData(options.imageData, 0, 0);
-
-
-      // var canvas1 = fabric.util.createCanvasElement();
-      // canvas1.width = w;
-      // canvas1.height = h;
-      // var ctx = canvas1.getContext('2d');
-      // ctx.shadowColor = this.color;
-      // ctx.shadowBlur = this.blur;
-
-
-
-      // for (var x = -this.outline; x <= this.outline; x++) {
-      //   for (var y = -this.outline; y <= this.outline; y++) {
-      //     ctx.shadowOffsetX = x;
-      //     ctx.shadowOffsetY = y;
-      //     ctx.drawImage(can, offset, offset,w-(offset*2),h-(offset*2));
-      //   }
-      // }
-
-
-      // var imageData =
-      options.imageData = ctx.getImageData(0, 0, w, h);
-
+      options.imageData = tcanvas.getContext('2d').getImageData(0, 0, tcanvas.width, tcanvas.height);
+      d = new Date();
+      console.log(d.getMinutes(),d.getSeconds() ,d.getMilliseconds());
     },
     // applyTo2d: function (options) {
     //   if (this.outline === 0 && this.blur === 0) {

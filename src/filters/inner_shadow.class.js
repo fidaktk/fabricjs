@@ -38,6 +38,50 @@
 
     applyTo2d: function (options) {
 
+      var imageData = options.imageData;
+      var w = options.sourceWidth;
+      var h = options.sourceHeight;
+      var x = this.x || 0;
+      var y = this.y || 0;
+      var blur = this.innershadow || 10;
+      var color = this.color || 'black';
+      var blend = this.blend || 'multiply';
+      var can1 = fabric.util.createCanvasElement();
+      can1.width = w;
+      can1.height = h;
+      var ctxOrg = can1.getContext('2d');
+      ctxOrg.putImageData(options.imageData, 0, 0);
+
+
+      var can = fabric.util.createCanvasElement();
+      can.width = options.sourceWidth;
+      can.height = options.sourceHeight;
+      var i = 1;
+      var ct = can.getContext('2d');
+      ct.putImageData(options.imageData, 0, 0);
+      // ct.drawImage(can1, 0, 0,);
+      var el = document.getElementById('svgfilter');
+      if (el) el.remove();
+
+      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">
+      <feOffset dx="${x}" dy="${y}" in="SourceAlpha" result="offset1"/>
+                                  <feGaussianBlur stdDeviation="${blur}" in="offset1" edgeMode="none" result="blur1"/>
+                                  <feComposite in="SourceAlpha" in2="blur1" operator="out" result="composite1"/>
+                                  <feFlood flood-color="${color}" flood-opacity="1"  result="flood5"/>
+                                  <feComposite in="flood5" in2="composite1" operator="in"  result="composite3"/>
+                                  <feBlend mode="${blend}" in="SourceGraphic" in2="composite3" result="blend5"/>
+                                  </filter></svg>`);
+      ct.filter = 'url(#filter)';
+      // ct.globalCompositeOperation = this.blend;
+      ct.drawImage(can, 0, 0,);
+      el = document.getElementById('svgfilter');
+      if (el) el.remove();
+
+      options.imageData = ct.getImageData(0, 0, w, h);;
+
+    },
+    applyTo2d1: function (options) {
+
       if (this.innershadow === 0 && this.offsetX === 0 && this.offsetY === 0) {
         // early return if the parameter value has a neutral value
         return;
@@ -77,13 +121,13 @@
       ct.fillRect(0, 0, w, h);
 
 
-      
+
 
       ctxOrg.globalCompositeOperation = this.blend;
       ctxOrg.drawImage(can, 0, 0);
       ctxOrg.globalCompositeOperation = "source-over";
 
-      var imageData =ctxOrg.getImageData(0, 0, w, h);
+      var imageData = ctxOrg.getImageData(0, 0, w, h);
       options.imageData = imageData;
 
 
@@ -91,6 +135,9 @@
 
       // options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
     },
+
+
+
     trimCanvas: function (c) {
       var ctx = c.getContext('2d'),
         copy = document.createElement('canvas').getContext('2d'),
