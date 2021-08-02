@@ -28668,21 +28668,6 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
      */
     type: 'InnerShadow',
     color: '',
-    // /**
-    //  * Fragment source for the myParameter program
-    //  */
-    // fragmentSource: 'precision highp float;\n' +
-    //   'uniform sampler2D uTexture;\n' +
-    //   'uniform vec4 uLow;\n' +
-    //   'uniform vec4 uHigh;\n' +
-    //   'varying vec2 vTexCoord;\n' +
-    //   'void main() {\n' +
-    //     'vec4 color = texture2D(uTexture, vTexCoord);\n' +
-    //     // add your gl code here
-    //     'gl_FragColor = color;\n' +
-    //   '}',
-
-
     innershadow: 0,
     x: 0,
     y: 0,
@@ -28877,45 +28862,117 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
     color: '#000000',
     // inset: false,
     mainParameter: 'outline',
-
     applyTo2d: function (options) {
       if (this.outline === 0 && this.blur === 0) {
         return;
       }
-      var imageData = options.imageData;
-      var offset = (this.outline *2) + (this.blur * 2);
-      var h = imageData.height + offset ;
-      var w = imageData.width + offset;
-
+      var dArr = [-1, -1, 0, -1, 1, -1, -1, 0, 1, 0, -1, 1, 0, 1, 1, 1], // offset array
+        s = this.outline || 2,  // thickness scale
+        b = this.blur || 0,
+        c = this.color || 'black',
+        i = 0,  // iterator
+        x = s + b,  // final position
+        y = s + b;
+      var offset = (s * 2) + (b * 2);
+      var h = options.imageData.height + (offset * 2);
+      var w = options.imageData.width + (offset * 2);
       var can = fabric.util.createCanvasElement();
       can.width = w;
       can.height = h;
       var ctxOrg = can.getContext('2d');
-      ctxOrg.putImageData(options.imageData, 0, 0);
-
+      ctxOrg.putImageData(options.imageData, s + b, s + b);
 
       var canvas1 = fabric.util.createCanvasElement();
       canvas1.width = w;
       canvas1.height = h;
       var ctx = canvas1.getContext('2d');
-      ctx.shadowColor = this.color;
-      ctx.shadowBlur = this.blur;
+      //    ctx.shadowColor = this.color;
+      // ctx.shadowBlur = this.blur;
+      if (b) ctx.filter = 'blur(' + this.blur + 'px)';
+      for (; i < dArr.length; i += 2) { ctx.drawImage(can, x + dArr[i] * s, y + dArr[i + 1] * s, w, h); }
+
+      ctx.globalCompositeOperation = "source-in";
+      ctx.fillStyle = c;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.filter = "none";
+      ctx.globalCompositeOperation = "source-over";
+
+      ctx.drawImage(can, x, y, w, h);
+
+
+      // var imageData = options.imageData;
+      // var offset = (this.outline *2) + (this.blur * 2);
+      // var h = imageData.height + offset ;
+      // var w = imageData.width + offset;
+
+      // var can = fabric.util.createCanvasElement();
+      // can.width = w;
+      // can.height = h;
+      // var ctxOrg = can.getContext('2d');
+      // ctxOrg.putImageData(options.imageData, 0, 0);
+
+
+      // var canvas1 = fabric.util.createCanvasElement();
+      // canvas1.width = w;
+      // canvas1.height = h;
+      // var ctx = canvas1.getContext('2d');
+      // ctx.shadowColor = this.color;
+      // ctx.shadowBlur = this.blur;
 
 
 
-      for (var x = -this.outline; x <= this.outline; x++) {
-        for (var y = -this.outline; y <= this.outline; y++) {
-          ctx.shadowOffsetX = x;
-          ctx.shadowOffsetY = y;
-          ctx.drawImage(can, offset, offset,w-(offset*2),h-(offset*2));
-        }
-      }
+      // for (var x = -this.outline; x <= this.outline; x++) {
+      //   for (var y = -this.outline; y <= this.outline; y++) {
+      //     ctx.shadowOffsetX = x;
+      //     ctx.shadowOffsetY = y;
+      //     ctx.drawImage(can, offset, offset,w-(offset*2),h-(offset*2));
+      //   }
+      // }
 
 
-      var imageData = ctx.getImageData(0, 0, w, h);
-      options.imageData = imageData;
+      // var imageData =
+      options.imageData = ctx.getImageData(0, 0, w, h);
 
     },
+    // applyTo2d: function (options) {
+    //   if (this.outline === 0 && this.blur === 0) {
+    //     return;
+    //   }
+    //   var imageData = options.imageData;
+    //   var offset = (this.outline *2) + (this.blur * 2);
+    //   var h = imageData.height + offset ;
+    //   var w = imageData.width + offset;
+
+    //   var can = fabric.util.createCanvasElement();
+    //   can.width = w;
+    //   can.height = h;
+    //   var ctxOrg = can.getContext('2d');
+    //   ctxOrg.putImageData(options.imageData, 0, 0);
+
+
+    //   var canvas1 = fabric.util.createCanvasElement();
+    //   canvas1.width = w;
+    //   canvas1.height = h;
+    //   var ctx = canvas1.getContext('2d');
+    //   ctx.shadowColor = this.color;
+    //   ctx.shadowBlur = this.blur;
+
+
+
+    //   for (var x = -this.outline; x <= this.outline; x++) {
+    //     for (var y = -this.outline; y <= this.outline; y++) {
+    //       ctx.shadowOffsetX = x;
+    //       ctx.shadowOffsetY = y;
+    //       ctx.drawImage(can, offset, offset,w-(offset*2),h-(offset*2));
+    //     }
+    //   }
+
+
+    //   var imageData = ctx.getImageData(0, 0, w, h);
+    //   options.imageData = imageData;
+
+    // },
     // applyTo2d2: function (options) {
     //   if (this.outline === 0 && this.blur === 0) {
     //     return;
@@ -28924,7 +28981,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
     //   console.log(new Date().getMilliseconds());
 
-    //   var ratio = (parseFloat(this.width) * 2) + (this.blur * 2) * 5;
+    //   var ratio = (parseFloat(this.outline) * 2) + (this.blur * 2) * 5;
     //   var width = options.sourceWidth + ratio * 2;
     //   var height = options.sourceHeight + ratio * 2;
     //   var canvas1 = fabric.util.createCanvasElement();
@@ -28939,7 +28996,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
     //   ctx.filter = 'blur(' + this.blur + 'px)';
     //   for (i = 0; i < 360; i += 1) {
-    //     ctx.drawImage(options.canvasEl, offx + Math.sin(i) * this.width, offy + Math.cos(i) * this.width);
+    //     ctx.drawImage(options.canvasEl, offx + Math.sin(i) * this.outline, offy + Math.cos(i) * this.outline);
     //   }
 
 
@@ -29024,8 +29081,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       return copy.canvas;
     },
 
-
-    toObject: function() {
+    toObject: function () {
       var ob = {
         outline: this.outline,
         blur: this.blur,
@@ -29033,7 +29089,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       };
       return fabric.util.object.extend(this.callSuper('toObject'), ob);
     }
- 
+
 
 
 

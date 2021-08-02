@@ -368,15 +368,15 @@
 
 
 
-                oImg.filters.push(new fabric.Image.filters.Embossed({
-                    light: 'rgba(255,255,255,.8)',
-                    shadow: 'rgba(0,0,0,.8)',
-                    // angle: 70,
-                    embossed: 30,
-                    blur: 50,
-                    invert: false,
-                    tune: false
-                }));
+                // oImg.filters.push(new fabric.Image.filters.Embossed({
+                //     light: 'rgba(255,255,255,.8)',
+                //     shadow: 'rgba(0,0,0,.8)',
+                //     // angle: 70,
+                //     embossed: 30,
+                //     blur: 50,
+                //     invert: false,
+                //     tune: false
+                // }));
 
 
 
@@ -385,10 +385,11 @@
 
 
                 //   oImg.filters.push(new fabric.Image.filters.InnerShadow({
-                //             innershadow: 5,
+                           
                 //             color: 'rgba(0,0,0,1)',
-                //             x: -10,
-                //             y: 1,
+                //             innershadow: 20,
+                //             x: 0,
+                //             y: 0,
                 //             blend: 'multiply'
                 //         }));
                 // oImg.filters.push(new fabric.Image.filters.InnerShadow({
@@ -412,9 +413,11 @@
                 //     y: 1,
                 //     blend: 'source-over'
                 // }));
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(0, 255, 255, 1)', outline: 5, blur: 10
-                // }));
+                oImg.filters.push(new fabric.Image.filters.Outline({
+                    color: 'rgba(0, 0, 0, 1)', 
+                    outline: 2, 
+                    blur: 10
+                }));
 
                 // oImg.filters.push(new fabric.Image.filters.Outline({
                 //     color: 'rgba(255, 0, 255, 1)', outline: 1, blur: 5
@@ -429,7 +432,7 @@
                 oImg.center();
                 oImg.setCoords();
                 oImg.applyFilters();
-                // canvas.backgroundColor="red";
+                // canvas.backgroundColor="khaki";
                 canvas.setActiveObject(oImg);
                 // canvas.renderTop();
                 canvas.renderAll();

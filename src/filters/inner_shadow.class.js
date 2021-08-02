@@ -29,21 +29,6 @@
      */
     type: 'InnerShadow',
     color: '',
-    // /**
-    //  * Fragment source for the myParameter program
-    //  */
-    // fragmentSource: 'precision highp float;\n' +
-    //   'uniform sampler2D uTexture;\n' +
-    //   'uniform vec4 uLow;\n' +
-    //   'uniform vec4 uHigh;\n' +
-    //   'varying vec2 vTexCoord;\n' +
-    //   'void main() {\n' +
-    //     'vec4 color = texture2D(uTexture, vTexCoord);\n' +
-    //     // add your gl code here
-    //     'gl_FragColor = color;\n' +
-    //   '}',
-
-
     innershadow: 0,
     x: 0,
     y: 0,
