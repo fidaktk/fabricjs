@@ -122,6 +122,7 @@
 <script src="/src/filters/composed_filter.class.js"></script>
 <script src="/src/filters/hue_rotation.class.js"></script>
 <!-- <script src="/src/filters/glow.class.js"></script> -->
+<script src="/src/filters/svgfilter.class.js"></script>
 <script src="/src/filters/embossed.class.js"></script>
 <script src="/src/filters/inner_shadow.class.js"></script>
 <script src="/src/filters/outline.class.js"></script>
@@ -384,44 +385,21 @@
 
 
 
-                //   oImg.filters.push(new fabric.Image.filters.InnerShadow({
-                           
-                //             color: 'rgba(0,0,0,1)',
-                //             innershadow: 20,
-                //             x: 0,
-                //             y: 0,
-                //             blend: 'multiply'
-                //         }));
-                // oImg.filters.push(new fabric.Image.filters.InnerShadow({
-                //     innershadow: 5,
-                //     color: 'rgba(255,255,255,1)',
-                //     x: 10,
-                //     y: 1,
-                //     blend: 'screen'
-                // }));
-                //         oImg.filters.push(new fabric.Image.filters.InnerShadow({
-                //             innershadow: 5,
-                //             color: 'rgba(0,0,0,1)',
-                //             x: 1,
-                //             y: -10,
-                //             blend: 'multiply'
-                //         }));
-                // oImg.filters.push(new fabric.Image.filters.InnerShadow({
-                //     innershadow: 20,
-                //     color: 'rgba(0,0,0,1)',
-                //     x: 1,
-                //     y: 1,
-                //     blend: 'source-over'
-                // }));
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(0, 0, 0, 1)', 
-                    outline: 2, 
-                    blur: 10
-                }));
 
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(255, 0, 255, 1)', outline: 1, blur: 5
-                // }));
+
+//                 oImg.filters.push(new fabric.Image.filters.Svgfilter({
+//                     svgfilter: `<svg id="svgfilter">
+//                         <filter id="filter"
+//                          filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="linearRGB">
+// 	<feMorphology operator="dilate" radius="10 10" in="SourceAlpha" result="morphology"/>
+// 	<feGaussianBlur stdDeviation="10 10" in="morphology" edgeMode="none" result="blur"/>
+// </filter>
+//       </svg>`
+//                 }));
+
+                oImg.filters.push(new fabric.Image.filters.Outline({
+                    color: 'rgba(255, 0, 0,1 )', outline: 5, blur: 0
+                }));
 
 
 

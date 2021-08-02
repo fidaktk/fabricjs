@@ -28862,7 +28862,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
     color: '#000000',
     // inset: false,
     mainParameter: 'outline',
-    applyTo2d: function (options) {
+    applyTo2d1: function (options) {
       if (this.outline === 0 && this.blur === 0) {
         return;
       }
@@ -28881,143 +28881,66 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       can.height = h;
       var ctxOrg = can.getContext('2d');
       ctxOrg.putImageData(options.imageData, s + b, s + b);
-
       var canvas1 = fabric.util.createCanvasElement();
       canvas1.width = w;
       canvas1.height = h;
       var ctx = canvas1.getContext('2d');
-      //    ctx.shadowColor = this.color;
-      // ctx.shadowBlur = this.blur;
       if (b) ctx.filter = 'blur(' + this.blur + 'px)';
       for (; i < dArr.length; i += 2) { ctx.drawImage(can, x + dArr[i] * s, y + dArr[i + 1] * s, w, h); }
-
       ctx.globalCompositeOperation = "source-in";
       ctx.fillStyle = c;
       ctx.fillRect(0, 0, w, h);
-
       ctx.filter = "none";
       ctx.globalCompositeOperation = "source-over";
-
       ctx.drawImage(can, x, y, w, h);
-
-
-      // var imageData = options.imageData;
-      // var offset = (this.outline *2) + (this.blur * 2);
-      // var h = imageData.height + offset ;
-      // var w = imageData.width + offset;
-
-      // var can = fabric.util.createCanvasElement();
-      // can.width = w;
-      // can.height = h;
-      // var ctxOrg = can.getContext('2d');
-      // ctxOrg.putImageData(options.imageData, 0, 0);
-
-
-      // var canvas1 = fabric.util.createCanvasElement();
-      // canvas1.width = w;
-      // canvas1.height = h;
-      // var ctx = canvas1.getContext('2d');
-      // ctx.shadowColor = this.color;
-      // ctx.shadowBlur = this.blur;
-
-
-
-      // for (var x = -this.outline; x <= this.outline; x++) {
-      //   for (var y = -this.outline; y <= this.outline; y++) {
-      //     ctx.shadowOffsetX = x;
-      //     ctx.shadowOffsetY = y;
-      //     ctx.drawImage(can, offset, offset,w-(offset*2),h-(offset*2));
-      //   }
-      // }
-
-
-      // var imageData =
       options.imageData = ctx.getImageData(0, 0, w, h);
 
     },
-    // applyTo2d: function (options) {
-    //   if (this.outline === 0 && this.blur === 0) {
-    //     return;
-    //   }
-    //   var imageData = options.imageData;
-    //   var offset = (this.outline *2) + (this.blur * 2);
-    //   var h = imageData.height + offset ;
-    //   var w = imageData.width + offset;
+    applyTo2d: function (options) {
+      if (this.outline === 0 && this.blur === 0) {
+        return;
+      }
+      var s = this.outline || 2,  // thickness scale
+      b = this.blur || 0,
+      c = this.color || 'black',
+      i = 0;  // iterator
+      var offset = (s * 2) + (b * 2);
+      var h = options.imageData.height + (offset * 2);
+      var w = options.imageData.width + (offset * 2);
+      var can = fabric.util.createCanvasElement();
+      can.width = w;
+      can.height = h;
+      var ctxOrg = can.getContext('2d');
+      ctxOrg.putImageData(options.imageData, s + b, s + b);
+    
+       var canvas1 = fabric.util.createCanvasElement();
+      canvas1.width = w;
+      canvas1.height = h;
+      var ctx = canvas1.getContext('2d');
+     
+          window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">
+	<feMorphology operator="dilate" radius="${s}"  in="SourceAlpha" result="morphology"/>
+	<feGaussianBlur stdDeviation="${b}" in="morphology" edgeMode="none" result="blur"/>
+	<feFlood flood-color="${c}" flood-opacity="1" result="flood3"/>
+	<feComposite in="flood3" in2="blur" operator="in"  result="composite"/>
+	<feBlend mode="normal" in="SourceGraphic" in2="composite" result="blend4"/>
+</filter></svg>`);
+ctx.filter = 'url(#filter)';
 
-    //   var can = fabric.util.createCanvasElement();
-    //   can.width = w;
-    //   can.height = h;
-    //   var ctxOrg = can.getContext('2d');
-    //   ctxOrg.putImageData(options.imageData, 0, 0);
+ctx.drawImage(can, offset, offset,);
+var el = document.getElementById('svgfilter');
+if (el) el.remove();
 
-
-    //   var canvas1 = fabric.util.createCanvasElement();
-    //   canvas1.width = w;
-    //   canvas1.height = h;
-    //   var ctx = canvas1.getContext('2d');
-    //   ctx.shadowColor = this.color;
-    //   ctx.shadowBlur = this.blur;
-
-
-
-    //   for (var x = -this.outline; x <= this.outline; x++) {
-    //     for (var y = -this.outline; y <= this.outline; y++) {
-    //       ctx.shadowOffsetX = x;
-    //       ctx.shadowOffsetY = y;
-    //       ctx.drawImage(can, offset, offset,w-(offset*2),h-(offset*2));
-    //     }
-    //   }
-
-
-    //   var imageData = ctx.getImageData(0, 0, w, h);
-    //   options.imageData = imageData;
-
-    // },
-    // applyTo2d2: function (options) {
-    //   if (this.outline === 0 && this.blur === 0) {
-    //     return;
-    //   }
-    //   var imageData = options.imageData, data = imageData.data, i, len = data.length;
-
-    //   console.log(new Date().getMilliseconds());
-
-    //   var ratio = (parseFloat(this.outline) * 2) + (this.blur * 2) * 5;
-    //   var width = options.sourceWidth + ratio * 2;
-    //   var height = options.sourceHeight + ratio * 2;
-    //   var canvas1 = fabric.util.createCanvasElement();
-    //   canvas1.width = width;
-    //   canvas1.height = height;
-    //   var offx, offy;
-    //   offx = offy = ratio / 2;
-    //   var ctx = options.ctx;//canvas1.getContext('2d');
-    //   ctx.shadowColor = this.color;
-    //   i = 0;
-    //   ctx.save();
-
-    //   ctx.filter = 'blur(' + this.blur + 'px)';
-    //   for (i = 0; i < 360; i += 1) {
-    //     ctx.drawImage(options.canvasEl, offx + Math.sin(i) * this.outline, offy + Math.cos(i) * this.outline);
-    //   }
+  
 
 
+     
+      options.imageData = ctx.getImageData(0, 0, w, h);
 
-    //   ctx.globalCompositeOperation = "source-in";
-    //   ctx.fillStyle = this.color;
-
-
-    //   ctx.fillRect(0, 0, width, height);
-
-    //   ctx.restore();
-    //   // ctx.globalCompositeOperation = "source-over";
-    //   ctx.drawImage(options.canvasEl, offy, offy);
-    //   console.log(new Date().getMilliseconds());
-
-    //   var trimmedCanvas = canvas1;//this.trimCanvas(canvas1);
+    },
+   
 
 
-    //   options.canvasEl = trimmedCanvas;
-    //   options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
-    // },
 
 
     trimCanvas: function (c) {
