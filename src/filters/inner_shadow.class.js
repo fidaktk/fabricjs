@@ -40,7 +40,7 @@
       if (!this.innershadow) {
         return;
       }
-      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       // var imageData = options.imageData;
       var w = options.sourceWidth;
       var h = options.sourceHeight;
@@ -68,14 +68,7 @@
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
 
-      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">
-      <feOffset dx="${x}" dy="${y}" in="SourceAlpha" result="offset1"/>
-                                  <feGaussianBlur stdDeviation="${blur}" in="offset1" edgeMode="none" result="blur1"/>
-                                  <feComposite in="SourceAlpha" in2="blur1" operator="out" result="composite1"/>
-                                  <feFlood flood-color="${color}" flood-opacity="1"  result="flood5"/>
-                                  <feComposite in="flood5" in2="composite1" operator="in"  result="composite3"/>
-                                  <feBlend mode="${blend}" in="SourceGraphic" in2="composite3" result="blend5"/>
-                                  </filter></svg>`);
+      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feOffset dx="${x}" dy="${y}" in="SourceAlpha" result="offset1"/><feGaussianBlur stdDeviation="${blur}" in="offset1" edgeMode="none" result="blur1"/><feComposite in="SourceAlpha" in2="blur1" operator="out" result="composite1"/><feFlood flood-color="${color}" flood-opacity="1"  result="flood5"/><feComposite in="flood5" in2="composite1" operator="in"  result="composite3"/><feBlend mode="${blend}" in="SourceGraphic" in2="composite3" result="blend5"/></filter></svg>`);
       // const svg = `<svg id="svgfilter"><filter id="filter">
       //                             <feOffset dx="${x}" dy="${y}" in="SourceAlpha" result="offset1"/>
       //                             <feGaussianBlur stdDeviation="${blur}" in="offset1" edgeMode="none" result="blur1"/>
@@ -104,8 +97,8 @@
       if (el) el.remove();
 
       options.imageData = ct.getImageData(0, 0, w, h);;
-      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
-      can.remove();
+      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      if (can) can.remove();
     },
     applyTo2d1: function (options) {
 

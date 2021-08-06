@@ -121,6 +121,7 @@
 
       var imageData = ctx.getImageData(0, 0,w,h);
       options.imageData = imageData;
+      if (can) can.remove();
       // var trimmedCanvas = can; //sthis.trimCanvas(can);
       // options.ctx.drawImage(options.canvasEl, 0, 0);
       // options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);

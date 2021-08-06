@@ -28679,7 +28679,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       if (!this.innershadow) {
         return;
       }
-      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       // var imageData = options.imageData;
       var w = options.sourceWidth;
       var h = options.sourceHeight;
@@ -28707,14 +28707,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
 
-      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">
-      <feOffset dx="${x}" dy="${y}" in="SourceAlpha" result="offset1"/>
-                                  <feGaussianBlur stdDeviation="${blur}" in="offset1" edgeMode="none" result="blur1"/>
-                                  <feComposite in="SourceAlpha" in2="blur1" operator="out" result="composite1"/>
-                                  <feFlood flood-color="${color}" flood-opacity="1"  result="flood5"/>
-                                  <feComposite in="flood5" in2="composite1" operator="in"  result="composite3"/>
-                                  <feBlend mode="${blend}" in="SourceGraphic" in2="composite3" result="blend5"/>
-                                  </filter></svg>`);
+      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feOffset dx="${x}" dy="${y}" in="SourceAlpha" result="offset1"/><feGaussianBlur stdDeviation="${blur}" in="offset1" edgeMode="none" result="blur1"/><feComposite in="SourceAlpha" in2="blur1" operator="out" result="composite1"/><feFlood flood-color="${color}" flood-opacity="1"  result="flood5"/><feComposite in="flood5" in2="composite1" operator="in"  result="composite3"/><feBlend mode="${blend}" in="SourceGraphic" in2="composite3" result="blend5"/></filter></svg>`);
       // const svg = `<svg id="svgfilter"><filter id="filter">
       //                             <feOffset dx="${x}" dy="${y}" in="SourceAlpha" result="offset1"/>
       //                             <feGaussianBlur stdDeviation="${blur}" in="offset1" edgeMode="none" result="blur1"/>
@@ -28743,8 +28736,8 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       if (el) el.remove();
 
       options.imageData = ct.getImageData(0, 0, w, h);;
-      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
-      can.remove();
+      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      if (can) can.remove();
     },
     applyTo2d1: function (options) {
 
@@ -28974,7 +28967,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       if (this.outline === 0 && this.blur === 0) {
         return;
       }
-      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       var s = this.outline || 2,  // thickness scale
         b = this.blur || 0,
         c = this.color || 'black',
@@ -28995,13 +28988,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
 
-      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">
-                                                                  <feMorphology operator="dilate" radius="${s}"  in="SourceAlpha" result="morphology"/>
-                                                                  <feGaussianBlur stdDeviation="${b}" in="morphology" edgeMode="none" result="blur"/>
-                                                                  <feFlood flood-color="${c}" flood-opacity="1" result="flood3"/>
-                                                                  <feComposite in="flood3" in2="blur" operator="in"  result="composite"/>
-                                                                  <feBlend mode="normal" in="SourceGraphic" in2="composite" result="blend4"/>
-                                                                </filter></svg>`);
+      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feMorphology operator="dilate" radius="${s}"  in="SourceAlpha" result="morphology"/><feGaussianBlur stdDeviation="${b}" in="morphology" edgeMode="none" result="blur"/><feFlood flood-color="${c}" flood-opacity="1" result="flood3"/><feComposite in="flood3" in2="blur" operator="in"  result="composite"/><feBlend mode="normal" in="SourceGraphic" in2="composite" result="blend4"/></filter></svg>`);
       ctx.filter = 'url(#filter)';
 
       ctx.drawImage(can, s + b, s + b);
@@ -29013,8 +29000,8 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
 
       options.imageData = ctx.getImageData(0, 0, w, h);
-      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
-      can.remove();
+      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      if (can) can.remove();
     },
 
 
@@ -29237,6 +29224,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
       var imageData = ctx.getImageData(0, 0,w,h);
       options.imageData = imageData;
+      if (can) can.remove();
       // var trimmedCanvas = can; //sthis.trimCanvas(can);
       // options.ctx.drawImage(options.canvasEl, 0, 0);
       // options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
@@ -29405,8 +29393,8 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
       var xOffset = 0;
       var yOffset = 0;
-      var angle = this.angle?this.angle:50 * Math.PI / 180;
-      this.blur = this.blur?this.blur:10;
+      var angle = this.angle ? this.angle : 50 * Math.PI / 180;
+      this.blur = this.blur ? this.blur : 10;
       var x = this.embossed * Math.sin(angle) + xOffset;
       var y = this.embossed * Math.cos(angle) + yOffset;
 
@@ -29415,7 +29403,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
 
       if (this.invert) {
-        
+
         [x, y] = [-y, -x];
       }
 
@@ -29429,12 +29417,12 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       ct.globalCompositeOperation = "source-out";
       ct.shadowColor = "black";
       ct.shadowBlur = this.blur;
-      if (this.tune){
-        ct.filter = 'blur('+this.blur+'px)';
+      if (this.tune) {
+        ct.filter = 'blur(' + this.blur + 'px)';
       }
-      
-     
-      
+
+
+
       ct.shadowOffsetX = -x;
       ct.shadowOffsetY = -y;
       ct.drawImage(can1, 0, 0, w, h);
@@ -29442,7 +29430,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       ct.shadowColor = "transparent";
       ct.fillStyle = this.shadow; /// change
       ct.fillRect(0, 0, w, h);
-  
+
       ctxOrg.globalCompositeOperation = 'multiply'; //change
       ctxOrg.drawImage(can, 0, 0);
       ctxOrg.globalCompositeOperation = "source-over";
@@ -29457,10 +29445,10 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       ct.globalCompositeOperation = "source-out";
       ct.shadowColor = "black";
       ct.shadowBlur = this.blur;
-      if (this.tune){
-        ct.filter = 'blur('+this.blur+'px)';
+      if (this.tune) {
+        ct.filter = 'blur(' + this.blur + 'px)';
       }
-      
+
       ct.shadowOffsetX = x;
       ct.shadowOffsetY = y;
       ct.drawImage(can1, 0, 0, w, h);
@@ -29473,68 +29461,57 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       ctxOrg.drawImage(can, 0, 0);
       var imageData = ctxOrg.getImageData(0, 0, w, h);
       options.imageData = imageData;
-  },
+    },
 
-  applyTo2d: function (options) {
-    if (this.embossed === 0) {
-      return;
-    }
+    applyTo2d: function (options) {
+      if (this.embossed === 0) {
+        return;
+      }
 
 
-    var h = options.imageData.height;
-    var w = options.imageData.width;
-    var invert = this.invert?'-250':'250';
-    var offsetNo = this.invert?'-4':'4';
-    var operator = this.tune?'over':'in';
-    var offset = this.tune? `<feOffset in="blur" dx="${offsetNo}" dy="${offsetNo}" result="offsetBlur"></feOffset>` : '';
-    
-    var light = this.light || '#ffffff';
-    var blur = this.blur || 1;
-    var embossed = this.embossed || 1;
-    fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+      var h = options.imageData.height;
+      var w = options.imageData.width;
+      var invert = this.invert ? '-250' : '250';
+      var offsetNo = this.invert ? '-4' : '4';
+      var operator = this.tune ? 'over' : 'in';
+      var offset = this.tune ? `<feOffset in="blur" dx="${offsetNo}" dy="${offsetNo}" result="offsetBlur"></feOffset>` : '';
 
-    var canvas1 = fabric.util.createCanvasElement();
-    canvas1.width = w;
-    canvas1.height = h;
-    var ctx = canvas1.getContext('2d');
-    ctx.putImageData(options.imageData, 0, 0);
- 
-    
-    var el = document.getElementById('svgfilter');
-    if (el) el.remove(); 
-    window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">
-                        <feGaussianBlur stdDeviation="${embossed}"  in="SourceAlpha" result="blur"/>
-                        ${offset}
-                        <feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur" result="specularLighting">
-                        <feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting>
-                        <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="0" k3="2" k4="-0.3"  result="composite1"/>
-                        <feComposite in="composite1" in2="SourceGraphic" operator="${operator}"  result="composite2"/>
-                        <feMerge>
-                        <feMergeNode in="offsetBlur"></feMergeNode>
-                        <feMergeNode in="composite2"></feMergeNode>
-                        </feMerge>
-    </filter></svg>
+      var light = this.light || '#ffffff';
+      var blur = this.blur || 1;
+      var embossed = this.embossed || 1;
+      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+
+      var canvas1 = fabric.util.createCanvasElement();
+      canvas1.width = w;
+      canvas1.height = h;
+      var ctx = canvas1.getContext('2d');
+      ctx.putImageData(options.imageData, 0, 0);
+
+
+      var el = document.getElementById('svgfilter');
+      if (el) el.remove();
+      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feGaussianBlur stdDeviation="${embossed}"  in="SourceAlpha" result="blur"/>${offset}<feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur" result="specularLighting"><feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting><feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="0" k3="2" k4="-0.3"  result="composite1"/><feComposite in="composite1" in2="SourceGraphic" operator="${operator}"  result="composite2"/><feMerge><feMergeNode in="offsetBlur"></feMergeNode><feMergeNode in="composite2"></feMergeNode></feMerge></filter></svg>
     `);
 
-    
-    ctx.filter = 'url(#filter)';
+
+      ctx.filter = 'url(#filter)';
 
 
 
 
-    ctx.drawImage(canvas1, 0, 0,);
+      ctx.drawImage(canvas1, 0, 0,);
 
-    el = document.getElementById('svgfilter');
-    if (el) el.remove();
+      el = document.getElementById('svgfilter');
+      if (el) el.remove();
 
 
 
-    // ctxOrg.drawImage(can, 0, 0);
-    var imageData = ctx.getImageData(0, 0, w, h);
-    options.imageData = imageData;
-    fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
-    can.remove();
-},
+      // ctxOrg.drawImage(can, 0, 0);
+      var imageData = ctx.getImageData(0, 0, w, h);
+      options.imageData = imageData;
+      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      if (can) can.remove();
+    },
 
 
     trimCanvas: function (c) {
