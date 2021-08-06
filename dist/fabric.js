@@ -28688,56 +28688,27 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var blur = Number(this.innershadow) || 10;
       var color = this.color || 'black';
       var blend = this.blend || 'multiply';
-      // var can1 = fabric.util.createCanvasElement();
-      // can1.width = w;
-      // can1.height = h;
-      // var ctxOrg = can1.getContext('2d');
-      // ctxOrg.putImageData(options.imageData, 0, 0);
 
-      // 
-      // var can = fabric.util.createCanvasElement();
-      // var can = new OffscreenCanvas(options.sourceWidth, options.sourceHeight);
-      var can = document.createElement('canvas');
-      can.width = options.sourceWidth;
-      can.height = options.sourceHeight;
+      var canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
       var i = 1;
-      var ct = can.getContext('2d');
-      ct.putImageData(options.imageData, 0, 0);
-      // ct.drawImage(can1, 0, 0,);
+      var ctx = canvas.getContext('2d');
+      ctx.putImageData(options.imageData, 0, 0);
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
 
       window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feOffset dx="${x}" dy="${y}" in="SourceAlpha" result="offset1"/><feGaussianBlur stdDeviation="${blur}" in="offset1" edgeMode="none" result="blur1"/><feComposite in="SourceAlpha" in2="blur1" operator="out" result="composite1"/><feFlood flood-color="${color}" flood-opacity="1"  result="flood5"/><feComposite in="flood5" in2="composite1" operator="in"  result="composite3"/><feBlend mode="${blend}" in="SourceGraphic" in2="composite3" result="blend5"/></filter></svg>`);
-      // const svg = `<svg id="svgfilter"><filter id="filter">
-      //                             <feOffset dx="${x}" dy="${y}" in="SourceAlpha" result="offset1"/>
-      //                             <feGaussianBlur stdDeviation="${blur}" in="offset1" edgeMode="none" result="blur1"/>
-      //                             <feComposite in="SourceAlpha" in2="blur1" operator="out" result="composite1"/>
-      //                             <feFlood flood-color="${color}" flood-opacity="1"  result="flood5"/>
-      //                             <feComposite in="flood5" in2="composite1" operator="in"  result="composite3"/>
-      //                             <feBlend mode="${blend}" in="SourceGraphic" in2="composite3" result="blend5"/>
-      //                             </filter></svg>`,
-      // blob = new Blob([svg], { type: 'image/svg+xml' }),
-      // url = URL.createObjectURL(blob);                   
-
-      // ct.filter = `url('${url}#filter')`;
-
-      ct.filter = 'url(#filter)';
-      // ct.globalCompositeOperation = this.blend;
 
 
-
-
-
-
-
-
-      ct.drawImage(can, 0, 0,);
+      ctx.filter = 'url(#filter)';
+      ctx.drawImage(canvas, 0, 0,);
       el = document.getElementById('svgfilter');
       if (el) el.remove();
 
-      options.imageData = ct.getImageData(0, 0, w, h);;
+      options.imageData = ctx.getImageData(0, 0, w, h);;
       fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
-      if (can) can.remove();
+      if (canvas) canvas.remove();
     },
     applyTo2d1: function (options) {
 
@@ -28794,70 +28765,6 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
       // options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
     },
-
-
-
-    trimCanvas: function (c) {
-      var ctx = c.getContext('2d'),
-        copy = document.createElement('canvas').getContext('2d'),
-        pixels = ctx.getImageData(0, 0, c.width, c.height),
-        l = pixels.data.length,
-        i,
-        bound = {
-          top: null,
-          left: null,
-          right: null,
-          bottom: null
-        },
-        x, y;
-
-      // Iterate over every pixel to find the highest
-      // and where it ends on every axis ()
-      for (i = 0; i < l; i += 4) {
-        if (pixels.data[i + 3] !== 0) {
-          x = (i / 4) % c.width;
-          y = ~~((i / 4) / c.width);
-
-          if (bound.top === null) {
-            bound.top = y;
-          }
-
-          if (bound.left === null) {
-            bound.left = x;
-          }
-          else if (x < bound.left) {
-            bound.left = x;
-          }
-
-          if (bound.right === null) {
-            bound.right = x;
-          }
-          else if (bound.right < x) {
-            bound.right = x;
-          }
-
-          if (bound.bottom === null) {
-            bound.bottom = y;
-          }
-          else if (bound.bottom < y) {
-            bound.bottom = y;
-          }
-        }
-      }
-
-      // Calculate the height and width of the content
-      var trimHeight = bound.bottom - bound.top,
-        trimWidth = bound.right - bound.left,
-        trimmed = ctx.getImageData(bound.left, bound.top, trimWidth, trimHeight);
-
-      copy.canvas.width = trimWidth;
-      copy.canvas.height = trimHeight;
-      copy.putImageData(trimmed, 0, 0);
-
-      // Return trimmed canvas
-      return copy.canvas;
-    },
-
 
     toObject: function () {
       var ob = {
@@ -28975,23 +28882,26 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var offset = (s * 2) + (b * 2);
       var h = options.imageData.height + (offset * 2);
       var w = options.imageData.width + (offset * 2);
-      var can = fabric.util.createCanvasElement();
-      can.width = w;
-      can.height = h;
-      var ctxOrg = can.getContext('2d');
-      ctxOrg.putImageData(options.imageData, s + b, s + b);
 
-      var canvas1 = fabric.util.createCanvasElement();
-      canvas1.width = w;
-      canvas1.height = h;
-      var ctx = canvas1.getContext('2d');
+      // var can = fabric.util.createCanvasElement();
+      // can.width = w;
+      // can.height = h;
+      // var ctxOrg = can.getContext('2d');
+      // ctxOrg.putImageData(options.imageData, s + b, s + b);
+
+      var canvas = fabric.util.createCanvasElement();
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
+
+      ctx.putImageData(options.imageData, offset, offset);
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
 
       window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feMorphology operator="dilate" radius="${s}"  in="SourceAlpha" result="morphology"/><feGaussianBlur stdDeviation="${b}" in="morphology" edgeMode="none" result="blur"/><feFlood flood-color="${c}" flood-opacity="1" result="flood3"/><feComposite in="flood3" in2="blur" operator="in"  result="composite"/><feBlend mode="normal" in="SourceGraphic" in2="composite" result="blend4"/></filter></svg>`);
       ctx.filter = 'url(#filter)';
 
-      ctx.drawImage(can, s + b, s + b);
+      ctx.drawImage(canvas, 0, 0);
       el = document.getElementById('svgfilter');
       if (el) el.remove();
 
@@ -29001,7 +28911,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
       options.imageData = ctx.getImageData(0, 0, w, h);
       fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
-      if (can) can.remove();
+      if (canvas) canvas.remove();
     },
 
 
@@ -29157,10 +29067,10 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var t = parseFloat(this.to / 100);
       var w = options.imageData.width;
       var h = options.imageData.height;
-      var can = fabric.util.createCanvasElement();
-      can.width = w;
-      can.height = h;
-      var ctx = can.getContext('2d');
+      var canvas = fabric.util.createCanvasElement();
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
       ctx.putImageData(options.imageData, 0, 0);
 
 
@@ -29169,7 +29079,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       if(this.invert){
         [f, t] = [t, f];
       }
-      fabric.log(f, t);
+      // fabric.log(f, t);
       // ctx.save();
       if (this.feather === 'edges') {
         ctx.globalCompositeOperation = "destination-out";
@@ -29224,72 +29134,12 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
       var imageData = ctx.getImageData(0, 0,w,h);
       options.imageData = imageData;
-      if (can) can.remove();
+      if (canvas) canvas.remove();
       // var trimmedCanvas = can; //sthis.trimCanvas(can);
       // options.ctx.drawImage(options.canvasEl, 0, 0);
       // options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
     },
 
-    trimCanvas: function (c) {
-      var ctx = c.getContext('2d'),
-        copy = document.createElement('canvas').getContext('2d'),
-        pixels = ctx.getImageData(0, 0, c.width, c.height),
-        l = pixels.data.length,
-        i,
-        bound = {
-          top: null,
-          left: null,
-          right: null,
-          bottom: null
-        },
-        x, y;
-
-      // Iterate over every pixel to find the highest
-      // and where it ends on every axis ()
-      for (i = 0; i < l; i += 4) {
-        if (pixels.data[i + 3] !== 0) {
-          x = (i / 4) % c.width;
-          y = ~~((i / 4) / c.width);
-
-          if (bound.top === null) {
-            bound.top = y;
-          }
-
-          if (bound.left === null) {
-            bound.left = x;
-          }
-          else if (x < bound.left) {
-            bound.left = x;
-          }
-
-          if (bound.right === null) {
-            bound.right = x;
-          }
-          else if (bound.right < x) {
-            bound.right = x;
-          }
-
-          if (bound.bottom === null) {
-            bound.bottom = y;
-          }
-          else if (bound.bottom < y) {
-            bound.bottom = y;
-          }
-        }
-      }
-
-      // Calculate the height and width of the content
-      var trimHeight = bound.bottom - bound.top,
-        trimWidth = bound.right - bound.left,
-        trimmed = ctx.getImageData(bound.left, bound.top, trimWidth, trimHeight);
-
-      copy.canvas.width = trimWidth;
-      copy.canvas.height = trimHeight;
-      copy.putImageData(trimmed, 0, 0);
-
-      // Return trimmed canvas
-      return copy.canvas;
-    },
 
     toObject: function() {
       var ob = {
@@ -29475,104 +29325,28 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var offsetNo = this.invert ? '-4' : '4';
       var operator = this.tune ? 'over' : 'in';
       var offset = this.tune ? `<feOffset in="blur" dx="${offsetNo}" dy="${offsetNo}" result="offsetBlur"></feOffset>` : '';
-
       var light = this.light || '#ffffff';
       var blur = this.blur || 1;
       var embossed = this.embossed || 1;
       fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
-
-      var canvas1 = fabric.util.createCanvasElement();
-      canvas1.width = w;
-      canvas1.height = h;
-      var ctx = canvas1.getContext('2d');
+      var canvas = fabric.util.createCanvasElement();
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
       ctx.putImageData(options.imageData, 0, 0);
-
-
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
-      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feGaussianBlur stdDeviation="${embossed}"  in="SourceAlpha" result="blur"/>${offset}<feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur" result="specularLighting"><feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting><feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="0" k3="2" k4="-0.3"  result="composite1"/><feComposite in="composite1" in2="SourceGraphic" operator="${operator}"  result="composite2"/><feMerge><feMergeNode in="offsetBlur"></feMergeNode><feMergeNode in="composite2"></feMergeNode></feMerge></filter></svg>
-    `);
-
-
+      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feGaussianBlur stdDeviation="${embossed}"  in="SourceAlpha" result="blur"/>${offset}<feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur" result="specularLighting"><feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting><feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="0" k3="2" k4="-0.3"  result="composite1"/><feComposite in="composite1" in2="SourceGraphic" operator="${operator}"  result="composite2"/><feMerge><feMergeNode in="offsetBlur"></feMergeNode><feMergeNode in="composite2"></feMergeNode></feMerge></filter></svg>`);
       ctx.filter = 'url(#filter)';
-
-
-
-
-      ctx.drawImage(canvas1, 0, 0,);
-
+      ctx.drawImage(canvas, 0, 0,);
       el = document.getElementById('svgfilter');
       if (el) el.remove();
-
-
-
       // ctxOrg.drawImage(can, 0, 0);
       var imageData = ctx.getImageData(0, 0, w, h);
       options.imageData = imageData;
       fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
-      if (can) can.remove();
-    },
-
-
-    trimCanvas: function (c) {
-      var ctx = c.getContext('2d'),
-        copy = document.createElement('canvas').getContext('2d'),
-        pixels = ctx.getImageData(0, 0, c.width, c.height),
-        l = pixels.data.length,
-        i,
-        bound = {
-          top: null,
-          left: null,
-          right: null,
-          bottom: null
-        },
-        x, y;
-
-      // Iterate over every pixel to find the highest
-      // and where it ends on every axis ()
-      for (i = 0; i < l; i += 4) {
-        if (pixels.data[i + 3] !== 0) {
-          x = (i / 4) % c.width;
-          y = ~~((i / 4) / c.width);
-
-          if (bound.top === null) {
-            bound.top = y;
-          }
-
-          if (bound.left === null) {
-            bound.left = x;
-          }
-          else if (x < bound.left) {
-            bound.left = x;
-          }
-
-          if (bound.right === null) {
-            bound.right = x;
-          }
-          else if (bound.right < x) {
-            bound.right = x;
-          }
-
-          if (bound.bottom === null) {
-            bound.bottom = y;
-          }
-          else if (bound.bottom < y) {
-            bound.bottom = y;
-          }
-        }
-      }
-
-      // Calculate the height and width of the content
-      var trimHeight = bound.bottom - bound.top,
-        trimWidth = bound.right - bound.left,
-        trimmed = ctx.getImageData(bound.left, bound.top, trimWidth, trimHeight);
-
-      copy.canvas.width = trimWidth;
-      copy.canvas.height = trimHeight;
-      copy.putImageData(trimmed, 0, 0);
-
-      // Return trimmed canvas
-      return copy.canvas;
+      if (canvas) canvas.remove();
+      
     },
 
 

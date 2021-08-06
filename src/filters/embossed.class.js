@@ -141,104 +141,28 @@
       var offsetNo = this.invert ? '-4' : '4';
       var operator = this.tune ? 'over' : 'in';
       var offset = this.tune ? `<feOffset in="blur" dx="${offsetNo}" dy="${offsetNo}" result="offsetBlur"></feOffset>` : '';
-
       var light = this.light || '#ffffff';
       var blur = this.blur || 1;
       var embossed = this.embossed || 1;
       fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
-
-      var canvas1 = fabric.util.createCanvasElement();
-      canvas1.width = w;
-      canvas1.height = h;
-      var ctx = canvas1.getContext('2d');
+      var canvas = fabric.util.createCanvasElement();
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
       ctx.putImageData(options.imageData, 0, 0);
-
-
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
-      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feGaussianBlur stdDeviation="${embossed}"  in="SourceAlpha" result="blur"/>${offset}<feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur" result="specularLighting"><feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting><feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="0" k3="2" k4="-0.3"  result="composite1"/><feComposite in="composite1" in2="SourceGraphic" operator="${operator}"  result="composite2"/><feMerge><feMergeNode in="offsetBlur"></feMergeNode><feMergeNode in="composite2"></feMergeNode></feMerge></filter></svg>
-    `);
-
-
+      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feGaussianBlur stdDeviation="${embossed}"  in="SourceAlpha" result="blur"/>${offset}<feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur" result="specularLighting"><feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting><feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="0" k3="2" k4="-0.3"  result="composite1"/><feComposite in="composite1" in2="SourceGraphic" operator="${operator}"  result="composite2"/><feMerge><feMergeNode in="offsetBlur"></feMergeNode><feMergeNode in="composite2"></feMergeNode></feMerge></filter></svg>`);
       ctx.filter = 'url(#filter)';
-
-
-
-
-      ctx.drawImage(canvas1, 0, 0,);
-
+      ctx.drawImage(canvas, 0, 0,);
       el = document.getElementById('svgfilter');
       if (el) el.remove();
-
-
-
       // ctxOrg.drawImage(can, 0, 0);
       var imageData = ctx.getImageData(0, 0, w, h);
       options.imageData = imageData;
       fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
-      if (can) can.remove();
-    },
-
-
-    trimCanvas: function (c) {
-      var ctx = c.getContext('2d'),
-        copy = document.createElement('canvas').getContext('2d'),
-        pixels = ctx.getImageData(0, 0, c.width, c.height),
-        l = pixels.data.length,
-        i,
-        bound = {
-          top: null,
-          left: null,
-          right: null,
-          bottom: null
-        },
-        x, y;
-
-      // Iterate over every pixel to find the highest
-      // and where it ends on every axis ()
-      for (i = 0; i < l; i += 4) {
-        if (pixels.data[i + 3] !== 0) {
-          x = (i / 4) % c.width;
-          y = ~~((i / 4) / c.width);
-
-          if (bound.top === null) {
-            bound.top = y;
-          }
-
-          if (bound.left === null) {
-            bound.left = x;
-          }
-          else if (x < bound.left) {
-            bound.left = x;
-          }
-
-          if (bound.right === null) {
-            bound.right = x;
-          }
-          else if (bound.right < x) {
-            bound.right = x;
-          }
-
-          if (bound.bottom === null) {
-            bound.bottom = y;
-          }
-          else if (bound.bottom < y) {
-            bound.bottom = y;
-          }
-        }
-      }
-
-      // Calculate the height and width of the content
-      var trimHeight = bound.bottom - bound.top,
-        trimWidth = bound.right - bound.left,
-        trimmed = ctx.getImageData(bound.left, bound.top, trimWidth, trimHeight);
-
-      copy.canvas.width = trimWidth;
-      copy.canvas.height = trimHeight;
-      copy.putImageData(trimmed, 0, 0);
-
-      // Return trimmed canvas
-      return copy.canvas;
+      if (canvas) canvas.remove();
+      
     },
 
 

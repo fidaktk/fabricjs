@@ -81,23 +81,26 @@
       var offset = (s * 2) + (b * 2);
       var h = options.imageData.height + (offset * 2);
       var w = options.imageData.width + (offset * 2);
-      var can = fabric.util.createCanvasElement();
-      can.width = w;
-      can.height = h;
-      var ctxOrg = can.getContext('2d');
-      ctxOrg.putImageData(options.imageData, s + b, s + b);
 
-      var canvas1 = fabric.util.createCanvasElement();
-      canvas1.width = w;
-      canvas1.height = h;
-      var ctx = canvas1.getContext('2d');
+      // var can = fabric.util.createCanvasElement();
+      // can.width = w;
+      // can.height = h;
+      // var ctxOrg = can.getContext('2d');
+      // ctxOrg.putImageData(options.imageData, s + b, s + b);
+
+      var canvas = fabric.util.createCanvasElement();
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
+
+      ctx.putImageData(options.imageData, offset, offset);
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
 
       window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feMorphology operator="dilate" radius="${s}"  in="SourceAlpha" result="morphology"/><feGaussianBlur stdDeviation="${b}" in="morphology" edgeMode="none" result="blur"/><feFlood flood-color="${c}" flood-opacity="1" result="flood3"/><feComposite in="flood3" in2="blur" operator="in"  result="composite"/><feBlend mode="normal" in="SourceGraphic" in2="composite" result="blend4"/></filter></svg>`);
       ctx.filter = 'url(#filter)';
 
-      ctx.drawImage(can, s + b, s + b);
+      ctx.drawImage(canvas, 0, 0);
       el = document.getElementById('svgfilter');
       if (el) el.remove();
 
@@ -107,7 +110,7 @@
 
       options.imageData = ctx.getImageData(0, 0, w, h);
       fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
-      if (can) can.remove();
+      if (canvas) canvas.remove();
     },
 
 
