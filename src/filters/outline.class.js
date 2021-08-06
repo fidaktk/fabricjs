@@ -32,7 +32,7 @@
 
     outline: 0,
     blur: 0,
-    color: '#000000',
+    color: null,
     // inset: false,
     mainParameter: 'outline',
     applyTo2d1: function (options) {
@@ -73,6 +73,7 @@
       if (this.outline === 0 && this.blur === 0) {
         return;
       }
+      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
       var s = this.outline || 2,  // thickness scale
         b = this.blur || 0,
         c = this.color || 'black',
@@ -102,7 +103,7 @@
                                                                 </filter></svg>`);
       ctx.filter = 'url(#filter)';
 
-      ctx.drawImage(can, offset, offset,);
+      ctx.drawImage(can, s + b, s + b);
       el = document.getElementById('svgfilter');
       if (el) el.remove();
 
@@ -111,7 +112,8 @@
 
 
       options.imageData = ctx.getImageData(0, 0, w, h);
-
+      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+      can.remove();
     },
 
 

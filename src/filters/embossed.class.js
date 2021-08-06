@@ -28,8 +28,8 @@
      * @default
      */
     type: 'Embossed',
-    light: '',
-    shadow: '',
+    light: null,
+    // shadow: '',
     embossed: 0,
     invert: false,
     blur: 0,
@@ -130,18 +130,23 @@
   },
 
   applyTo2d: function (options) {
-
+    if (this.embossed === 0) {
+      return;
+    }
 
 
     var h = options.imageData.height;
     var w = options.imageData.width;
-    var tune = this.tune?'in':'over';
-    var invert = this.invert?'250':'-250';
+    var invert = this.invert?'-250':'250';
+    var offsetNo = this.invert?'-4':'4';
+    var operator = this.tune?'over':'in';
+    var offset = this.tune? `<feOffset in="blur" dx="${offsetNo}" dy="${offsetNo}" result="offsetBlur"></feOffset>` : '';
+    
     var light = this.light || '#ffffff';
     var blur = this.blur || 1;
     var embossed = this.embossed || 1;
-    var d = new Date();
-    console.log(d.getMinutes(),d.getSeconds() ,d.getMilliseconds());
+    fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+
     var canvas1 = fabric.util.createCanvasElement();
     canvas1.width = w;
     canvas1.height = h;
@@ -152,16 +157,25 @@
     var el = document.getElementById('svgfilter');
     if (el) el.remove(); 
     window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">
-    <feGaussianBlur stdDeviation="${embossed}"  in="SourceGraphic" result="blur2"/>
-    <feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur2" result="specularLighting">
-   <feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting>
-     <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
-    <feComposite in="composite1" in2="SourceGraphic" operator="${tune}"  result="composite2"/>
+                        <feGaussianBlur stdDeviation="${embossed}"  in="SourceAlpha" result="blur"/>
+                        ${offset}
+                        <feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur" result="specularLighting">
+                        <feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting>
+                        <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="0" k3="2" k4="-0.3"  result="composite1"/>
+                        <feComposite in="composite1" in2="SourceGraphic" operator="${operator}"  result="composite2"/>
+                        <feMerge>
+                        <feMergeNode in="offsetBlur"></feMergeNode>
+                        <feMergeNode in="composite2"></feMergeNode>
+                        </feMerge>
     </filter></svg>
     `);
 
     
     ctx.filter = 'url(#filter)';
+
+
+
+
     ctx.drawImage(canvas1, 0, 0,);
 
     el = document.getElementById('svgfilter');
@@ -172,8 +186,8 @@
     // ctxOrg.drawImage(can, 0, 0);
     var imageData = ctx.getImageData(0, 0, w, h);
     options.imageData = imageData;
-    d = new Date();
-    console.log(d.getMinutes(),d.getSeconds() ,d.getMilliseconds());
+    fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+    can.remove();
 },
 
 
@@ -242,15 +256,15 @@
     toObject: function () {
       var ob = {
         light: this.light,
-        shadow: this.shadow,
+        // shadow: this.shadow,
         embossed: this.embossed,
         invert: this.invert,
         blur: this.blur,
         tune: this.tune,
       };
-      if(this.angle){
-        ob['angle'] = this.angle
-      }
+      // if(this.angle){
+      //   ob['angle'] = this.angle
+      // }
       return fabric.util.object.extend(this.callSuper('toObject'), ob);
     }
 

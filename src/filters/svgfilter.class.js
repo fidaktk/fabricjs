@@ -40,7 +40,7 @@
       var h = options.imageData.height;
       var w = options.imageData.width;
       var d = new Date();
-      console.log(d.getMinutes(),d.getSeconds() ,d.getMilliseconds());
+      fabric.log(d.getMinutes(),d.getSeconds() ,d.getMilliseconds());
       var canvas1 = fabric.util.createCanvasElement();
       canvas1.width = w+200;
       canvas1.height = h+200;
@@ -63,7 +63,7 @@
 
       options.imageData = tcanvas.getContext('2d').getImageData(0, 0, tcanvas.width, tcanvas.height);
       d = new Date();
-      console.log(d.getMinutes(),d.getSeconds() ,d.getMilliseconds());
+      fabric.log(d.getMinutes(),d.getSeconds() ,d.getMilliseconds());
     },
     // applyTo2d: function (options) {
     //   if (this.outline === 0 && this.blur === 0) {
@@ -109,7 +109,7 @@
     //   }
     //   var imageData = options.imageData, data = imageData.data, i, len = data.length;
 
-    //   console.log(new Date().getMilliseconds());
+    //   fabric.log(new Date().getMilliseconds());
 
     //   var ratio = (parseFloat(this.outline) * 2) + (this.blur * 2) * 5;
     //   var width = options.sourceWidth + ratio * 2;
@@ -140,7 +140,7 @@
     //   ctx.restore();
     //   // ctx.globalCompositeOperation = "source-over";
     //   ctx.drawImage(options.canvasEl, offy, offy);
-    //   console.log(new Date().getMilliseconds());
+    //   fabric.log(new Date().getMilliseconds());
 
     //   var trimmedCanvas = canvas1;//this.trimCanvas(canvas1);
 

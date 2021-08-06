@@ -480,7 +480,7 @@
       }, null, 'anonymous');
     }
     catch (e) {
-      console.log(e);
+      fabric.log(e);
     }
   });
 

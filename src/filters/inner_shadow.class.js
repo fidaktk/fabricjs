@@ -28,32 +28,37 @@
      * @default
      */
     type: 'InnerShadow',
-    color: '',
-    innershadow: 0,
-    x: 0,
-    y: 0,
-    blend: '',
+    color: null,
+    innershadow: null,
+    x: null,
+    y: null,
+    blend: null,
     mainParameter: 'innershadow',
 
 
     applyTo2d: function (options) {
-
-      var imageData = options.imageData;
+      if (!this.innershadow) {
+        return;
+      }
+      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+      // var imageData = options.imageData;
       var w = options.sourceWidth;
       var h = options.sourceHeight;
-      var x = this.x || 0;
-      var y = this.y || 0;
-      var blur = this.innershadow || 10;
+      var x = Number(this.x) || 0;
+      var y = Number(this.y) || 0;
+      var blur = Number(this.innershadow) || 10;
       var color = this.color || 'black';
       var blend = this.blend || 'multiply';
-      var can1 = fabric.util.createCanvasElement();
-      can1.width = w;
-      can1.height = h;
-      var ctxOrg = can1.getContext('2d');
-      ctxOrg.putImageData(options.imageData, 0, 0);
+      // var can1 = fabric.util.createCanvasElement();
+      // can1.width = w;
+      // can1.height = h;
+      // var ctxOrg = can1.getContext('2d');
+      // ctxOrg.putImageData(options.imageData, 0, 0);
 
-
-      var can = fabric.util.createCanvasElement();
+      // 
+      // var can = fabric.util.createCanvasElement();
+      // var can = new OffscreenCanvas(options.sourceWidth, options.sourceHeight);
+      var can = document.createElement('canvas');
       can.width = options.sourceWidth;
       can.height = options.sourceHeight;
       var i = 1;
@@ -71,14 +76,36 @@
                                   <feComposite in="flood5" in2="composite1" operator="in"  result="composite3"/>
                                   <feBlend mode="${blend}" in="SourceGraphic" in2="composite3" result="blend5"/>
                                   </filter></svg>`);
+      // const svg = `<svg id="svgfilter"><filter id="filter">
+      //                             <feOffset dx="${x}" dy="${y}" in="SourceAlpha" result="offset1"/>
+      //                             <feGaussianBlur stdDeviation="${blur}" in="offset1" edgeMode="none" result="blur1"/>
+      //                             <feComposite in="SourceAlpha" in2="blur1" operator="out" result="composite1"/>
+      //                             <feFlood flood-color="${color}" flood-opacity="1"  result="flood5"/>
+      //                             <feComposite in="flood5" in2="composite1" operator="in"  result="composite3"/>
+      //                             <feBlend mode="${blend}" in="SourceGraphic" in2="composite3" result="blend5"/>
+      //                             </filter></svg>`,
+      // blob = new Blob([svg], { type: 'image/svg+xml' }),
+      // url = URL.createObjectURL(blob);                   
+
+      // ct.filter = `url('${url}#filter')`;
+
       ct.filter = 'url(#filter)';
       // ct.globalCompositeOperation = this.blend;
+
+
+
+
+
+
+
+
       ct.drawImage(can, 0, 0,);
       el = document.getElementById('svgfilter');
       if (el) el.remove();
 
       options.imageData = ct.getImageData(0, 0, w, h);;
-
+      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+      can.remove();
     },
     applyTo2d1: function (options) {
 

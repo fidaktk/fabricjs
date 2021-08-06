@@ -403,8 +403,8 @@
         },
 
         _render: function (pointer) {
-            //     console.log('_render');
-            // console.log(pointer);
+            //     fabric.log('_render');
+            // fabric.log(pointer);
             if (!pointer) return;
             var len, i, point = this.setPointer(pointer),
                 subtractPoint = point.subtract(this._lastPoint),
@@ -423,7 +423,7 @@
         },
 
         onMouseDown: function (pointer) {
-            // console.log('onMouseDown');
+            // fabric.log('onMouseDown');
             this.setPointer(pointer);
             this.canvas.contextTop.globalAlpha = this.opacity;
             // if (pointer){
@@ -446,7 +446,7 @@
         },
 
         drawSplash: function (pointer, maxSize) {
-            // console.log('drawSplash');
+            // fabric.log('drawSplash');
             var c, r, i, point,
                 ctx = this.canvas.contextTop,
                 num = fabric.util.getRandom(12),
@@ -468,8 +468,8 @@
         },
 
         setPointer: function (pointer) {
-            // console.log('setPointer');
-            // console.log(pointer);
+            // fabric.log('setPointer');
+            // fabric.log(pointer);
             // if (!pointer) return;
             var point = new fabric.Point(pointer.x, pointer.y);
 
@@ -480,8 +480,8 @@
         },
 
         _resetTip: function (pointer) {
-            // console.log('_resetTip');
-            // console.log(pointer);
+            // fabric.log('_resetTip');
+            // fabric.log(pointer);
             var len, i, point = this.setPointer(pointer);
 
             this._strokes = [];

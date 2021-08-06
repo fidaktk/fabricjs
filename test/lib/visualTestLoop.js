@@ -69,7 +69,7 @@
       }
       catch (err) {
         var dataUrl = original.toDataURL().split(',')[1];
-        console.log('creating original for ', filename);
+        fabric.log('creating original for ', filename);
         fs.writeFileSync(plainFileName, dataUrl, { encoding: 'base64' });
       }
     }
@@ -81,7 +81,7 @@
     img.onerror = function(err) {
       img.onerror = null;
       callback(img);
-      console.log('Image loading errored', err);
+      fabric.log('Image loading errored', err);
     };
     img.src = filename;
   }
@@ -155,7 +155,7 @@
             );
             if (!isOK) {
               var stringa = imageDataToChalk(output);
-              console.log(stringa);
+              fabric.log(stringa);
             }
             done();
             fabricCanvas.dispose();

@@ -66,7 +66,7 @@
     }
 
     if (!parentMethod) {
-      return console.log('tried to callSuper ' + methodName + ', method not found in prototype chain', this);
+      return fabric.log('tried to callSuper ' + methodName + ', method not found in prototype chain', this);
     }
 
     return (arguments.length > 1)

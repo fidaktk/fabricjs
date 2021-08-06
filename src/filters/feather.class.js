@@ -66,7 +66,7 @@
       if(this.invert){
         [f, t] = [t, f];
       }
-      console.log(f, t);
+      fabric.log(f, t);
       // ctx.save();
       if (this.feather === 'edges') {
         ctx.globalCompositeOperation = "destination-out";

@@ -4637,7 +4637,7 @@ fabric.CommonMethods = {
     }
 
     if (!parentMethod) {
-      return console.log('tried to callSuper ' + methodName + ', method not found in prototype chain', this);
+      return fabric.log('tried to callSuper ' + methodName + ', method not found in prototype chain', this);
     }
 
     return (arguments.length > 1)
@@ -12205,8 +12205,8 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         _render: function (pointer) {
-            //     console.log('_render');
-            // console.log(pointer);
+            //     fabric.log('_render');
+            // fabric.log(pointer);
             if (!pointer) return;
             var len, i, point = this.setPointer(pointer),
                 subtractPoint = point.subtract(this._lastPoint),
@@ -12225,7 +12225,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         onMouseDown: function (pointer) {
-            // console.log('onMouseDown');
+            // fabric.log('onMouseDown');
             this.setPointer(pointer);
             this.canvas.contextTop.globalAlpha = this.opacity;
             // if (pointer){
@@ -12248,7 +12248,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         drawSplash: function (pointer, maxSize) {
-            // console.log('drawSplash');
+            // fabric.log('drawSplash');
             var c, r, i, point,
                 ctx = this.canvas.contextTop,
                 num = fabric.util.getRandom(12),
@@ -12270,8 +12270,8 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         setPointer: function (pointer) {
-            // console.log('setPointer');
-            // console.log(pointer);
+            // fabric.log('setPointer');
+            // fabric.log(pointer);
             // if (!pointer) return;
             var point = new fabric.Point(pointer.x, pointer.y);
 
@@ -12282,8 +12282,8 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         _resetTip: function (pointer) {
-            // console.log('_resetTip');
-            // console.log(pointer);
+            // fabric.log('_resetTip');
+            // fabric.log(pointer);
             var len, i, point = this.setPointer(pointer);
 
             this._strokes = [];
@@ -24256,7 +24256,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           //   for (var yy = -this.outline.width; yy <= this.outline.width; yy++) {
           //     ctx.shadowOffsetX = xx;
           //     ctx.shadowOffsetY = yy;
-          //     // console.log(xx,yy)
+          //     // fabric.log(xx,yy)
           //     // ctx.filter = 'drop-shadow(' + xx + 'px ' + yy + 'px ' + this.outline.blur + 'px ' + this.outline.color + ')';
           //     elementToDraw && ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, w, h);
           //   }
@@ -24269,7 +24269,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           //     s = this.outline.width;
 
           // for (var i = 0; i < dArr.length; i += 1){
-          //   console.log(i);
+          //   fabric.log(i);
           //   ctx.drawImage(elementToDraw, x + dArr[i] * s, y + dArr[i + 1] * s);
           // }
           // ctx.globalCompositeOperation = 'source-in';
@@ -24292,7 +24292,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           //     var fCtx = fCanvas.getContext('2d');
           //     var defineNonTransparent = function (x, y) {
           //       var a = data[(y * fCanvas.width + x) * 4 + 3];
-          //       console.log(x,y);
+          //       fabric.log(x,y);
           //       return (a > 20);
           //     };
           //     fCtx.drawImage(elementToDraw, fCanvas.height, fCanvas.width);
@@ -24302,7 +24302,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
 
           //     //   this.dataurl=this.toDataURL();
           //     // }
-          //     // console.log(this.toDataURL());
+          //     // fabric.log(this.toDataURL());
           //     // var can = document.createElement('canvas');
           //     // can.width = cw = w + this.outline.width;
           //     // can.height = ch = h + this.outline.width;
@@ -24311,7 +24311,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           //     // imgData = ctx.getImageData(0, 0, can.width, can.height);
           //     // data = imgData.data;
           //     // this.points = geom.contour(defineNonTransparent);
-          //     console.log(points);
+          //     fabric.log(points);
           //   }
           // }
 
@@ -28667,32 +28667,37 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
      * @default
      */
     type: 'InnerShadow',
-    color: '',
-    innershadow: 0,
-    x: 0,
-    y: 0,
-    blend: '',
+    color: null,
+    innershadow: null,
+    x: null,
+    y: null,
+    blend: null,
     mainParameter: 'innershadow',
 
 
     applyTo2d: function (options) {
-
-      var imageData = options.imageData;
+      if (!this.innershadow) {
+        return;
+      }
+      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+      // var imageData = options.imageData;
       var w = options.sourceWidth;
       var h = options.sourceHeight;
-      var x = this.x || 0;
-      var y = this.y || 0;
-      var blur = this.innershadow || 10;
+      var x = Number(this.x) || 0;
+      var y = Number(this.y) || 0;
+      var blur = Number(this.innershadow) || 10;
       var color = this.color || 'black';
       var blend = this.blend || 'multiply';
-      var can1 = fabric.util.createCanvasElement();
-      can1.width = w;
-      can1.height = h;
-      var ctxOrg = can1.getContext('2d');
-      ctxOrg.putImageData(options.imageData, 0, 0);
+      // var can1 = fabric.util.createCanvasElement();
+      // can1.width = w;
+      // can1.height = h;
+      // var ctxOrg = can1.getContext('2d');
+      // ctxOrg.putImageData(options.imageData, 0, 0);
 
-
-      var can = fabric.util.createCanvasElement();
+      // 
+      // var can = fabric.util.createCanvasElement();
+      // var can = new OffscreenCanvas(options.sourceWidth, options.sourceHeight);
+      var can = document.createElement('canvas');
       can.width = options.sourceWidth;
       can.height = options.sourceHeight;
       var i = 1;
@@ -28710,14 +28715,36 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
                                   <feComposite in="flood5" in2="composite1" operator="in"  result="composite3"/>
                                   <feBlend mode="${blend}" in="SourceGraphic" in2="composite3" result="blend5"/>
                                   </filter></svg>`);
+      // const svg = `<svg id="svgfilter"><filter id="filter">
+      //                             <feOffset dx="${x}" dy="${y}" in="SourceAlpha" result="offset1"/>
+      //                             <feGaussianBlur stdDeviation="${blur}" in="offset1" edgeMode="none" result="blur1"/>
+      //                             <feComposite in="SourceAlpha" in2="blur1" operator="out" result="composite1"/>
+      //                             <feFlood flood-color="${color}" flood-opacity="1"  result="flood5"/>
+      //                             <feComposite in="flood5" in2="composite1" operator="in"  result="composite3"/>
+      //                             <feBlend mode="${blend}" in="SourceGraphic" in2="composite3" result="blend5"/>
+      //                             </filter></svg>`,
+      // blob = new Blob([svg], { type: 'image/svg+xml' }),
+      // url = URL.createObjectURL(blob);                   
+
+      // ct.filter = `url('${url}#filter')`;
+
       ct.filter = 'url(#filter)';
       // ct.globalCompositeOperation = this.blend;
+
+
+
+
+
+
+
+
       ct.drawImage(can, 0, 0,);
       el = document.getElementById('svgfilter');
       if (el) el.remove();
 
       options.imageData = ct.getImageData(0, 0, w, h);;
-
+      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+      can.remove();
     },
     applyTo2d1: function (options) {
 
@@ -28906,7 +28933,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
     outline: 0,
     blur: 0,
-    color: '#000000',
+    color: null,
     // inset: false,
     mainParameter: 'outline',
     applyTo2d1: function (options) {
@@ -28947,6 +28974,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       if (this.outline === 0 && this.blur === 0) {
         return;
       }
+      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
       var s = this.outline || 2,  // thickness scale
         b = this.blur || 0,
         c = this.color || 'black',
@@ -28976,7 +29004,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
                                                                 </filter></svg>`);
       ctx.filter = 'url(#filter)';
 
-      ctx.drawImage(can, offset, offset,);
+      ctx.drawImage(can, s + b, s + b);
       el = document.getElementById('svgfilter');
       if (el) el.remove();
 
@@ -28985,7 +29013,8 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
 
       options.imageData = ctx.getImageData(0, 0, w, h);
-
+      fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+      can.remove();
     },
 
 
@@ -29153,7 +29182,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       if(this.invert){
         [f, t] = [t, f];
       }
-      console.log(f, t);
+      fabric.log(f, t);
       // ctx.save();
       if (this.feather === 'edges') {
         ctx.globalCompositeOperation = "destination-out";
@@ -29345,8 +29374,8 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
      * @default
      */
     type: 'Embossed',
-    light: '',
-    shadow: '',
+    light: null,
+    // shadow: '',
     embossed: 0,
     invert: false,
     blur: 0,
@@ -29447,18 +29476,23 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
   },
 
   applyTo2d: function (options) {
-
+    if (this.embossed === 0) {
+      return;
+    }
 
 
     var h = options.imageData.height;
     var w = options.imageData.width;
-    var tune = this.tune?'in':'over';
-    var invert = this.invert?'250':'-250';
+    var invert = this.invert?'-250':'250';
+    var offsetNo = this.invert?'-4':'4';
+    var operator = this.tune?'over':'in';
+    var offset = this.tune? `<feOffset in="blur" dx="${offsetNo}" dy="${offsetNo}" result="offsetBlur"></feOffset>` : '';
+    
     var light = this.light || '#ffffff';
     var blur = this.blur || 1;
     var embossed = this.embossed || 1;
-    var d = new Date();
-    console.log(d.getMinutes(),d.getSeconds() ,d.getMilliseconds());
+    fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+
     var canvas1 = fabric.util.createCanvasElement();
     canvas1.width = w;
     canvas1.height = h;
@@ -29469,16 +29503,25 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
     var el = document.getElementById('svgfilter');
     if (el) el.remove(); 
     window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">
-    <feGaussianBlur stdDeviation="${embossed}"  in="SourceGraphic" result="blur2"/>
-    <feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur2" result="specularLighting">
-   <feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting>
-     <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
-    <feComposite in="composite1" in2="SourceGraphic" operator="${tune}"  result="composite2"/>
+                        <feGaussianBlur stdDeviation="${embossed}"  in="SourceAlpha" result="blur"/>
+                        ${offset}
+                        <feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur" result="specularLighting">
+                        <feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting>
+                        <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="0" k3="2" k4="-0.3"  result="composite1"/>
+                        <feComposite in="composite1" in2="SourceGraphic" operator="${operator}"  result="composite2"/>
+                        <feMerge>
+                        <feMergeNode in="offsetBlur"></feMergeNode>
+                        <feMergeNode in="composite2"></feMergeNode>
+                        </feMerge>
     </filter></svg>
     `);
 
     
     ctx.filter = 'url(#filter)';
+
+
+
+
     ctx.drawImage(canvas1, 0, 0,);
 
     el = document.getElementById('svgfilter');
@@ -29489,8 +29532,8 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
     // ctxOrg.drawImage(can, 0, 0);
     var imageData = ctx.getImageData(0, 0, w, h);
     options.imageData = imageData;
-    d = new Date();
-    console.log(d.getMinutes(),d.getSeconds() ,d.getMilliseconds());
+    fabric.log(new Date().getMinutes(),new Date().getSeconds(), new Date().getMilliseconds());
+    can.remove();
 },
 
 
@@ -29559,15 +29602,15 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
     toObject: function () {
       var ob = {
         light: this.light,
-        shadow: this.shadow,
+        // shadow: this.shadow,
         embossed: this.embossed,
         invert: this.invert,
         blur: this.blur,
         tune: this.tune,
       };
-      if(this.angle){
-        ob['angle'] = this.angle
-      }
+      // if(this.angle){
+      //   ob['angle'] = this.angle
+      // }
       return fabric.util.object.extend(this.callSuper('toObject'), ob);
     }
 
@@ -30264,7 +30307,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
         var ctx = this.getMeasuringContext();
         // send a TRUE to specify measuring font size CACHE_FONT_SIZE
         this._setTextStyles(ctx, charStyle, true);
-        // // console.log(_char,'---',charStyle.fontSize);
+        // // fabric.log(_char,'---',charStyle.fontSize);
       }
       if (width === undefined) {
         // if (this._selfishRTL.test(_char)) {
@@ -30606,14 +30649,14 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
             // } else {
             //   timeToRender = true;
             // }
-            // // console.log('---------' + charsToRender + '-------------');
+            // // fabric.log('---------' + charsToRender + '-------------');
           }
 
           if (nW && !this._reRTL.test(cW) && this._reSpaceAndTab.test(nW) && (nnW && this._reRTL.test(nnW))) {
             timeToRender = true;
           }
 
-          // // console.log('---------' + charsToRender +'-------------');
+          // // fabric.log('---------' + charsToRender +'-------------');
 
           // if (!this._reRTL.test(charsToRender) && !this._reSpaceAndTab.test(cR)){
           //   charsToRender = '\u202B' + charsToRender + '\u202C';
@@ -30688,16 +30731,16 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
           // //   nextStyle = this.getCompleteStyleDeclaration(lineIndex, i - 1);
           // //   timeToRender = this._hasStyleChanged(actualStyle, nextStyle);
           // // }
-          // console.log('i: ' + i);
-          // console.log('charsToRender: ' + charsToRender);
-          // console.log('timeToRender: ' + timeToRender);
+          // fabric.log('i: ' + i);
+          // fabric.log('charsToRender: ' + charsToRender);
+          // fabric.log('timeToRender: ' + timeToRender);
 
 
           if (timeToRender) {
 
             charsToRender = charsToRender.replace(this._nonPrintable, '');
 
-            // // console.log(charsToRender);
+            // // fabric.log(charsToRender);
             // if (charsToRender.length !== 0) {
 
             // }
@@ -30720,9 +30763,9 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
                     charsToRender2 = charsToRender2 + '\u202B' + crW;
                   }
                   else {
-                    console.log(crW);
-                    console.log(ntW);
-                    console.log(psW);
+                    fabric.log(crW);
+                    fabric.log(ntW);
+                    fabric.log(psW);
                     if(psW && en.test(psW)){
                       charsToRender2 = charsToRender2 +  '\u202B' + crW;
                     }else
@@ -30747,7 +30790,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
             if (urEnMix && i === 0) { charsToRender = charsToRender + '\u202C'; }
 
             // }
-            // console.log('"' + charsToRender + '"');
+            // fabric.log('"' + charsToRender + '"');
             //charsToRender = charsToRender.split('').reverse().join('');
             this._renderChar(method, ctx, lineIndex, i, charsToRender, left, top, lineHeight);
             charsToRender = '';
@@ -34596,7 +34639,7 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
       }
       desiredWidth -= reservedSpace;
 
-      // // console.log('-------------------------------------------------------------');
+      // // fabric.log('-------------------------------------------------------------');
       for (var i = 0; i < words.length; i++) {
         // if using splitByGrapheme words are already in graphemes.
 
@@ -34607,7 +34650,7 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
           word = words[i];
           var wordWidth = this._getGraphemeBox(word, lineIndex, offset, prevGrapheme, skipLeft, nextChar);
           wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth : wordWidth.width;
-          // // console.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
+          // // fabric.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
           offset += 1;
         }
         else {

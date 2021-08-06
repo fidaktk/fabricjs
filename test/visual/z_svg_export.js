@@ -30,7 +30,7 @@
       newCanvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
       callback(newCanvas);
     };
-    image.onerror = console.log;
+    image.onerror = fabric.log;
     if (fabric.isLikelyNode) {
       image.src = dataUrl;
     }
