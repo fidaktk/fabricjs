@@ -42,8 +42,8 @@
       }
       fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       // var imageData = options.imageData;
-      var w = options.sourceWidth;
-      var h = options.sourceHeight;
+      var w = options.imageData.width;
+      var h = options.imageData.height;
       var x = Number(this.x) || 0;
       var y = Number(this.y) || 0;
       var blur = Number(this.innershadow) || 10;

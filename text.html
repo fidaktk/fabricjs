@@ -351,7 +351,7 @@
 
                 // add filter
 
-        //  oImg.filters.push(new fabric.Image.filters.Mask({}));
+                //  oImg.filters.push(new fabric.Image.filters.Mask({}));
 
 
 
@@ -390,31 +390,65 @@
                 // }));
 
 
-//  <filter id="filter"><feOffset dx="5" dy="5"  in="blur2" result="offset"/>
-//                         <feGaussianBlur stdDeviation="15"  in="SourceGraphic" result="blur2"/>
-//                         <feSpecularLighting surfaceScale="15" specularConstant="1" specularExponent="30" lighting-color="#ffffff"  in="blur2" result="specularLighting">
-//                         <feDistantLight azimuth="-128" elevation="50"/></feSpecularLighting>
-//                         <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
-//                         <feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/>
-// </filter>
+                //  <filter id="filter"><feOffset dx="5" dy="5"  in="blur2" result="offset"/>
+                //                         <feGaussianBlur stdDeviation="15"  in="SourceGraphic" result="blur2"/>
+                //                         <feSpecularLighting surfaceScale="15" specularConstant="1" specularExponent="30" lighting-color="#ffffff"  in="blur2" result="specularLighting">
+                //                         <feDistantLight azimuth="-128" elevation="50"/></feSpecularLighting>
+                //                         <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
+                //                         <feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/>
+                // </filter>
 
 
 
 
 
 
-    //             oImg.filters.push(new fabric.Image.filters.Svgfilter({
-    //                 svgfilter: `
-                    
- 
-    
-    //  `
-    //             }));
+                //             oImg.filters.push(new fabric.Image.filters.Svgfilter({
+                //                 svgfilter: `
 
+
+
+                //  `
+                //             }));
+                oImg.filters.push(new fabric.Image.filters.InnerShadow({
+
+                    color: 'rgba(0,0,0,1)',
+                    x: 10,
+                    y: 10,
+                    innershadow: 30,
+                    blend: 'multiply'
+                }))
                 oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(255, 0, 0,1 )', outline: 20, blur: 100
-                }));
+                    color: 'rgba(255, 0, 0,1 )', outline: 35, blur: 0
+                })); oImg.filters.push(new fabric.Image.filters.InnerShadow({
 
+                    color: 'rgba(0,0,0,1)',
+                    x: 10,
+                    y: 10,
+                    innershadow: 30,
+                    blend: 'multiply'
+                }))
+                oImg.filters.push(new fabric.Image.filters.Outline({
+                    color: 'rgba(255, 255, 0,1 )', outline: 45, blur: 0
+                })); oImg.filters.push(new fabric.Image.filters.InnerShadow({
+
+                    color: 'rgba(0,0,0,1)',
+                    x: 10,
+                    y: 10,
+                    innershadow: 30,
+                    blend: 'multiply'
+                }))
+                oImg.filters.push(new fabric.Image.filters.Outline({
+                    color: 'rgba(255, 0, 255,1 )', outline: 55, blur: 0
+                }));
+                oImg.filters.push(new fabric.Image.filters.InnerShadow({
+
+                    color: 'rgba(0,0,0,1)',
+                    x: 10,
+                    y: 10,
+                    innershadow: 30,
+                    blend: 'multiply'
+                }))
 
 
                 // oImg.stroke = "#01FF00";
@@ -424,7 +458,7 @@
                 oImg.center();
                 oImg.setCoords();
                 oImg.applyFilters();
-                canvas.backgroundColor="green";
+                canvas.backgroundColor = "green";
                 canvas.setActiveObject(oImg);
                 // canvas.renderTop();
                 canvas.renderAll();
