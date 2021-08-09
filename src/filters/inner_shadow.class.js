@@ -40,7 +40,7 @@
       if (!this.innershadow) {
         return;
       }
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       // var imageData = options.imageData;
       var w = options.imageData.width;
       var h = options.imageData.height;
@@ -68,7 +68,7 @@
       if (el) el.remove();
 
       options.imageData = ctx.getImageData(0, 0, w, h);;
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       if (canvas) canvas.remove();
     },
     applyTo2d1: function (options) {

@@ -24256,7 +24256,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           //   for (var yy = -this.outline.width; yy <= this.outline.width; yy++) {
           //     ctx.shadowOffsetX = xx;
           //     ctx.shadowOffsetY = yy;
-          //     // fabric.log(xx,yy)
+          //     // //fabric.log(xx,yy)
           //     // ctx.filter = 'drop-shadow(' + xx + 'px ' + yy + 'px ' + this.outline.blur + 'px ' + this.outline.color + ')';
           //     elementToDraw && ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, w, h);
           //   }
@@ -24269,7 +24269,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           //     s = this.outline.width;
 
           // for (var i = 0; i < dArr.length; i += 1){
-          //   fabric.log(i);
+          //   //fabric.log(i);
           //   ctx.drawImage(elementToDraw, x + dArr[i] * s, y + dArr[i + 1] * s);
           // }
           // ctx.globalCompositeOperation = 'source-in';
@@ -24292,7 +24292,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           //     var fCtx = fCanvas.getContext('2d');
           //     var defineNonTransparent = function (x, y) {
           //       var a = data[(y * fCanvas.width + x) * 4 + 3];
-          //       fabric.log(x,y);
+          //       //fabric.log(x,y);
           //       return (a > 20);
           //     };
           //     fCtx.drawImage(elementToDraw, fCanvas.height, fCanvas.width);
@@ -24302,7 +24302,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
 
           //     //   this.dataurl=this.toDataURL();
           //     // }
-          //     // fabric.log(this.toDataURL());
+          //     // //fabric.log(this.toDataURL());
           //     // var can = document.createElement('canvas');
           //     // can.width = cw = w + this.outline.width;
           //     // can.height = ch = h + this.outline.width;
@@ -24311,7 +24311,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           //     // imgData = ctx.getImageData(0, 0, can.width, can.height);
           //     // data = imgData.data;
           //     // this.points = geom.contour(defineNonTransparent);
-          //     fabric.log(points);
+          //     //fabric.log(points);
           //   }
           // }
 
@@ -28679,7 +28679,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       if (!this.innershadow) {
         return;
       }
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       // var imageData = options.imageData;
       var w = options.imageData.width;
       var h = options.imageData.height;
@@ -28707,7 +28707,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       if (el) el.remove();
 
       options.imageData = ctx.getImageData(0, 0, w, h);;
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       if (canvas) canvas.remove();
     },
     applyTo2d1: function (options) {
@@ -28874,7 +28874,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       if (this.outline === 0 && this.blur === 0) {
         return;
       }
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       var s = this.outline || 2,  // thickness scale
         b = this.blur || 0,
         c = this.color || 'black',
@@ -28898,7 +28898,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
 
-      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feMorphology operator="dilate" radius="${s}"  in="SourceAlpha" result="morphology"/><feGaussianBlur stdDeviation="${b}" in="morphology" edgeMode="none" result="blur"/><feFlood flood-color="${c}" flood-opacity="1" result="flood3"/><feComposite in="flood3" in2="blur" operator="in"  result="composite"/><feBlend mode="normal" in="SourceGraphic" in2="composite" result="blend4"/></filter></svg>`);
+      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feMorphology operator="dilate" radius="${s}"  in="SourceGraphic" result="morphology"/><feGaussianBlur stdDeviation="${b}" in="morphology" edgeMode="none" result="blur"/><feFlood flood-color="${c}" flood-opacity="1" result="flood3"/><feComposite in="flood3" in2="blur" operator="in"  result="composite"/><feBlend mode="normal" in="SourceGraphic" in2="composite" result="blend4"/></filter></svg>`);
       ctx.filter = 'url(#filter)';
 
       ctx.drawImage(canvas, 0, 0);
@@ -28910,7 +28910,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
 
       options.imageData = ctx.getImageData(0, 0, w, h);
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       if (canvas) canvas.remove();
     },
 
@@ -29079,7 +29079,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       if(this.invert){
         [f, t] = [t, f];
       }
-      // fabric.log(f, t);
+      // //fabric.log(f, t);
       // ctx.save();
       if (this.feather === 'edges') {
         ctx.globalCompositeOperation = "destination-out";
@@ -29328,7 +29328,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var light = this.light || '#ffffff';
       var blur = this.blur || 1;
       var embossed = this.embossed || 1;
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       var canvas = fabric.util.createCanvasElement();
       canvas.width = w;
       canvas.height = h;
@@ -29344,7 +29344,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       // ctxOrg.drawImage(can, 0, 0);
       var imageData = ctx.getImageData(0, 0, w, h);
       options.imageData = imageData;
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       if (canvas) canvas.remove();
       
     },
@@ -30058,7 +30058,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
         var ctx = this.getMeasuringContext();
         // send a TRUE to specify measuring font size CACHE_FONT_SIZE
         this._setTextStyles(ctx, charStyle, true);
-        // // fabric.log(_char,'---',charStyle.fontSize);
+        // // //fabric.log(_char,'---',charStyle.fontSize);
       }
       if (width === undefined) {
         // if (this._selfishRTL.test(_char)) {
@@ -30400,14 +30400,14 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
             // } else {
             //   timeToRender = true;
             // }
-            // // fabric.log('---------' + charsToRender + '-------------');
+            // // //fabric.log('---------' + charsToRender + '-------------');
           }
 
           if (nW && !this._reRTL.test(cW) && this._reSpaceAndTab.test(nW) && (nnW && this._reRTL.test(nnW))) {
             timeToRender = true;
           }
 
-          // // fabric.log('---------' + charsToRender +'-------------');
+          // // //fabric.log('---------' + charsToRender +'-------------');
 
           // if (!this._reRTL.test(charsToRender) && !this._reSpaceAndTab.test(cR)){
           //   charsToRender = '\u202B' + charsToRender + '\u202C';
@@ -30482,16 +30482,16 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
           // //   nextStyle = this.getCompleteStyleDeclaration(lineIndex, i - 1);
           // //   timeToRender = this._hasStyleChanged(actualStyle, nextStyle);
           // // }
-          // fabric.log('i: ' + i);
-          // fabric.log('charsToRender: ' + charsToRender);
-          // fabric.log('timeToRender: ' + timeToRender);
+          // //fabric.log('i: ' + i);
+          // //fabric.log('charsToRender: ' + charsToRender);
+          // //fabric.log('timeToRender: ' + timeToRender);
 
 
           if (timeToRender) {
 
             charsToRender = charsToRender.replace(this._nonPrintable, '');
 
-            // // fabric.log(charsToRender);
+            // // //fabric.log(charsToRender);
             // if (charsToRender.length !== 0) {
 
             // }
@@ -30514,9 +30514,9 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
                     charsToRender2 = charsToRender2 + '\u202B' + crW;
                   }
                   else {
-                    fabric.log(crW);
-                    fabric.log(ntW);
-                    fabric.log(psW);
+                    //fabric.log(crW);
+                    //fabric.log(ntW);
+                    //fabric.log(psW);
                     if(psW && en.test(psW)){
                       charsToRender2 = charsToRender2 +  '\u202B' + crW;
                     }else
@@ -30541,7 +30541,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
             if (urEnMix && i === 0) { charsToRender = charsToRender + '\u202C'; }
 
             // }
-            // fabric.log('"' + charsToRender + '"');
+            // //fabric.log('"' + charsToRender + '"');
             //charsToRender = charsToRender.split('').reverse().join('');
             this._renderChar(method, ctx, lineIndex, i, charsToRender, left, top, lineHeight);
             charsToRender = '';
@@ -34390,7 +34390,7 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
       }
       desiredWidth -= reservedSpace;
 
-      // // fabric.log('-------------------------------------------------------------');
+      // // //fabric.log('-------------------------------------------------------------');
       for (var i = 0; i < words.length; i++) {
         // if using splitByGrapheme words are already in graphemes.
 
@@ -34401,7 +34401,7 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
           word = words[i];
           var wordWidth = this._getGraphemeBox(word, lineIndex, offset, prevGrapheme, skipLeft, nextChar);
           wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth : wordWidth.width;
-          // // fabric.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
+          // // //fabric.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
           offset += 1;
         }
         else {

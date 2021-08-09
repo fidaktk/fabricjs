@@ -40,7 +40,7 @@
       var h = options.imageData.height;
       var w = options.imageData.width;
       var d = new Date();
-      fabric.log(d.getMinutes(), d.getSeconds(), d.getMilliseconds());
+      //fabric.log(d.getMinutes(), d.getSeconds(), d.getMilliseconds());
       var canvas = fabric.util.createCanvasElement();
       canvas.width = w + 200;
       canvas.height = h + 200;
@@ -61,7 +61,7 @@
       options.imageData.width = tcanvas.width;
       options.imageData = tcanvas.getContext('2d').getImageData(0, 0, tcanvas.width, tcanvas.height);
       d = new Date();
-      fabric.log(d.getMinutes(), d.getSeconds(), d.getMilliseconds());
+      //fabric.log(d.getMinutes(), d.getSeconds(), d.getMilliseconds());
     },
 
     trimCanvas: function (c) {

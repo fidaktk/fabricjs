@@ -669,7 +669,7 @@
         var ctx = this.getMeasuringContext();
         // send a TRUE to specify measuring font size CACHE_FONT_SIZE
         this._setTextStyles(ctx, charStyle, true);
-        // // fabric.log(_char,'---',charStyle.fontSize);
+        // // //fabric.log(_char,'---',charStyle.fontSize);
       }
       if (width === undefined) {
         // if (this._selfishRTL.test(_char)) {
@@ -1011,14 +1011,14 @@
             // } else {
             //   timeToRender = true;
             // }
-            // // fabric.log('---------' + charsToRender + '-------------');
+            // // //fabric.log('---------' + charsToRender + '-------------');
           }
 
           if (nW && !this._reRTL.test(cW) && this._reSpaceAndTab.test(nW) && (nnW && this._reRTL.test(nnW))) {
             timeToRender = true;
           }
 
-          // // fabric.log('---------' + charsToRender +'-------------');
+          // // //fabric.log('---------' + charsToRender +'-------------');
 
           // if (!this._reRTL.test(charsToRender) && !this._reSpaceAndTab.test(cR)){
           //   charsToRender = '\u202B' + charsToRender + '\u202C';
@@ -1093,16 +1093,16 @@
           // //   nextStyle = this.getCompleteStyleDeclaration(lineIndex, i - 1);
           // //   timeToRender = this._hasStyleChanged(actualStyle, nextStyle);
           // // }
-          // fabric.log('i: ' + i);
-          // fabric.log('charsToRender: ' + charsToRender);
-          // fabric.log('timeToRender: ' + timeToRender);
+          // //fabric.log('i: ' + i);
+          // //fabric.log('charsToRender: ' + charsToRender);
+          // //fabric.log('timeToRender: ' + timeToRender);
 
 
           if (timeToRender) {
 
             charsToRender = charsToRender.replace(this._nonPrintable, '');
 
-            // // fabric.log(charsToRender);
+            // // //fabric.log(charsToRender);
             // if (charsToRender.length !== 0) {
 
             // }
@@ -1125,9 +1125,9 @@
                     charsToRender2 = charsToRender2 + '\u202B' + crW;
                   }
                   else {
-                    fabric.log(crW);
-                    fabric.log(ntW);
-                    fabric.log(psW);
+                    //fabric.log(crW);
+                    //fabric.log(ntW);
+                    //fabric.log(psW);
                     if(psW && en.test(psW)){
                       charsToRender2 = charsToRender2 +  '\u202B' + crW;
                     }else
@@ -1152,7 +1152,7 @@
             if (urEnMix && i === 0) { charsToRender = charsToRender + '\u202C'; }
 
             // }
-            // fabric.log('"' + charsToRender + '"');
+            // //fabric.log('"' + charsToRender + '"');
             //charsToRender = charsToRender.split('').reverse().join('');
             this._renderChar(method, ctx, lineIndex, i, charsToRender, left, top, lineHeight);
             charsToRender = '';

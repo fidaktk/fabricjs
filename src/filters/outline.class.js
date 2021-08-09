@@ -73,7 +73,7 @@
       if (this.outline === 0 && this.blur === 0) {
         return;
       }
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       var s = this.outline || 2,  // thickness scale
         b = this.blur || 0,
         c = this.color || 'black',
@@ -97,7 +97,7 @@
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
 
-      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feMorphology operator="dilate" radius="${s}"  in="SourceAlpha" result="morphology"/><feGaussianBlur stdDeviation="${b}" in="morphology" edgeMode="none" result="blur"/><feFlood flood-color="${c}" flood-opacity="1" result="flood3"/><feComposite in="flood3" in2="blur" operator="in"  result="composite"/><feBlend mode="normal" in="SourceGraphic" in2="composite" result="blend4"/></filter></svg>`);
+      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feMorphology operator="dilate" radius="${s}"  in="SourceGraphic" result="morphology"/><feGaussianBlur stdDeviation="${b}" in="morphology" edgeMode="none" result="blur"/><feFlood flood-color="${c}" flood-opacity="1" result="flood3"/><feComposite in="flood3" in2="blur" operator="in"  result="composite"/><feBlend mode="normal" in="SourceGraphic" in2="composite" result="blend4"/></filter></svg>`);
       ctx.filter = 'url(#filter)';
 
       ctx.drawImage(canvas, 0, 0);
@@ -109,7 +109,7 @@
 
 
       options.imageData = ctx.getImageData(0, 0, w, h);
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       if (canvas) canvas.remove();
     },
 

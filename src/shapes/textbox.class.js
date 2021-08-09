@@ -340,7 +340,7 @@
       }
       desiredWidth -= reservedSpace;
 
-      // // fabric.log('-------------------------------------------------------------');
+      // // //fabric.log('-------------------------------------------------------------');
       for (var i = 0; i < words.length; i++) {
         // if using splitByGrapheme words are already in graphemes.
 
@@ -351,7 +351,7 @@
           word = words[i];
           var wordWidth = this._getGraphemeBox(word, lineIndex, offset, prevGrapheme, skipLeft, nextChar);
           wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth : wordWidth.width;
-          // // fabric.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
+          // // //fabric.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
           offset += 1;
         }
         else {

@@ -548,7 +548,7 @@
           //   for (var yy = -this.outline.width; yy <= this.outline.width; yy++) {
           //     ctx.shadowOffsetX = xx;
           //     ctx.shadowOffsetY = yy;
-          //     // fabric.log(xx,yy)
+          //     // //fabric.log(xx,yy)
           //     // ctx.filter = 'drop-shadow(' + xx + 'px ' + yy + 'px ' + this.outline.blur + 'px ' + this.outline.color + ')';
           //     elementToDraw && ctx.drawImage(elementToDraw, sX, sY, sW, sH, x, y, w, h);
           //   }
@@ -561,7 +561,7 @@
           //     s = this.outline.width;
 
           // for (var i = 0; i < dArr.length; i += 1){
-          //   fabric.log(i);
+          //   //fabric.log(i);
           //   ctx.drawImage(elementToDraw, x + dArr[i] * s, y + dArr[i + 1] * s);
           // }
           // ctx.globalCompositeOperation = 'source-in';
@@ -584,7 +584,7 @@
           //     var fCtx = fCanvas.getContext('2d');
           //     var defineNonTransparent = function (x, y) {
           //       var a = data[(y * fCanvas.width + x) * 4 + 3];
-          //       fabric.log(x,y);
+          //       //fabric.log(x,y);
           //       return (a > 20);
           //     };
           //     fCtx.drawImage(elementToDraw, fCanvas.height, fCanvas.width);
@@ -594,7 +594,7 @@
 
           //     //   this.dataurl=this.toDataURL();
           //     // }
-          //     // fabric.log(this.toDataURL());
+          //     // //fabric.log(this.toDataURL());
           //     // var can = document.createElement('canvas');
           //     // can.width = cw = w + this.outline.width;
           //     // can.height = ch = h + this.outline.width;
@@ -603,7 +603,7 @@
           //     // imgData = ctx.getImageData(0, 0, can.width, can.height);
           //     // data = imgData.data;
           //     // this.points = geom.contour(defineNonTransparent);
-          //     fabric.log(points);
+          //     //fabric.log(points);
           //   }
           // }
 

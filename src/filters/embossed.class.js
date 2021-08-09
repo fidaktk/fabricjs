@@ -144,7 +144,7 @@
       var light = this.light || '#ffffff';
       var blur = this.blur || 1;
       var embossed = this.embossed || 1;
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       var canvas = fabric.util.createCanvasElement();
       canvas.width = w;
       canvas.height = h;
@@ -160,7 +160,7 @@
       // ctxOrg.drawImage(can, 0, 0);
       var imageData = ctx.getImageData(0, 0, w, h);
       options.imageData = imageData;
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       if (canvas) canvas.remove();
       
     },
