@@ -20,18 +20,18 @@
    * object.filters.push(filter);
    * object.applyFilters();
    */
-  filters.Svgfilter = createClass(filters.BaseFilter, /** @lends fabric.Image.filters.Outline.prototype */ {
+  filters.CustomStyle = createClass(filters.BaseFilter, /** @lends fabric.Image.filters.Outline.prototype */ {
 
     /**
      * Filter type
      * @param {String} type
      * @default
      */
-    type: 'Svgfilter',
-    svgfilter: 0,
-    mainParameter: 'svgfilter',
+    type: 'CustomStyle',
+    customstyle: null,
+    mainParameter: 'customstyle',
     applyTo2d: function (options) {
-      if (this.svgfilter === 0 || this.svgfilter == '') {
+      if (this.customstyle === 0 || this.customstyle == '' || !customstyle) {
         return;
       }
 
@@ -48,7 +48,7 @@
       ctx.putImageData(options.imageData, 100, 100);
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
-      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">${this.svgfilter}</filter></svg>`);
+      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">${this.customstyle}</filter></svg>`);
 
 
       ctx.filter = 'url(#filter)';
@@ -127,7 +127,7 @@
 
     toObject: function () {
       var ob = {
-        svgfilter: this.svgfilter
+        customstyle: this.customstyle
       };
       return fabric.util.object.extend(this.callSuper('toObject'), ob);
     }
@@ -144,7 +144,7 @@
  * @param {function} [callback] to be invoked after filter creation
  * @return {fabric.Image.filters.Outline} Instance of fabric.Image.filters.Outline
  */
-  fabric.Image.filters.Svgfilter.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+  fabric.Image.filters.CustomStyle.fromObject = fabric.Image.filters.BaseFilter.fromObject;
   // fabric.Image.filters.Outline.fromObject = function(object, callback) {
   //   fabric.Image.fromObject(object.image, function(image) {
   //     var options = fabric.util.object.clone(object);

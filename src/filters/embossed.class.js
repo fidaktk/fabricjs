@@ -33,7 +33,7 @@
     embossed: 0,
     invert: false,
     blur: 0,
-    tune: false,
+    // filter: null,
     mainParameter: 'embossed',
     applyTo2d1: function (options) {
 
@@ -138,12 +138,13 @@
       var h = options.imageData.height;
       var w = options.imageData.width;
       var invert = this.invert ? '-250' : '250';
-      var offsetNo = this.invert ? '-4' : '4';
-      var operator = this.tune ? 'over' : 'in';
-      var offset = this.tune ? `<feOffset in="blur" dx="${offsetNo}" dy="${offsetNo}" result="offsetBlur"></feOffset>` : '';
+      // var offsetNo = this.invert ? '-4' : '4';
+      // var operator = this.tune ? 'over' : 'in';
+      // var offset = this.tune ? `<feOffset in="blur" dx="${offsetNo}" dy="${offsetNo}" result="offsetBlur"></feOffset>` : '';
       var light = this.light || '#ffffff';
       var blur = this.blur || 1;
       var embossed = this.embossed || 1;
+      var filter = this.filter || '';
       //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       var canvas = fabric.util.createCanvasElement();
       canvas.width = w;
@@ -152,7 +153,13 @@
       ctx.putImageData(options.imageData, 0, 0);
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
-      window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter"><feGaussianBlur stdDeviation="${embossed}"  in="SourceAlpha" result="blur"/>${offset}<feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur" result="specularLighting"><feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting><feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="0" k3="2" k4="-0.3"  result="composite1"/><feComposite in="composite1" in2="SourceGraphic" operator="${operator}"  result="composite2"/><feMerge><feMergeNode in="offsetBlur"></feMergeNode><feMergeNode in="composite2"></feMergeNode></feMerge></filter></svg>`);
+      let begain = '<svg id="svgfilter"><filter id="filter">';
+      let last = '</filter></svg>';
+      let f = `<feGaussianBlur stdDeviation="${embossed}"  in="SourceAlpha" result="blur"/><feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur" result="specularLighting"><feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting><feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="0" k3="2" k4="-0.3"  result="composite1"/><feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/><feMerge><feMergeNode in="offsetBlur"></feMergeNode><feMergeNode in="composite2"></feMergeNode></feMerge>`;
+
+ 
+
+      window.document.body.insertAdjacentHTML('afterbegin', begain + f + last);
       ctx.filter = 'url(#filter)';
       ctx.drawImage(canvas, 0, 0,);
       el = document.getElementById('svgfilter');
@@ -173,7 +180,7 @@
         embossed: this.embossed,
         invert: this.invert,
         blur: this.blur,
-        tune: this.tune,
+        // filter: this.filter,
       };
       // if(this.angle){
       //   ob['angle'] = this.angle

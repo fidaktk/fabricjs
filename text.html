@@ -381,13 +381,13 @@
                 //                 blend:'overlay'
                 //             }))
 
-                // oImg.filters.push(new fabric.Image.filters.Embossed({
-                //     light: 'rgba(255,255,255,1)',
-                //     embossed: 2,
-                //     blur: 4,
-                //     invert: false,
-                //     tune: true
-                // }));
+                oImg.filters.push(new fabric.Image.filters.Embossed({
+                    light: 'rgba(255,255,255,1)',
+                    embossed: 10,
+                    blur: 2,
+                    invert: false,
+                    // filter: 'dark-glass'
+                }));
 
 
                 //  <filter id="filter"><feOffset dx="5" dy="5"  in="blur2" result="offset"/>
@@ -418,30 +418,30 @@
                 //     innershadow: 30,
                 //     blend: 'multiply'
                 // }))
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(255, 0, 0,1 )', outline: 10, blur: 1
-                }));
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(0, 0, 0,1 )', outline: 35, blur: 0
-                }));
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(255, 0, 255,1 )', outline: 35, blur: 0
-                }));
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(0, 255, 255,1 )', outline: 35, blur: 0
-                }));
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(0, 0, 255,1 )', outline: 35, blur: 0
-                }));
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(0, 255, 0,1 )', outline: 35, blur: 0
-                }));
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(255, 0, 255,1 )', outline: 35, blur: 0
-                }));
-                oImg.filters.push(new fabric.Image.filters.Outline({
-                    color: 'rgba(255, 255, 0,1 )', outline: 35, blur: 0
-                }));
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(255, 255, 255,1 )', outline: 10, blur: 1, rough: false
+                // }));
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(255, 0, 0,1 )', outline: 35, blur: 2, rough: false
+                // }));
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(255, 0, 255,1 )', outline: 20, blur: 2, rough: false
+                // }));
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(0, 255, 255,1 )', outline: 35, blur: 2, rough: false
+                // }));
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(0, 0, 255,1 )', outline: 35, blur: 2, rough: true
+                // }));
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(0, 255, 0,1 )', outline: 35, blur: 2, rough: true
+                // }));
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(255, 0, 255,1 )', outline: 35, blur: 2, rough: true
+                // }));
+                // oImg.filters.push(new fabric.Image.filters.Outline({
+                //     color: 'rgba(255, 255, 0,1 )', outline: 35, blur: 2, rough: false
+                // }));
                 //  oImg.filters.push(new fabric.Image.filters.InnerShadow({
 
                 //     color: 'rgba(0,0,0,1)',
