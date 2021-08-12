@@ -231,7 +231,10 @@ var filesToInclude = [
   ifSpecifiedInclude('itext', 'src/mixins/itext_click_behavior.mixin.js'),
   ifSpecifiedInclude('itext', 'src/mixins/itext_key_behavior.mixin.js'),
   ifSpecifiedInclude('itext', 'src/mixins/itext.svg_export.js'),
-  ifSpecifiedInclude('erasing', 'src/mixins/eraser_brush.mixin.js'),
+
+  // ifSpecifiedInclude('erasing', 'src/mixins/eraser_brush.mixin.js'),
+
+
   ifSpecifiedInclude('textbox', 'src/shapes/textbox.class.js'),
   'src/mixins/customiseControls.js',
 ];
