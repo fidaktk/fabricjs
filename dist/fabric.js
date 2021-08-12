@@ -29436,10 +29436,10 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
      * @default
      */
     type: 'CustomStyle',
-    customstyle: null,
+    customstyle: '',
     mainParameter: 'customstyle',
     applyTo2d: function (options) {
-      if (this.customstyle === 0 || this.customstyle == '' || !customstyle) {
+      if (this.customstyle === 0 || this.customstyle == '' || !this.customstyle) {
         return;
       }
 
@@ -29447,7 +29447,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
       var h = options.imageData.height;
       var w = options.imageData.width;
-      var d = new Date();
+      // var d = new Date();
       //fabric.log(d.getMinutes(), d.getSeconds(), d.getMilliseconds());
       var canvas = fabric.util.createCanvasElement();
       canvas.width = w + 200;
@@ -29460,15 +29460,16 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
 
       ctx.filter = 'url(#filter)';
-      ctx.drawImage(canvas1, 0, 0,);
+      ctx.drawImage(canvas, 0, 0,);
 
       el = document.getElementById('svgfilter');
       if (el) el.remove();
       var tcanvas = this.trimCanvas(canvas);
-      options.imageData.height = tcanvas.height;
-      options.imageData.width = tcanvas.width;
+      // options.imageData.height = tcanvas.height;
+      // options.imageData.width = tcanvas.width;
       options.imageData = tcanvas.getContext('2d').getImageData(0, 0, tcanvas.width, tcanvas.height);
-      d = new Date();
+      // d = new Date();
+      if (canvas) canvas.remove();
       //fabric.log(d.getMinutes(), d.getSeconds(), d.getMilliseconds());
     },
 
