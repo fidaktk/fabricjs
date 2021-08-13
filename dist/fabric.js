@@ -28875,7 +28875,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       if (this.outline === 0 && this.blur === 0) {
         return;
       }
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      // fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       var s = this.outline || 2,  // thickness scale
         b = this.blur || 0,
         c = this.color || 'black',
@@ -28921,7 +28921,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
 
 
       options.imageData = ctx.getImageData(0, 0, w, h);
-      fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+      // fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       if (canvas) canvas.remove();
     },
 

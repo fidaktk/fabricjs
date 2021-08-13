@@ -405,10 +405,134 @@
 
                             oImg.filters.push(new fabric.Image.filters.CustomStyle({
                                 customstyle: `
-                                <feGaussianBlur result=r1" in="SourceAlpha" stdDeviation="10.946406249999999" feGaussianBlur6899" /><feSpecularLighting result=r0" specularExponent="1" specularConstant="0" surfaceScale="-5" feSpecularLighting6903" lighting-color="#ffffff" kernelUnitLength="0.01"><feSpotLight feSpotLight7629" limitingConeAngle="1" /></feSpecularLighting><feMorphology radius="53.435114503816791" operator="erode" feMorphology6907" /><feDiffuseLighting surfaceScale="5" result=r3" diffuseConstant="3.6898396" in=r1" feDiffuseLighting6913" kernelUnitLength="0.01"><fePointLight fePointLight7637" /></feDiffuseLighting><feBlend result=r7" mode="multiply" in=r3" in2="SourceGraphic" feBlend6915" /><feComposite in=r7" operator="atop" in2="SourceAlpha" result=r91" feComposite6917" /><feBlend result=r9" mode="lighten" in=r6" in2=r91" feBlend6919" /><feComposite in=r11" in2=r9" feComposite6921" result="fbSourceGraphic" /><feColorMatrix result="fbSourceGraphicAlpha" in="fbSourceGraphic" values="0" feColorMatrix7639" type="matrix" /><feGaussianBlur feGaussianBlur7641" result=r6" stdDeviation="1.5723437499999999" in="fbSourceGraphic" /><feComposite in2="fbSourceGraphic" feComposite7643" in=r6" operator="xor" result=r10" /><feGaussianBlur feGaussianBlur7645" result=r2" stdDeviation="8" /><feComposite in2="fbSourceGraphic" feComposite7647" operator="atop" in=r10" result=r91" /><feComposite in2=r91" feComposite7649" result=r4" in=r2" operator="xor" /><feGaussianBlur feGaussianBlur7651" in=r4" result=r3" stdDeviation="4" /><feSpecularLighting feSpecularLighting7653" result=r5" specularExponent="5" specularConstant="1.10000002" surfaceScale="18"><feDistantLight feDistantLight7655" azimuth="235" elevation="55" /></feSpecularLighting><feComposite in2=r5" feComposite7657" in=r3" k3="1.1351351351351351" k2="0.37837837837837895" operator="arithmetic" result=r7" k1="0.9189189189189193" k4="-0.054054054054052614" /><feComposite in2="fbSourceGraphic" feComposite7659" in=r7" operator="atop" result=r8" />
-
-
-                 `
+                                <feGaussianBlur
+         result="result1"
+         in="SourceAlpha"
+         stdDeviation="10.946406249999999"
+         id="feGaussianBlur6899" />
+      <feSpecularLighting
+         result="result0"
+         specularExponent="1"
+         specularConstant="0"
+         surfaceScale="-5"
+         id="feSpecularLighting6903"
+         lighting-color="#ffffff"
+         kernelUnitLength="0.01">
+        <feSpotLight
+           id="feSpotLight7629"
+           limitingConeAngle="1" />
+      </feSpecularLighting>
+      <feMorphology
+         radius="53.435114503816791"
+         operator="erode"
+         id="feMorphology6907" />
+      <feGaussianBlur
+         result="result11"
+         stdDeviation="5.4782031249999994"
+         id="feGaussianBlur6909" />
+      <feDiffuseLighting
+         surfaceScale="5"
+         result="result3"
+         diffuseConstant="3.6898396"
+         in="result1"
+         id="feDiffuseLighting6913"
+         kernelUnitLength="0.01">
+        <fePointLight
+           id="fePointLight7637" />
+      </feDiffuseLighting>
+      <feBlend
+         result="result7"
+         mode="multiply"
+         in="result3"
+         in2="SourceGraphic"
+         id="feBlend6915" />
+      <feComposite
+         in="result7"
+         operator="atop"
+         in2="SourceAlpha"
+         result="result91"
+         id="feComposite6917" />
+      <feBlend
+         result="result9"
+         mode="lighten"
+         in="result6"
+         in2="result91"
+         id="feBlend6919" />
+      <feComposite
+         in="result11"
+         in2="result9"
+         id="feComposite6921"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0"
+         id="feColorMatrix7639"
+         type="matrix" />
+      <feGaussianBlur
+         id="feGaussianBlur7641"
+         result="result6"
+         stdDeviation="3.1346874999999996"
+         in="fbSourceGraphic" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite7643"
+         in="result6"
+         operator="xor"
+         result="result10" />
+      <feGaussianBlur
+         id="feGaussianBlur7645"
+         result="result2"
+         stdDeviation="8" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite7647"
+         operator="atop"
+         in="result10"
+         result="result91" />
+      <feComposite
+         in2="result91"
+         id="feComposite7649"
+         result="result4"
+         in="result2"
+         operator="xor" />
+      <feGaussianBlur
+         id="feGaussianBlur7651"
+         in="result4"
+         result="result3"
+         stdDeviation="4" />
+      <feSpecularLighting
+         id="feSpecularLighting7653"
+         result="result5"
+         specularExponent="5"
+         specularConstant="1.10000002"
+         surfaceScale="18">
+        <feDistantLight
+           id="feDistantLight7655"
+           azimuth="235"
+           elevation="55" />
+      </feSpecularLighting>
+      <feComposite
+         in2="result5"
+         id="feComposite7657"
+         in="result3"
+         k3="1.1351351"
+         k2="0.37837838"
+         operator="arithmetic"
+         result="result7"
+         k1="0.91891892"
+         k4="-0.054054054" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite7659"
+         in="result7"
+         operator="atop"
+         result="result8" />
+                                
+                               
+                                
+                                
+                                `
                             }));
                 // oImg.filters.push(new fabric.Image.filters.InnerShadow({
 
