@@ -29840,7 +29840,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
      * @default
      */
     deltaY: 0,
-
+    deltaX: 0,
     /**
      * Array of properties that define a style unit (of 'styles').
      * @type {Array}
@@ -29858,6 +29858,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       'overline',
       'linethrough',
       'deltaY',
+      'deltaX',
       'textBackgroundColor',
     ],
 
@@ -30356,6 +30357,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
         height: style.fontSize,
         kernedWidth: kernedWidth,
         deltaY: style.deltaY,
+        deltaX: style.deltaX
       };
       if (charIndex > 0 && !skipLeft) {
         var previousBox = this.__charBounds[lineIndex][charIndex - 1];
@@ -30793,6 +30795,9 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       if (decl && decl.deltaY) {
         top += decl.deltaY;
       }
+      if (decl && decl.deltaX) {
+        left += decl.deltaX;
+      }
       ///////////////////////
       // var dArr = [-1,-1, 0,-1, 1,-1, -1,0, 1,0, -1,1, 0,1, 1,1], // offset array
       //     s = 2,  // thickness scale
@@ -30854,7 +30859,8 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var loc = this.get2DCursorLocation(start, true),
           fontSize = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'fontSize'),
           dy = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'deltaY'),
-          style = { fontSize: fontSize * schema.size, deltaY: dy + fontSize * schema.baseline };
+          dx = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'deltaX'),
+          style = { fontSize: fontSize * schema.size, deltaY: dy + fontSize * schema.baseline, deltaX: dx + fontSize };
       this.setSelectionStyles(style, start, end);
       return this;
     },
@@ -30872,7 +30878,8 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
         prevStyle.fontFamily !== thisStyle.fontFamily ||
         prevStyle.fontWeight !== thisStyle.fontWeight ||
         prevStyle.fontStyle !== thisStyle.fontStyle ||
-        prevStyle.deltaY !== thisStyle.deltaY;
+        prevStyle.deltaY !== thisStyle.deltaY ||
+        prevStyle.deltaX !== thisStyle.deltaX;
     },
 
     /**
@@ -31011,17 +31018,19 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
         top = topOffset + maxHeight * (1 - this._fontSizeFraction);
         size = this.getHeightOfChar(i, 0);
         dy = this.getValueOfPropertyAt(i, 0, 'deltaY');
+        dx = this.getValueOfPropertyAt(i, 0, 'deltaX');
         for (var j = 0, jlen = line.length; j < jlen; j++) {
           charBox = this.__charBounds[i][j];
           currentDecoration = this.getValueOfPropertyAt(i, j, type);
           currentFill = this.getValueOfPropertyAt(i, j, 'fill');
           _size = this.getHeightOfChar(i, j);
           _dy = this.getValueOfPropertyAt(i, j, 'deltaY');
-          if ((currentDecoration !== lastDecoration || currentFill !== lastFill || _size !== size || _dy !== dy) &&
+          _dx = this.getValueOfPropertyAt(i, j, 'deltaX');
+          if ((currentDecoration !== lastDecoration || currentFill !== lastFill || _size !== size || _dy !== dy  || _dx!== dx) &&
               boxWidth > 0) {
             ctx.fillStyle = lastFill;
             lastDecoration && lastFill && ctx.fillRect(
-              leftOffset + lineLeftOffset + boxStart,
+              leftOffset + lineLeftOffset + boxStart + dx,
               top + this.offsets[type] * size + dy,
               boxWidth,
               this.fontSize / 15
@@ -31032,6 +31041,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
             lastFill = currentFill;
             size = _size;
             dy = _dy;
+            dx = _dx;
           }
           else {
             boxWidth += charBox.kernedWidth;
@@ -31039,7 +31049,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
         }
         ctx.fillStyle = currentFill;
         currentDecoration && currentFill && ctx.fillRect(
-          leftOffset + lineLeftOffset + boxStart,
+          leftOffset + lineLeftOffset + boxStart + dx,
           top + this.offsets[type] * size + dy,
           boxWidth - charSpacing,
           this.fontSize / 15
@@ -31997,6 +32007,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
           multiplier = this.scaleX * this.canvas.getZoom(),
           cursorWidth = this.cursorWidth / multiplier,
           topOffset = boundaries.topOffset,
+          dx = this.getValueOfPropertyAt(lineIndex, charIndex, 'deltaX');
           dy = this.getValueOfPropertyAt(lineIndex, charIndex, 'deltaY');
 
       topOffset += (1 - this._fontSizeFraction) * this.getHeightOfLine(lineIndex) / this.lineHeight
@@ -32009,7 +32020,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       ctx.fillStyle = this.getValueOfPropertyAt(lineIndex, charIndex, 'fill');
       ctx.globalAlpha = this.__isMousedown ? 1 : this._currentCursorOpacity;
       ctx.fillRect(
-        boundaries.left + boundaries.leftOffset - cursorWidth / 2,
+        boundaries.left + boundaries.leftOffset - cursorWidth / 2 + dx,
         topOffset + boundaries.top + dy,
         cursorWidth,
         charHeight);

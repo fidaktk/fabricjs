@@ -298,43 +298,32 @@
             //     });
 
 
-            // var line = new fabric.Line([canvas.width / 2, 0, canvas.width / 2, canvas.height], {
-            //     strokeWidth: 1,
-            //     stroke: 'red',
-            // });
+            var line = new fabric.Line([canvas.width / 2, 0, canvas.width / 2, canvas.height], {
+                strokeWidth: 1,
+                stroke: 'red',
+            });
+            canvas.add(line);
+            const shair = 'فداالرحمان (فدا) Khattak فدا\nفدا (FIDA) خان (FIDA فدا) الرحمان فداالرحمان۔';
+            // const shair = 'fida ur rehman khattak kay khelaf\nhum sab ne kaha hai keh';
+            const text = new fabric.Textbox(shair);
+            text.set({
+                fontFamily: 'a-jameel-noori-nastaleeq',
+                textAlign: 'right',
+                isRTL: true,
+                originX: 'right',
+                fontSize: 40,
+                isEditable: false,
+                charSpacing: 0,
+                top: 30,
+                left: 600 + text.width,
+                width: 300
+            });
+            canvas.add(text);
+            line.left = text.left;
 
-
-
-
-
-
-
-
-
-
-
-
-            // const shair = 'فداالرحمان (فدا) Khattak فدا\nفدا (FIDA) خان (FIDA فدا) الرحمان فداالرحمان۔';
-            // // const shair = 'fida ur rehman khattak kay khelaf\nhum sab ne kaha hai keh';
-            // const text = new fabric.Textbox(shair);
-            // text.set({
-            //     fontFamily: 'a-jameel-noori-nastaleeq',
-            //     textAlign: 'right',
-            //     isRTL: true,
-            //     originX: 'right',
-            //     fontSize: 40,
-            //     isEditable: false,
-            //     charSpacing: 0,
-            //     top: 30,
-            //     left: 600 + text.width,
-            //     width: 300
-            // });
-            // // canvas.add(text);
-            // // line.left = text.left;
-
-            // // canvas.centerObject(text);
-            // // canvas.setActiveObject(text);
-            // // canvas.getActiveObject().setCoords();
+            canvas.centerObject(text);
+            canvas.setActiveObject(text);
+            canvas.getActiveObject().setCoords();
 
             // var canvas2 = document.getElementById("htmlCanvas");
             // var ctx2 = canvas2.getContext("2d");
@@ -346,271 +335,147 @@
             // var im;
 
 
-            fabric.Image.fromURL('/man.png', function (oImg) {
-                oImg.crossOrigin = "anonymous";
+            // fabric.Image.fromURL('/man.png', function (oImg) {
+            //     oImg.crossOrigin = "anonymous";
 
-                // add filter
+            //     // add filter
 
-                //  oImg.filters.push(new fabric.Image.filters.Mask({}));
-
-
-
-                // oImg.filters.push(new fabric.Image.filters.Feather({
-                // from: 10, to: 51,
-                // feather: 'edges',
-                // edges: {
-                //     top: false,
-                //     right: true,
-                //     left: true,
-                //     bottom: false
-                // },
-                // invert: false,
-                // circle: {
-                //     x: 50,
-                //     y: 50,
-                //     // r: 60
-                // }
-                // }));
-
-                // oImg.filters.push(new fabric.Image.filters.InnerShadow({
-
-                //                 color: 'rgba(0,0,0,1)',
-                //                 x: 100,
-                //                 y: 100,
-                //                 innershadow:0,
-                //                 blend:'overlay'
-                //             }))
-
-                oImg.filters.push(new fabric.Image.filters.Embossed({
-                    light: 'rgba(255,255,255,1)',
-                    embossed: 10,
-                    blur: 2,
-                    invert: false,
-                    // filter: 'dark-glass'
-                }));
+            //     //  oImg.filters.push(new fabric.Image.filters.Mask({}));
 
 
-                //  <filter id="filter"><feOffset dx="5" dy="5"  in="blur2" result="offset"/>
-                //                         <feGaussianBlur stdDeviation="15"  in="SourceGraphic" result="blur2"/>
-                //                         <feSpecularLighting surfaceScale="15" specularConstant="1" specularExponent="30" lighting-color="#ffffff"  in="blur2" result="specularLighting">
-                //                         <feDistantLight azimuth="-128" elevation="50"/></feSpecularLighting>
-                //                         <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
-                //                         <feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/>
-                // </filter>
+
+            //     // oImg.filters.push(new fabric.Image.filters.Feather({
+            //     // from: 10, to: 51,
+            //     // feather: 'edges',
+            //     // edges: {
+            //     //     top: false,
+            //     //     right: true,
+            //     //     left: true,
+            //     //     bottom: false
+            //     // },
+            //     // invert: false,
+            //     // circle: {
+            //     //     x: 50,
+            //     //     y: 50,
+            //     //     // r: 60
+            //     // }
+            //     // }));
+
+            //     // oImg.filters.push(new fabric.Image.filters.InnerShadow({
+
+            //     //                 color: 'rgba(0,0,0,1)',
+            //     //                 x: 100,
+            //     //                 y: 100,
+            //     //                 innershadow:0,
+            //     //                 blend:'overlay'
+            //     //             }))
+
+            //     // oImg.filters.push(new fabric.Image.filters.Embossed({
+            //     //     light: 'rgba(255,255,255,1)',
+            //     //     embossed: 10,
+            //     //     blur: 2,
+            //     //     invert: false,
+            //     //     // filter: 'dark-glass'
+            //     // }));
 
 
+            //     //  <filter id="filter"><feOffset dx="5" dy="5"  in="blur2" result="offset"/>
+            //     //                         <feGaussianBlur stdDeviation="15"  in="SourceGraphic" result="blur2"/>
+            //     //                         <feSpecularLighting surfaceScale="15" specularConstant="1" specularExponent="30" lighting-color="#ffffff"  in="blur2" result="specularLighting">
+            //     //                         <feDistantLight azimuth="-128" elevation="50"/></feSpecularLighting>
+            //     //                         <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
+            //     //                         <feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/>
+            //     // </filter>
 
 
 
 
-                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
-                                customstyle: `
-                                <feGaussianBlur
-         result="result1"
-         in="SourceAlpha"
-         stdDeviation="10.946406249999999"
-         id="feGaussianBlur6899" />
-      <feSpecularLighting
-         result="result0"
-         specularExponent="1"
-         specularConstant="0"
-         surfaceScale="-5"
-         id="feSpecularLighting6903"
-         lighting-color="#ffffff"
-         kernelUnitLength="0.01">
-        <feSpotLight
-           id="feSpotLight7629"
-           limitingConeAngle="1" />
-      </feSpecularLighting>
-      <feMorphology
-         radius="53.435114503816791"
-         operator="erode"
-         id="feMorphology6907" />
-      <feGaussianBlur
-         result="result11"
-         stdDeviation="5.4782031249999994"
-         id="feGaussianBlur6909" />
-      <feDiffuseLighting
-         surfaceScale="5"
-         result="result3"
-         diffuseConstant="3.6898396"
-         in="result1"
-         id="feDiffuseLighting6913"
-         kernelUnitLength="0.01">
-        <fePointLight
-           id="fePointLight7637" />
-      </feDiffuseLighting>
-      <feBlend
-         result="result7"
-         mode="multiply"
-         in="result3"
-         in2="SourceGraphic"
-         id="feBlend6915" />
-      <feComposite
-         in="result7"
-         operator="atop"
-         in2="SourceAlpha"
-         result="result91"
-         id="feComposite6917" />
-      <feBlend
-         result="result9"
-         mode="lighten"
-         in="result6"
-         in2="result91"
-         id="feBlend6919" />
-      <feComposite
-         in="result11"
-         in2="result9"
-         id="feComposite6921"
-         result="fbSourceGraphic" />
-      <feColorMatrix
-         result="fbSourceGraphicAlpha"
-         in="fbSourceGraphic"
-         values="0"
-         id="feColorMatrix7639"
-         type="matrix" />
-      <feGaussianBlur
-         id="feGaussianBlur7641"
-         result="result6"
-         stdDeviation="3.1346874999999996"
-         in="fbSourceGraphic" />
-      <feComposite
-         in2="fbSourceGraphic"
-         id="feComposite7643"
-         in="result6"
-         operator="xor"
-         result="result10" />
-      <feGaussianBlur
-         id="feGaussianBlur7645"
-         result="result2"
-         stdDeviation="8" />
-      <feComposite
-         in2="fbSourceGraphic"
-         id="feComposite7647"
-         operator="atop"
-         in="result10"
-         result="result91" />
-      <feComposite
-         in2="result91"
-         id="feComposite7649"
-         result="result4"
-         in="result2"
-         operator="xor" />
-      <feGaussianBlur
-         id="feGaussianBlur7651"
-         in="result4"
-         result="result3"
-         stdDeviation="4" />
-      <feSpecularLighting
-         id="feSpecularLighting7653"
-         result="result5"
-         specularExponent="5"
-         specularConstant="1.10000002"
-         surfaceScale="18">
-        <feDistantLight
-           id="feDistantLight7655"
-           azimuth="235"
-           elevation="55" />
-      </feSpecularLighting>
-      <feComposite
-         in2="result5"
-         id="feComposite7657"
-         in="result3"
-         k3="1.1351351"
-         k2="0.37837838"
-         operator="arithmetic"
-         result="result7"
-         k1="0.91891892"
-         k4="-0.054054054" />
-      <feComposite
-         in2="fbSourceGraphic"
-         id="feComposite7659"
-         in="result7"
-         operator="atop"
-         result="result8" />
-                                
-                               
+
+
+            //                 // oImg.filters.push(new fabric.Image.filters.CustomStyle({
+            //                 //     customstyle: `
+                            
                                 
                                 
-                                `
-                            }));
-                // oImg.filters.push(new fabric.Image.filters.InnerShadow({
+            //                 //     `
+            //                 // }));
+            //     // oImg.filters.push(new fabric.Image.filters.InnerShadow({
 
-                //     color: 'rgba(0,0,0,1)',
-                //     x: 10,
-                //     y: 10,
-                //     innershadow: 30,
-                //     blend: 'multiply'
-                // }))
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(255, 255, 255,1 )', outline: 10, blur: 1, rough: false
-                // }));
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(255, 0, 0,1 )', outline: 35, blur: 2, rough: false
-                // }));
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(255, 0, 255,1 )', outline: 20, blur: 2, rough: false
-                // }));
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(0, 255, 255,1 )', outline: 35, blur: 2, rough: false
-                // }));
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(0, 0, 255,1 )', outline: 35, blur: 2, rough: true
-                // }));
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(0, 255, 0,1 )', outline: 35, blur: 2, rough: true
-                // }));
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(255, 0, 255,1 )', outline: 35, blur: 2, rough: true
-                // }));
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(255, 255, 0,1 )', outline: 35, blur: 2, rough: false
-                // }));
-                //  oImg.filters.push(new fabric.Image.filters.InnerShadow({
+            //     //     color: 'rgba(0,0,0,1)',
+            //     //     x: 10,
+            //     //     y: 10,
+            //     //     innershadow: 30,
+            //     //     blend: 'multiply'
+            //     // }))
+            //     // oImg.filters.push(new fabric.Image.filters.Outline({
+            //     //     color: 'rgba(255, 255, 255,1 )', outline: 10, blur: 1, rough: false
+            //     // }));
+            //     // oImg.filters.push(new fabric.Image.filters.Outline({
+            //     //     color: 'rgba(255, 0, 0,1 )', outline: 35, blur: 2, rough: false
+            //     // }));
+            //     // oImg.filters.push(new fabric.Image.filters.Outline({
+            //     //     color: 'rgba(255, 0, 255,1 )', outline: 20, blur: 2, rough: false
+            //     // }));
+            //     // oImg.filters.push(new fabric.Image.filters.Outline({
+            //     //     color: 'rgba(0, 255, 255,1 )', outline: 35, blur: 2, rough: false
+            //     // }));
+            //     // oImg.filters.push(new fabric.Image.filters.Outline({
+            //     //     color: 'rgba(0, 0, 255,1 )', outline: 35, blur: 2, rough: true
+            //     // }));
+            //     // oImg.filters.push(new fabric.Image.filters.Outline({
+            //     //     color: 'rgba(0, 255, 0,1 )', outline: 35, blur: 2, rough: true
+            //     // }));
+            //     // oImg.filters.push(new fabric.Image.filters.Outline({
+            //     //     color: 'rgba(255, 0, 255,1 )', outline: 35, blur: 2, rough: true
+            //     // }));
+            //     // oImg.filters.push(new fabric.Image.filters.Outline({
+            //     //     color: 'rgba(255, 255, 0,1 )', outline: 35, blur: 2, rough: false
+            //     // }));
+            //     //  oImg.filters.push(new fabric.Image.filters.InnerShadow({
 
-                //     color: 'rgba(0,0,0,1)',
-                //     x: 10,
-                //     y: 10,
-                //     innershadow: 30,
-                //     blend: 'multiply'
-                // }))
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(255, 255, 0,1 )', outline: 45, blur: 0
-                // })); oImg.filters.push(new fabric.Image.filters.InnerShadow({
+            //     //     color: 'rgba(0,0,0,1)',
+            //     //     x: 10,
+            //     //     y: 10,
+            //     //     innershadow: 30,
+            //     //     blend: 'multiply'
+            //     // }))
+            //     // oImg.filters.push(new fabric.Image.filters.Outline({
+            //     //     color: 'rgba(255, 255, 0,1 )', outline: 45, blur: 0
+            //     // })); oImg.filters.push(new fabric.Image.filters.InnerShadow({
 
-                //     color: 'rgba(0,0,0,1)',
-                //     x: 10,
-                //     y: 10,
-                //     innershadow: 30,
-                //     blend: 'multiply'
-                // }))
-                // oImg.filters.push(new fabric.Image.filters.Outline({
-                //     color: 'rgba(255, 0, 255,1 )', outline: 55, blur: 0
-                // }));
-                // oImg.filters.push(new fabric.Image.filters.InnerShadow({
+            //     //     color: 'rgba(0,0,0,1)',
+            //     //     x: 10,
+            //     //     y: 10,
+            //     //     innershadow: 30,
+            //     //     blend: 'multiply'
+            //     // }))
+            //     // oImg.filters.push(new fabric.Image.filters.Outline({
+            //     //     color: 'rgba(255, 0, 255,1 )', outline: 55, blur: 0
+            //     // }));
+            //     // oImg.filters.push(new fabric.Image.filters.InnerShadow({
 
-                //     color: 'rgba(0,0,0,1)',
-                //     x: 10,
-                //     y: 10,
-                //     innershadow: 30,
-                //     blend: 'multiply'
-                // }))
+            //     //     color: 'rgba(0,0,0,1)',
+            //     //     x: 10,
+            //     //     y: 10,
+            //     //     innershadow: 30,
+            //     //     blend: 'multiply'
+            //     // }))
 
 
-                // oImg.stroke = "#01FF00";
-                // oImg.strokeWidth = 3;
-                oImg.scaleToHeight(400);
-                canvas.add(oImg);
-                oImg.center();
-                oImg.setCoords();
-                oImg.applyFilters();
-                canvas.backgroundColor = "green";
-                canvas.setActiveObject(oImg);
-                // canvas.renderTop();
-                canvas.renderAll();
-            });
+            //     // oImg.stroke = "#01FF00";
+            //     // oImg.strokeWidth = 3;
+            //     oImg.scaleToHeight(400);
+            //     canvas.add(oImg);
+            //     oImg.center();
+            //     oImg.setCoords();
+            //     oImg.applyFilters();
+            //     canvas.backgroundColor = "green";
+            //     canvas.setActiveObject(oImg);
+            //     // canvas.renderTop();
+            //     canvas.renderAll();
+            // });
 
-            // fabric.Image.fromURL('/love.jpg', function (a) {
+            // // fabric.Image.fromURL('/love.jpg', function (a) {
             //     a.crossOrigin = "anonymous";
 
             //     // add filter
@@ -691,7 +556,7 @@
             // canvas.getActiveObject().setSelectionStyles({ fontSize: 40 }, 0, 1);
             // canvas.getActiveObject().setSelectionStyles({ fontSize: 20 }, 2, 3);
             // canvas.getActiveObject().setSelectionStyles({ fontSize: 60 }, 4, 5);
-            canvas.getActiveObject().setSelectionStyles({ underline: true }, 0, 1);
+            canvas.getActiveObject().setSelectionStyles({ deltaX: 10 }, 3, 5);
             // canvas.getActiveObject().setSelectionStyles({ fill: 'blue' }, 8, 9);
             canvas.renderAll();
         };
