@@ -301,12 +301,12 @@
       for (var i = 0, len = word.length; i < len; i++) {
         nextChar = ((i + 1) > word.length) ? false : word[i + 1];
         var box = this._getGraphemeBox(word[i], lineIndex, i + charOffset, prevGrapheme, skipLeft, nextChar);
-        width += box.kernedWidth;
+        width += box.kernedWidth ;
         prevGrapheme = word[i];
       }
       // }
 
-      return width;
+      return width;// - box.deltaX;
     },
 
     /**
@@ -350,8 +350,9 @@
           var nextChar = (i === words.length - 1) ? undefined : ' ';//words[i + 1] || '';
           word = words[i];
           var wordWidth = this._getGraphemeBox(word, lineIndex, offset, prevGrapheme, skipLeft, nextChar);
-          wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth : wordWidth.width;
+          wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth: wordWidth.width;
           // // //fabric.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
+          // wordWidth +=  wordWidth.deltaX
           offset += 1;
         }
         else {

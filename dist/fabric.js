@@ -30781,7 +30781,7 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
       var fullDecl = this.getCompleteStyleDeclaration(lineIndex, charIndex);
       var shouldFill = method === 'fillText' && fullDecl.fill;
       var shouldStroke = method === 'strokeText' && fullDecl.stroke && fullDecl.strokeWidth;
-
+      
       if (!shouldStroke && !shouldFill) {
         return;
       }
@@ -30796,7 +30796,15 @@ fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
         top += decl.deltaY;
       }
       if (decl && decl.deltaX) {
-        left += decl.deltaX;
+
+        if(charIndex !== 0){
+            left += decl.deltaX;
+        }else{
+          if(decl.deltaX < 0){
+            left += decl.deltaX;
+          }
+        }
+       
       }
       ///////////////////////
       // var dArr = [-1,-1, 0,-1, 1,-1, -1,0, 1,0, -1,1, 0,1, 1,1], // offset array
@@ -34357,9 +34365,9 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
      */
     _generateStyleMap: function (textInfo) {
       var realLineCount = 0,
-          realLineCharCount = 0,
-          charCount = 0,
-          map = {};
+        realLineCharCount = 0,
+        charCount = 0,
+        map = {};
 
       for (var i = 0; i < textInfo.graphemeLines.length; i++) {
         if (textInfo.graphemeText[charCount] === '\n' && i > 0) {
@@ -34407,7 +34415,7 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
         return true;
       }
       var offset = 0, nextLineIndex = lineIndex + 1, nextOffset, obj, shouldLimit = false,
-          map = this._styleMap[lineIndex], mapNextLine = this._styleMap[lineIndex + 1];
+        map = this._styleMap[lineIndex], mapNextLine = this._styleMap[lineIndex + 1];
       if (map) {
         lineIndex = map.line;
         offset = map.offset;
@@ -34539,12 +34547,12 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
       for (var i = 0, len = word.length; i < len; i++) {
         nextChar = ((i + 1) > word.length) ? false : word[i + 1];
         var box = this._getGraphemeBox(word[i], lineIndex, i + charOffset, prevGrapheme, skipLeft, nextChar);
-        width += box.kernedWidth;
+        width += box.kernedWidth ;
         prevGrapheme = word[i];
       }
       // }
 
-      return width;
+      return width;// - box.deltaX;
     },
 
     /**
@@ -34558,20 +34566,20 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
      */
     _wrapLine: function (_line, lineIndex, desiredWidth, reservedSpace) {
       var lineWidth = 0,
-          splitByGrapheme = this.splitByGrapheme,
-          graphemeLines = [],
-          line = [],
-          // spaces in different languges?
-          words = splitByGrapheme ? fabric.util.string.graphemeSplit(_line) : _line.split(this._wordJoiners),
-          word = '',
-          offset = 0,
-          infix = splitByGrapheme ? '' : ' ',
-          wordWidth = 0,
-          infixWidth = 0,
-          largestWordWidth = 0,
-          lineJustStarted = true,
-          additionalSpace = splitByGrapheme ? 0 : this._getWidthOfCharSpacing(),
-          reservedSpace = reservedSpace || 0;
+        splitByGrapheme = this.splitByGrapheme,
+        graphemeLines = [],
+        line = [],
+        // spaces in different languges?
+        words = splitByGrapheme ? fabric.util.string.graphemeSplit(_line) : _line.split(this._wordJoiners),
+        word = '',
+        offset = 0,
+        infix = splitByGrapheme ? '' : ' ',
+        wordWidth = 0,
+        infixWidth = 0,
+        largestWordWidth = 0,
+        lineJustStarted = true,
+        additionalSpace = splitByGrapheme ? 0 : this._getWidthOfCharSpacing(),
+        reservedSpace = reservedSpace || 0;
       // fix a difference between split and graphemeSplit
       if (words.length === 0) {
         words.push([]);
@@ -34584,12 +34592,13 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
 
         if (this._reRTL.test(words[i])) {
           var skipLeft = true;
-          var prevGrapheme = (i === 0) ? undefined : ' ' ;// words[i - 1] || '';
-          var nextChar = (i === words.length - 1) ? undefined : ' ' ;//words[i + 1] || '';
+          var prevGrapheme = (i === 0) ? undefined : ' ';// words[i - 1] || '';
+          var nextChar = (i === words.length - 1) ? undefined : ' ';//words[i + 1] || '';
           word = words[i];
           var wordWidth = this._getGraphemeBox(word, lineIndex, offset, prevGrapheme, skipLeft, nextChar);
-          wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth : wordWidth.width;
+          wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth: wordWidth.width;
           // // //fabric.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
+          // wordWidth +=  wordWidth.deltaX
           offset += 1;
         }
         else {
@@ -34678,8 +34687,8 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
     */
     _splitTextIntoLines: function (text) {
       var newText = fabric.Text.prototype._splitTextIntoLines.call(this, text);
-      var    graphemeLines = this._wrapText(newText.lines, this.width);
-      var    lines = new Array(graphemeLines.length);
+      var graphemeLines = this._wrapText(newText.lines, this.width);
+      var lines = new Array(graphemeLines.length);
       for (var i = 0; i < graphemeLines.length; i++) {
         lines[i] = graphemeLines[i].join('');
       }

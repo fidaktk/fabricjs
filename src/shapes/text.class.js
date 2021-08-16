@@ -1215,7 +1215,7 @@
       var fullDecl = this.getCompleteStyleDeclaration(lineIndex, charIndex);
       var shouldFill = method === 'fillText' && fullDecl.fill;
       var shouldStroke = method === 'strokeText' && fullDecl.stroke && fullDecl.strokeWidth;
-
+      
       if (!shouldStroke && !shouldFill) {
         return;
       }
@@ -1230,7 +1230,15 @@
         top += decl.deltaY;
       }
       if (decl && decl.deltaX) {
-        left += decl.deltaX;
+
+        if(charIndex !== 0){
+            left += decl.deltaX;
+        }else{
+          if(decl.deltaX < 0){
+            left += decl.deltaX;
+          }
+        }
+       
       }
       ///////////////////////
       // var dArr = [-1,-1, 0,-1, 1,-1, -1,0, 1,0, -1,1, 0,1, 1,1], // offset array
