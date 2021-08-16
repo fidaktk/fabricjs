@@ -119,9 +119,9 @@
      */
     _generateStyleMap: function (textInfo) {
       var realLineCount = 0,
-          realLineCharCount = 0,
-          charCount = 0,
-          map = {};
+        realLineCharCount = 0,
+        charCount = 0,
+        map = {};
 
       for (var i = 0; i < textInfo.graphemeLines.length; i++) {
         if (textInfo.graphemeText[charCount] === '\n' && i > 0) {
@@ -169,7 +169,7 @@
         return true;
       }
       var offset = 0, nextLineIndex = lineIndex + 1, nextOffset, obj, shouldLimit = false,
-          map = this._styleMap[lineIndex], mapNextLine = this._styleMap[lineIndex + 1];
+        map = this._styleMap[lineIndex], mapNextLine = this._styleMap[lineIndex + 1];
       if (map) {
         lineIndex = map.line;
         offset = map.offset;
@@ -320,20 +320,20 @@
      */
     _wrapLine: function (_line, lineIndex, desiredWidth, reservedSpace) {
       var lineWidth = 0,
-          splitByGrapheme = this.splitByGrapheme,
-          graphemeLines = [],
-          line = [],
-          // spaces in different languges?
-          words = splitByGrapheme ? fabric.util.string.graphemeSplit(_line) : _line.split(this._wordJoiners),
-          word = '',
-          offset = 0,
-          infix = splitByGrapheme ? '' : ' ',
-          wordWidth = 0,
-          infixWidth = 0,
-          largestWordWidth = 0,
-          lineJustStarted = true,
-          additionalSpace = splitByGrapheme ? 0 : this._getWidthOfCharSpacing(),
-          reservedSpace = reservedSpace || 0;
+        splitByGrapheme = this.splitByGrapheme,
+        graphemeLines = [],
+        line = [],
+        // spaces in different languges?
+        words = splitByGrapheme ? fabric.util.string.graphemeSplit(_line) : _line.split(this._wordJoiners),
+        word = '',
+        offset = 0,
+        infix = splitByGrapheme ? '' : ' ',
+        wordWidth = 0,
+        infixWidth = 0,
+        largestWordWidth = 0,
+        lineJustStarted = true,
+        additionalSpace = splitByGrapheme ? 0 : this._getWidthOfCharSpacing(),
+        reservedSpace = reservedSpace || 0;
       // fix a difference between split and graphemeSplit
       if (words.length === 0) {
         words.push([]);
@@ -346,8 +346,8 @@
 
         if (this._reRTL.test(words[i])) {
           var skipLeft = true;
-          var prevGrapheme = (i === 0) ? undefined : ' ' ;// words[i - 1] || '';
-          var nextChar = (i === words.length - 1) ? undefined : ' ' ;//words[i + 1] || '';
+          var prevGrapheme = (i === 0) ? undefined : ' ';// words[i - 1] || '';
+          var nextChar = (i === words.length - 1) ? undefined : ' ';//words[i + 1] || '';
           word = words[i];
           var wordWidth = this._getGraphemeBox(word, lineIndex, offset, prevGrapheme, skipLeft, nextChar);
           wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth : wordWidth.width;
@@ -440,8 +440,8 @@
     */
     _splitTextIntoLines: function (text) {
       var newText = fabric.Text.prototype._splitTextIntoLines.call(this, text);
-      var    graphemeLines = this._wrapText(newText.lines, this.width);
-      var    lines = new Array(graphemeLines.length);
+      var graphemeLines = this._wrapText(newText.lines, this.width);
+      var lines = new Array(graphemeLines.length);
       for (var i = 0; i < graphemeLines.length; i++) {
         lines[i] = graphemeLines[i].join('');
       }
