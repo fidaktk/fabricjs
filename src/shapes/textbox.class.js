@@ -350,7 +350,9 @@
           var nextChar = (i === words.length - 1) ? undefined : ' ';//words[i + 1] || '';
           word = words[i];
           var wordWidth = this._getGraphemeBox(word, lineIndex, offset, prevGrapheme, skipLeft, nextChar);
+          var deltaX = wordWidth.deltaX;
           wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth: wordWidth.width;
+          // wordWidth += deltaX;
           // // //fabric.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
           // wordWidth +=  wordWidth.deltaX
           offset += 1;

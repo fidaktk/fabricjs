@@ -5,7 +5,7 @@
   'use strict';
 
   var fabric = global.fabric || (global.fabric = {}),
-      clone = fabric.util.object.clone;
+    clone = fabric.util.object.clone;
 
   if (fabric.Text) {
     fabric.warn('fabric.Text is already defined');
@@ -546,11 +546,11 @@
         return;
       }
       var lineTopOffset = 0, heightOfLine,
-          lineLeftOffset, originalFill = ctx.fillStyle,
-          line, lastColor,
-          leftOffset = this._getLeftOffset(),
-          topOffset = this._getTopOffset(),
-          boxStart = 0, boxWidth = 0, charBox, currentColor;
+        lineLeftOffset, originalFill = ctx.fillStyle,
+        line, lastColor,
+        leftOffset = this._getLeftOffset(),
+        topOffset = this._getTopOffset(),
+        boxStart = 0, boxWidth = 0, charBox, currentColor;
 
       for (var i = 0, len = this._textLines.length; i < len; i++) {
         heightOfLine = this.getHeightOfLine(i);
@@ -613,7 +613,7 @@
         fabric.charWidthsCache[fontFamily] = {};
       }
       var cache = fabric.charWidthsCache[fontFamily],
-          cacheProp = decl.fontStyle.toLowerCase() + '_' + (decl.fontWeight + '').toLowerCase();
+        cacheProp = decl.fontStyle.toLowerCase() + '_' + (decl.fontWeight + '').toLowerCase();
       if (!cache[cacheProp]) {
         cache[cacheProp] = {};
       }
@@ -735,7 +735,7 @@
      */
     _measureLine: function (lineIndex) {
       var width = 0, i, grapheme, line = this._textLines[lineIndex], prevGrapheme,
-          graphemeInfo, numOfSpaces = 0, lineBounds = new Array(line.length);
+        graphemeInfo, numOfSpaces = 0, lineBounds = new Array(line.length);
 
       this.__charBounds[lineIndex] = lineBounds;
 
@@ -811,9 +811,9 @@
       }
 
       var line = this._textLines[lineIndex],
-          // char 0 is measured before the line cycle because it nneds to char
-          // emptylines
-          maxHeight = this.getHeightOfChar(lineIndex, 0);
+        // char 0 is measured before the line cycle because it nneds to char
+        // emptylines
+        maxHeight = this.getHeightOfChar(lineIndex, 0);
       for (var i = 1, len = line.length; i < len; i++) {
         maxHeight = Math.max(this.getHeightOfChar(lineIndex, i), maxHeight);
       }
@@ -861,7 +861,7 @@
         return { offsetX: 0, offsetY: 0 };
       }
       var offsetX = -this.width / 2 + filler.offsetX || 0,
-          offsetY = -this.height / 2 + filler.offsetY || 0;
+        offsetY = -this.height / 2 + filler.offsetY || 0;
 
       ctx.transform(1, 0, 0, 1, offsetX, offsetY);
       return { offsetX: offsetX, offsetY: offsetY };
@@ -880,8 +880,8 @@
       var offsets = this._applyPatternGradientTransform(ctx, method === 'fillText' ? this.fill : this.stroke);
       for (var i = 0, len = this._textLines.length; i < len; i++) {
         var heightOfLine = this.getHeightOfLine(i),
-            maxHeight = heightOfLine / this.lineHeight,
-            leftOffset = this._getLineLeftOffset(i);
+          maxHeight = heightOfLine / this.lineHeight,
+          leftOffset = this._getLineLeftOffset(i);
 
         this._renderChars(
           method,
@@ -951,15 +951,15 @@
     _renderChars: function (method, ctx, line, left, top, lineIndex) {
       // set proper line offset
       var lineHeight = this.getHeightOfLine(lineIndex),
-          isJustify = this.textAlign.indexOf('justify') !== -1,
-          actualStyle,
-          nextStyle,
-          charsToRender = '',
-          charBox,
-          boxWidth = 0,
-          timeToRender,
-          isUrdu = this._reRTL.test(this.textLines[lineIndex]),
-          shortCut = !isJustify && this.charSpacing === 0 && this.isEmptyStyles(lineIndex) && !isUrdu;
+        isJustify = this.textAlign.indexOf('justify') !== -1,
+        actualStyle,
+        nextStyle,
+        charsToRender = '',
+        charBox,
+        boxWidth = 0,
+        timeToRender,
+        isUrdu = this._reRTL.test(this.textLines[lineIndex]),
+        shortCut = !isJustify && this.charSpacing === 0 && this.isEmptyStyles(lineIndex) && !isUrdu;
       // var ur = /([\u0600-\u06FF]|[\u0750-\u077F]|[\uFB50-\uFDFF]|[\uFE70-\uFEFF]|[\u10840-\u1085F]|[\u0780-\u07BF]|[\u0590-\u05FF]|[\uFB1D-\uFB4F]])/;
       var en = /[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\،\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°\)\(]/;
       var urEnMix = this._reRTL.test(line) && en.test(line);
@@ -972,6 +972,8 @@
         ctx.restore();
         return;
       }
+
+
       if (isUrdu) {
         // left = this.__charBounds[lineIndex][this.__charBounds[lineIndex].length - 1].left;
         // if (urEnMix) {
@@ -993,6 +995,7 @@
 
 
           charBox = this.__charBounds[lineIndex][i] || 0;
+
           if (boxWidth === 0) {
             left += charBox.kernedWidth - charBox.width;
             boxWidth += charBox.width;
@@ -1000,6 +1003,11 @@
           else {
             boxWidth += charBox.kernedWidth;
           }
+        
+          // var nextDeltaX = this.__charBounds[lineIndex][i-1] || 0;
+          // nextDeltaX = nextDeltaX.deltaX || 0;
+          // left -= nextDeltaX;
+          // boxWidth -= nextDeltaX;
 
           if (this._reRTL.test(charsToRender)) { timeToRender = true; }
 
@@ -1020,103 +1028,15 @@
             timeToRender = true;
           }
 
-          // // //fabric.log('---------' + charsToRender +'-------------');
-
-          // if (!this._reRTL.test(charsToRender) && !this._reSpaceAndTab.test(cR)){
-          //   charsToRender = '\u202B' + charsToRender + '\u202C';
-          // }
-          // if (this._reSpaceAndTab.test(line[i])) {
-          //   timeToRender = true;
-          // }
-          // // if (isJustify && !timeToRender) {
-          // //  agar space hai, r lafaz urdu hai to
-          // if (this._reSpaceAndTab.test(line[i]) && this._reRTL.test(charsToRender)) {
-          //   timeToRender = true;
-          // }
-          // // }
-
-          // // agar ek lafaz urdu hai, r ek lafaz pehly space thi to
-          // if (this._reSpaceAndTab.test(line[i - 1]) && this._reRTL.test(charsToRender)) {
-          //   timeToRender = true;
-          // }
-
-          // if (this._reSpaceAndTab.test(line[i])) {
-          //   if (line[i - 1]) {
-          //     // eslint-disable-next-line max-depth
-          //     if (this._reRTL.test(line[i - 1])) {
-          //       timeToRender = true;
-          //     } else {
-          //       // timeToRender = true;
-          //     }
-          //   }
-
-
-          // }
-
-          // if (this._reSpaceAndTab.test(line[i - 1]) && !this._reRTL.test(charsToRender)) {
-          //   if (line[i - 2]) {
-          //     // eslint-disable-next-line max-depth
-          //     if (this._reRTL.test(line[i - 2])) {
-          //       timeToRender = true;
-          //     }
-          //   } else {
-          //     // timeToRender = true;
-          //   }
-
-          // }
-
-          // if (this.charSpacing !== 0 && !timeToRender && this._reRTL.test(charsToRender)) {
-          //   timeToRender = true;
-          // }
-
-          // // }
-          // // if (!isJustify && !timeToRender) {
-          // //   if (!this._reSpaceAndTab.test(line[i]) && ((!this._reRTL.test(line[i]) && this._reRTL.test(line[i - 1])) || (this._reSpaceAndTab.test(line[i - 1]) && !this._reRTL.test(line[i])))) {
-          // //     timeToRender = true;
-          // //   }
-          // // }
-
-
-          // // if (isJustify && !timeToRender) {
-          // //   if (this._reSpaceAndTab.test(line[i]) || (!this._reRTL.test(line[i]) && this._reRTL.test(line[i - 1]))) {
-          // //     timeToRender = true;
-          // //   }
-          // // }
-
-          // // if (this.charSpacing !== 0 && !timeToRender) {
-          // //   // if (this._reSpaceAndTab.test(line[i]) || (!this._reRTL.test(line[i]) && this._reRTL.test(line[i - 1]))) {
-          // //   timeToRender = true;
-          // //   // }
-          // // }
-
-          // // if (!timeToRender && this._reRTL.test(charsToRender)) {
-          // //   // if we have charSpacing, we render char by char
-          // //   actualStyle = actualStyle || this.getCompleteStyleDeclaration(lineIndex, i);
-          // //   nextStyle = this.getCompleteStyleDeclaration(lineIndex, i - 1);
-          // //   timeToRender = this._hasStyleChanged(actualStyle, nextStyle);
-          // // }
-          // //fabric.log('i: ' + i);
-          // //fabric.log('charsToRender: ' + charsToRender);
-          // //fabric.log('timeToRender: ' + timeToRender);
-
-
           if (timeToRender) {
 
+
             charsToRender = charsToRender.replace(this._nonPrintable, '');
-
-            // // //fabric.log(charsToRender);
-            // if (charsToRender.length !== 0) {
-
-            // }
-
             if (urEnMix && i === line.length - 1) { charsToRender = '\u202A' + charsToRender; }
-
             if (!this._reRTL.test(charsToRender) && charsToRender.trim()) {
-              // charsToRender = charsToRender.split(' ').reverse().join(' ');
               charsToRender = '\u202B' + charsToRender.split('').reverse().join('') + '\u202C';
             }
             if (this._reRTL.test(charsToRender) && en.test(charsToRender)) {
-              // charsToRender = charsToRender.replace(this._nonPrintable,'');
               var charsToRender2 = '';
               for (var j = 0; j < charsToRender.length; j++) {
                 var crW = charsToRender.charAt(j);
@@ -1127,35 +1047,26 @@
                     charsToRender2 = charsToRender2 + '\u202B' + crW;
                   }
                   else {
-                    //fabric.log(crW);
-                    //fabric.log(ntW);
-                    //fabric.log(psW);
-                    if(psW && en.test(psW)){
-                      charsToRender2 = charsToRender2 +  '\u202B' + crW;
-                    }else
-                    if (ntW && !en.test(ntW)) {
-                    charsToRender2 = charsToRender2 +  '\u202B' + crW;
-                    }
+                    if (psW && en.test(psW)) {
+                      charsToRender2 = charsToRender2 + '\u202B' + crW;
+                    } else
+                      if (ntW && !en.test(ntW)) {
+                        charsToRender2 = charsToRender2 + '\u202B' + crW;
+                      }
                   }
                   if (ntW && !en.test(ntW)) {
                     charsToRender2 = charsToRender2 + '\u202C';
                   }
-                  // else {
-                  //   charsToRender2 = charsToRender2 + '\u202C';
-                  // }
                 }
                 else if (crW) {
                   charsToRender2 = charsToRender2 + crW;
                 }
               }
-              
+
               charsToRender = charsToRender2;
             }
             if (urEnMix && i === 0) { charsToRender = charsToRender + '\u202C'; }
 
-            // }
-            // //fabric.log('"' + charsToRender + '"');
-            //charsToRender = charsToRender.split('').reverse().join('');
             this._renderChar(method, ctx, lineIndex, i, charsToRender, left, top, lineHeight);
             charsToRender = '';
             actualStyle = nextStyle;
@@ -1196,6 +1107,9 @@
           }
         }
       }
+   
+
+
       ctx.restore();
     },
 
@@ -1215,7 +1129,7 @@
       var fullDecl = this.getCompleteStyleDeclaration(lineIndex, charIndex);
       var shouldFill = method === 'fillText' && fullDecl.fill;
       var shouldStroke = method === 'strokeText' && fullDecl.stroke && fullDecl.strokeWidth;
-      
+
       if (!shouldStroke && !shouldFill) {
         return;
       }
@@ -1231,14 +1145,14 @@
       }
       if (decl && decl.deltaX) {
 
-        if(charIndex !== 0){
-            left += decl.deltaX;
-        }else{
-          if(decl.deltaX < 0){
+        if (charIndex !== 0) {
+          left += decl.deltaX;
+        } else {
+          if (decl.deltaX < 0) {
             left += decl.deltaX;
           }
         }
-       
+
       }
       ///////////////////////
       // var dArr = [-1,-1, 0,-1, 1,-1, -1,0, 1,0, -1,1, 0,1, 1,1], // offset array
@@ -1299,10 +1213,10 @@
      */
     _setScript: function (start, end, schema) {
       var loc = this.get2DCursorLocation(start, true),
-          fontSize = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'fontSize'),
-          dy = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'deltaY'),
-          dx = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'deltaX'),
-          style = { fontSize: fontSize * schema.size, deltaY: dy + fontSize * schema.baseline, deltaX: dx + fontSize };
+        fontSize = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'fontSize'),
+        dy = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'deltaY'),
+        dx = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, 'deltaX'),
+        style = { fontSize: fontSize * schema.size, deltaY: dy + fontSize * schema.baseline, deltaX: dx + fontSize };
       this.setSelectionStyles(style, start, end);
       return this;
     },
@@ -1431,18 +1345,18 @@
      * @private
      * @param {CanvasRenderingContext2D} ctx Context to render on
      */
-    _renderTextDecoration: function(ctx, type) {
+    _renderTextDecoration: function (ctx, type) {
       if (!this[type] && !this.styleHas(type)) {
         return;
       }
       var heightOfLine, size, _size,
-          lineLeftOffset, dy, _dy,
-          line, lastDecoration,
-          leftOffset = this._getLeftOffset(),
-          topOffset = this._getTopOffset(), top,
-          boxStart, boxWidth, charBox, currentDecoration,
-          maxHeight, currentFill, lastFill,
-          charSpacing = this._getWidthOfCharSpacing();
+        lineLeftOffset, dy, _dy,dx,_dx,
+        line, lastDecoration,
+        leftOffset = this._getLeftOffset(),
+        topOffset = this._getTopOffset(), top,
+        boxStart, boxWidth, charBox, currentDecoration,
+        maxHeight, currentFill, lastFill,
+        charSpacing = this._getWidthOfCharSpacing();
 
       for (var i = 0, len = this._textLines.length; i < len; i++) {
         heightOfLine = this.getHeightOfLine(i);
@@ -1468,8 +1382,8 @@
           _size = this.getHeightOfChar(i, j);
           _dy = this.getValueOfPropertyAt(i, j, 'deltaY');
           _dx = this.getValueOfPropertyAt(i, j, 'deltaX');
-          if ((currentDecoration !== lastDecoration || currentFill !== lastFill || _size !== size || _dy !== dy  || _dx!== dx) &&
-              boxWidth > 0) {
+          if ((currentDecoration !== lastDecoration || currentFill !== lastFill || _size !== size || _dy !== dy || _dx !== dx) &&
+            boxWidth > 0) {
             ctx.fillStyle = lastFill;
             lastDecoration && lastFill && ctx.fillRect(
               leftOffset + lineLeftOffset + boxStart + dx,
@@ -1510,7 +1424,7 @@
      */
     _getFontDeclaration: function (styleObject, forMeasuring) {
       var style = styleObject || this, family = this.fontFamily,
-          fontIsGeneric = fabric.Text.genericFonts.indexOf(family.toLowerCase()) > -1;
+        fontIsGeneric = fabric.Text.genericFonts.indexOf(family.toLowerCase()) > -1;
       var fontFamily = family === undefined ||
         family.indexOf('\'') > -1 || family.indexOf(',') > -1 ||
         family.indexOf('"') > -1 || fontIsGeneric
@@ -1550,9 +1464,9 @@
      */
     _splitTextIntoLines: function (text) {
       var lines = text.split(this._reNewline),
-          newLines = new Array(lines.length),
-          newLine = ['\n'],
-          newText = [];
+        newLines = new Array(lines.length),
+        newLine = ['\n'],
+        newText = [];
       for (var i = 0; i < lines.length; i++) {
         if (this._reRTL.test(lines[i])) {
           newLines[i] = lines[i].split(/(\s+)/);
@@ -1657,7 +1571,7 @@
     }
 
     var parsedAttributes = fabric.parseAttributes(element, fabric.Text.ATTRIBUTE_NAMES),
-        parsedAnchor = parsedAttributes.textAnchor || 'left';
+      parsedAnchor = parsedAttributes.textAnchor || 'left';
     options = fabric.util.object.extend((options ? clone(options) : {}), parsedAttributes);
 
     options.top = options.top || 0;
@@ -1706,11 +1620,11 @@
     options.strokeWidth = 0;
 
     var text = new fabric.Text(textContent, options),
-        textHeightScaleFactor = text.getScaledHeight() / text.height,
-        lineHeightDiff = (text.height + text.strokeWidth) * text.lineHeight - text.height,
-        scaledDiff = lineHeightDiff * textHeightScaleFactor,
-        textHeight = text.getScaledHeight() + scaledDiff,
-        offX = 0;
+      textHeightScaleFactor = text.getScaledHeight() / text.height,
+      lineHeightDiff = (text.height + text.strokeWidth) * text.lineHeight - text.height,
+      scaledDiff = lineHeightDiff * textHeightScaleFactor,
+      textHeight = text.getScaledHeight() + scaledDiff,
+      offX = 0;
     /*
       Adjust positioning:
         x/y attributes in SVG correspond to the bottom-left corner of text bounding box
