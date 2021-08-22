@@ -1038,6 +1038,11 @@
             }
             if (this._reRTL.test(charsToRender) && en.test(charsToRender)) {
               var charsToRender2 = '';
+              if(charsToRender.length == 1){
+                // charsToRender = '\u202B' + charsToRender + '\u202C';
+              }else{
+
+              
               for (var j = 0; j < charsToRender.length; j++) {
                 var crW = charsToRender.charAt(j);
                 var ntW = charsToRender.charAt(j + 1);
@@ -1060,10 +1065,13 @@
                 }
                 else if (crW) {
                   charsToRender2 = charsToRender2 + crW;
+                }else{
+                  charsToRender2 = charsToRender;
                 }
               }
 
               charsToRender = charsToRender2;
+            }
             }
             if (urEnMix && i === 0) { charsToRender = charsToRender + '\u202C'; }
 
