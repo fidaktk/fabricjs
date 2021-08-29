@@ -515,6 +515,13 @@
                     // filter: 'dark-glass'
                 }));
 
+                oImg.filters.push(new fabric.Image.filters.Embossed({
+                    light: 'rgba(255,255,255,1)',
+                    embossed: 20,
+                    blur: 4,
+                    invert: false,
+                    // filter: 'dark-glass'
+                }));
 
      
 
@@ -537,10 +544,80 @@
                                 `
                             }));
 
+                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
+                                customstyle: `
+                            
+                                <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="2" seed="2" stitchTiles="noStitch" result="turbulence"/>
+	<feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
+               
+                                
+                                `
+                            }));
 
+                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
+                                customstyle: `
+                            
+                                <feOffset dx="5" dy="5"  in="blur2" result="offset"/>
+                                        <feGaussianBlur stdDeviation="15"  in="SourceGraphic" result="blur2"/>
+                                        <feSpecularLighting surfaceScale="15" specularConstant="1" specularExponent="30" lighting-color="#ffffff"  in="blur2" result="specularLighting">
+                                        <feDistantLight azimuth="-128" elevation="50"/></feSpecularLighting>
+                                        <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
+                                        <feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/>
+               
+                                
+                                `
+                            }));
+                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
+                                customstyle: `
+                            
+                                <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="2" seed="2" stitchTiles="noStitch" result="turbulence"/>
+	<feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
+               
+                                
+                                `
+                            }));
+                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
+                                customstyle: `
+                            
+                                <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="2" seed="2" stitchTiles="noStitch" result="turbulence"/>
+	<feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
+               
+                                
+                                `
+                            }));
+            oImg.filters.push(new fabric.Image.filters.Embossed({
+                    light: 'rgba(255,255,255,1)',
+                    embossed: 20,
+                    blur: 4,
+                    invert: false,
+                    // filter: 'dark-glass'
+                }));
+                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
+                                customstyle: `
+                            
+                                <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="2" seed="2" stitchTiles="noStitch" result="turbulence"/>
+	<feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
+               
+                                
+                                `
+                            }));
+                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
+                                customstyle: `
+                            
+                                <feTurbulence type="turbulence" baseFrequency="0.05 0.1" numOctaves="3" seed="3" stitchTiles="noStitch" result="turbulence"/>
+	<feDisplacementMap in="SourceGraphic" in2="turbulence" scale="500" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
+               
+                                
+                                `
+                            }));
 
-
-
+                            oImg.filters.push(new fabric.Image.filters.Embossed({
+                    light: 'rgba(255,255,255,1)',
+                    embossed: 20,
+                    blur: 4,
+                    invert: false,
+                    // filter: 'dark-glass'
+                }));
                 oImg.applyFilters();
                 canvas.renderAll();
             });
@@ -712,12 +789,12 @@
         };
 
         document.getElementById('outline-width').onchange = function () {
-            canvas.getActiveObject().filters[0].width = this.value;
+            canvas.getActiveObject().filters[1].width = this.value;
             canvas.getActiveObject().applyFilters();
             canvas.renderAll();
         };
         document.getElementById('outline-blur').onchange = function () {
-            canvas.getActiveObject().filters[0].blur = this.value;
+            canvas.getActiveObject().filters[1].blur = this.value;
             canvas.getActiveObject().applyFilters();
             canvas.renderAll();
         };

@@ -37,8 +37,8 @@
 
 
 
-      var h = options.sourceHeight;//imageData.height;
-      var w = options.sourceWidth;//imageData.width;
+      var h = options.imageData.height;
+      var w =  options.imageData.width;
       // var d = new Date();
       //fabric.log(d.getMinutes(), d.getSeconds(), d.getMilliseconds());
       var canvas = fabric.util.createCanvasElement();
@@ -46,21 +46,24 @@
       canvas.height = h + 100;
       var ctx = canvas.getContext('2d');
       ctx.putImageData(options.imageData, 50, 50);
+      // ctx.drawImage(options.canvasEl, 50, 50);
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
       window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">${this.customstyle}</filter></svg>`);
 
 
       ctx.filter = 'url(#filter)';
-      ctx.drawImage(canvas, 0, 0,);
+      ctx.drawImage(canvas, 0, 0);
 
       el = document.getElementById('svgfilter');
       if (el) el.remove();
       var tcanvas = this.trimCanvas(canvas);
       // options.imageData.height = tcanvas.height;
       // options.imageData.width = tcanvas.width;
-      options.imageData = tcanvas.getContext('2d').getImageData(0, 0, tcanvas.width, tcanvas.height);
+      // options.imageData = tcanvas.getContext('2d').getImageData(0, 0, tcanvas.width > canvas.width ? tcanvas.width : canvas.width, tcanvas.height > canvas.height ? tcanvas.height : canvas.height);
       // d = new Date();
+      options.imageData = tcanvas.getContext('2d').getImageData(0, 0, tcanvas.width, tcanvas.height);
+
       if (canvas) canvas.remove();
       //fabric.log(d.getMinutes(), d.getSeconds(), d.getMilliseconds());
     },
