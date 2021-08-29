@@ -37,15 +37,15 @@
 
 
 
-      var h = options.imageData.height;
-      var w = options.imageData.width;
+      var h = options.sourceHeight;//imageData.height;
+      var w = options.sourceWidth;//imageData.width;
       // var d = new Date();
       //fabric.log(d.getMinutes(), d.getSeconds(), d.getMilliseconds());
       var canvas = fabric.util.createCanvasElement();
-      canvas.width = w + 200;
-      canvas.height = h + 200;
+      canvas.width = w + 100;
+      canvas.height = h + 100;
       var ctx = canvas.getContext('2d');
-      ctx.putImageData(options.imageData, 100, 100);
+      ctx.putImageData(options.imageData, 50, 50);
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
       window.document.body.insertAdjacentHTML('afterbegin', `<svg id="svgfilter"><filter id="filter">${this.customstyle}</filter></svg>`);
