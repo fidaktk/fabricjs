@@ -136,12 +136,14 @@
         to: this.to,
         feather: this.feather,
         invert: this.invert,
+        edges: this.edges,
+        circle: this.circle
       };
-      if(this.feather == 'edges'){
-        ob['edges'] = this.edges
-      }else{
-        ob['circle'] = this.circle
-      }
+      // if(this.feather == 'edges'){
+       
+      // }else{
+      //   ob['circle'] = this.circle
+      // }
       return fabric.util.object.extend(this.callSuper('toObject'), ob);
     }
  
