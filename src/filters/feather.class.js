@@ -29,24 +29,30 @@
      */
     type: 'Feather',
 
-    from: 0, 
+    from: 0,
     to: 0,
     feather: '',
+    top: false,
+    right: false,
+    left: false,
+    bottom: false,
     edges: {
       top: false,
       right: false,
       left: false,
       bottom: false
     },
+    x: 100,
+    y: 100,
     circle: {
       x: 100,
       y: 100
-  },
+    },
     invert: false,
     mainParameter: 'feather',
 
     applyTo2d: function (options) {
-      if ((this.from == 0 && this.to == 0) || (this.from >100 && this.to >100)) {
+      if ((this.from == 0 && this.to == 0) || (this.from > 100 && this.to > 100)) {
         // early return if the parameter value has a neutral value
         return;
       }
@@ -62,50 +68,50 @@
 
 
       var i = 1;
-      
-      if(this.invert){
+
+      if (this.invert) {
         [f, t] = [t, f];
       }
       // //fabric.log(f, t);
       // ctx.save();
       if (this.feather === 'edges') {
         ctx.globalCompositeOperation = "destination-out";
-        if(this.edges.left){
-        var grd1 = ctx.createLinearGradient(0, 0, w, 0);
-        grd1.addColorStop(t, "rgba(0,0,0,0");
-        grd1.addColorStop(f, "black");
-        ctx.fillStyle = grd1;
-        ctx.fillRect(0, 0, w, h);
+        if (this.edges.left || this.left) {
+          var grd1 = ctx.createLinearGradient(0, 0, w, 0);
+          grd1.addColorStop(t, "rgba(0,0,0,0");
+          grd1.addColorStop(f, "black");
+          ctx.fillStyle = grd1;
+          ctx.fillRect(0, 0, w, h);
         }
 
-        if(this.edges.top){
-        var grd2 = ctx.createLinearGradient(0, 0, 0, h);
-        grd2.addColorStop(t, "rgba(0,0,0,0");
-        grd2.addColorStop(f, "black");
-        ctx.fillStyle = grd2;
-        ctx.fillRect(0, 0, w, h);
+        if (this.edges.top || this.top) {
+          var grd2 = ctx.createLinearGradient(0, 0, 0, h);
+          grd2.addColorStop(t, "rgba(0,0,0,0");
+          grd2.addColorStop(f, "black");
+          ctx.fillStyle = grd2;
+          ctx.fillRect(0, 0, w, h);
         }
-        if(this.edges.bottom){
-        var grd3 = ctx.createLinearGradient(0, h, 0, 0);
-        grd3.addColorStop(t, "rgba(0,0,0,0");
-        grd3.addColorStop(f, "black");
-        ctx.fillStyle = grd3;
-        ctx.fillRect(0, 0, w, h);
+        if (this.edges.bottom || this.bottom) {
+          var grd3 = ctx.createLinearGradient(0, h, 0, 0);
+          grd3.addColorStop(t, "rgba(0,0,0,0");
+          grd3.addColorStop(f, "black");
+          ctx.fillStyle = grd3;
+          ctx.fillRect(0, 0, w, h);
         }
-        if(this.edges.right){
-        var grd4 = ctx.createLinearGradient(w, 0, 0, 0);
-        grd4.addColorStop(t, "rgba(0,0,0,0");
-        grd4.addColorStop(f, "black");
-        ctx.fillStyle = grd4;
-        ctx.fillRect(0, 0, w, h);
+        if (this.edges.right || this.right) {
+          var grd4 = ctx.createLinearGradient(w, 0, 0, 0);
+          grd4.addColorStop(t, "rgba(0,0,0,0");
+          grd4.addColorStop(f, "black");
+          ctx.fillStyle = grd4;
+          ctx.fillRect(0, 0, w, h);
         }
       }
 
-      if(this.feather === 'circle'){
+      if (this.feather === 'circle') {
         ctx.globalCompositeOperation = "destination-out";
-        var x = (w/100)*this.circle.x;
-        var y = (h/100)*this.circle.y;
-        var s = w>h?h:w;
+        var x = (w / 100) * this.x;
+        var y = (h / 100) * this.y;
+        var s = w > h ? h : w;
         // var r = (s/100)*this.circle.r;
         var grd1 = ctx.createRadialGradient(x, y, 0, x, y, s);
         grd1.addColorStop(f, "rgba(0,0,0,0");
@@ -119,7 +125,7 @@
       // ctx.drawImage(options.canvasEl, 0, 0, w, h);
 
 
-      var imageData = ctx.getImageData(0, 0,w,h);
+      var imageData = ctx.getImageData(0, 0, w, h);
       options.imageData = imageData;
       if (canvas) canvas.remove();
       // var trimmedCanvas = can; //sthis.trimCanvas(can);
@@ -128,7 +134,7 @@
     },
 
 
-    toObject: function() {
+    toObject: function () {
       var ob = {
         width: this.width,
         blur: this.blur,
@@ -136,17 +142,23 @@
         to: this.to,
         feather: this.feather,
         invert: this.invert,
-        edges: this.edges,
-        circle: this.circle
+        x: this.x,
+        y: this.y,
+        // edges: this.edges,
+        // circle: this.circle,
+        top: this.top,
+        right: this.right,
+        left: this.left,
+        bottom: this.bottom,
       };
       // if(this.feather == 'edges'){
-       
+
       // }else{
       //   ob['circle'] = this.circle
       // }
       return fabric.util.object.extend(this.callSuper('toObject'), ob);
     }
- 
+
 
 
 
