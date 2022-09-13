@@ -28,56 +28,75 @@
 
   filters.Mask = createClass(filters.BaseFilter, /** @lends fabric.Image.filters.BlendImage.prototype */ {
     type: 'Mask',
-
-    /**
-     * Color to make the blend operation with. default to a reddish color since black or white
-     * gives always strong result.
-     **/
-    // image: null,
-
-    /**
-     * Blend mode for the filter: one of multiply, add, diff, screen, subtract,
-     * darken, lighten, overlay, exclusion, tint.
-     **/
-    // mode: 'multiply',
-
-    /**
-     * alpha value. represent the strength of the blend image operation.
-     * not implemented.
-     **/
-    // alpha: 1,
+    mask: null,
+    channel: 0,
+    invert: false,
 
 
     applyTo2d: function (options) {
-      var imageData = options.imageData,
-        resources = options.filterBackend.resources,
-        data = imageData.data, iLen = data.length,
-        width = imageData.width,
-        height = imageData.height,
-        tr, tg, tb, ta,
-        r, g, b, a,
-        canvas1, context, image = this.image, blendData;
-      var threshold = 140.418;
-     var mask = this.backgroundMask(imageData, threshold);
-      if (mask) {
-        // Erode
-        mask = this.erodeMask(mask, imageData.width, imageData.height);
-    
-        // Dilate
-        mask = this.dilateMask(mask, imageData.width, imageData.height);
-    
-        // Gradient
-        mask = this.smoothEdgeMask(mask, imageData.width, imageData.height);
-    
-        // Apply mask
-        applyMask(imageData, mask);
-      }
+      if (!this.mask) return;
+      var w = options.imageData.width;
+      var h = options.imageData.height;
+      var canvas = fabric.util.createCanvasElement();
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.putImageData(options.imageData, 0, 0);
 
-      function applyMask(idata, mask) {
-        for (var i = 0; i < idata.width * idata.height; i++) {
-          idata.data[4 * i + 3] = mask[i];
-        }
+
+      var context = canvasEl.getContext('2d'),
+        imageData = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
+        data = imageData.data,
+        maskEl = this.mask._originalElement,
+        maskCanvasEl = fabric.util.createCanvasElement(),
+        channel = this.channel,
+        i;
+      maskCanvasEl.width = maskEl.width;
+      maskCanvasEl.height = maskEl.height;
+      maskCanvasEl.getContext('2d').drawImage(maskEl, 0, 0, maskEl.width, maskEl.height);
+      var maskImageData = maskCanvasEl.getContext('2d').getImageData(0, 0, maskEl.width, maskEl.height),
+        maskData = maskImageData.data;
+      for (i = 0; i < imageData.width * imageData.height * 4; i += 4) {
+        data[i + 3] = maskData[i + channel];
       }
+      context.putImageData(imageData, 0, 0);
+
+
+
+
+
+
+
+
+      // var imageData = options.imageData,
+      //   resources = options.filterBackend.resources,
+      //   data = imageData.data, iLen = data.length,
+      //   width = imageData.width,
+      //   height = imageData.height,
+      //   tr, tg, tb, ta,
+      //   r, g, b, a,
+      //   canvas1, context, image = this.image, blendData;
+      // var threshold = 140.418;
+      // var mask = this.backgroundMask(imageData, threshold);
+      // if (mask) {
+      //   // Erode
+      //   mask = this.erodeMask(mask, imageData.width, imageData.height);
+
+      //   // Dilate
+      //   mask = this.dilateMask(mask, imageData.width, imageData.height);
+
+      //   // Gradient
+      //   mask = this.smoothEdgeMask(mask, imageData.width, imageData.height);
+
+      //   // Apply mask
+      //   applyMask(imageData, mask);
+      // }
+
+      // function applyMask(idata, mask) {
+      //   for (var i = 0; i < idata.width * idata.height; i++) {
+      //     idata.data[4 * i + 3] = mask[i];
+      //   }
+      // }
 
     },
 

@@ -223,6 +223,7 @@ var filesToInclude = [
   ifSpecifiedInclude('image_filters', 'src/filters/feather.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/embossed.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/svgfilter.class.js'),
+  ifSpecifiedInclude('image_filters', 'src/filters/mask.class.js'),
   ifSpecifiedInclude('text', 'src/shapes/text.class.js'),
   ifSpecifiedInclude('text', 'src/mixins/text_style.mixin.js'),
 

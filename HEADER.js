@@ -1,12 +1,12 @@
 /*! Fabric.js Copyright 2008-2015, Printio (Juriy Zaytsev, Maxim Chernyak) */
 
-var fabric = fabric || { version: '3.7.1' };
+var fabric = fabric || { version: '3.7.2' };
 if (typeof exports !== 'undefined') {
   exports.fabric = fabric;
 }
 /* _AMD_START_ */
 else if (typeof define === 'function' && define.amd) {
-  define([], function() { return fabric; });
+  define([], function () { return fabric; });
 }
 /* _AMD_END_ */
 if (typeof document !== 'undefined' && typeof window !== 'undefined') {
@@ -48,7 +48,7 @@ fabric.isTouchSupported = 'ontouchstart' in fabric.window || 'ontouchstart' in f
  * @type boolean
  */
 fabric.isLikelyNode = typeof Buffer !== 'undefined' &&
-                      typeof window === 'undefined';
+  typeof window === 'undefined';
 
 /* _FROM_SVG_START_ */
 /**
@@ -75,7 +75,7 @@ fabric.DPI = 96;
 fabric.reNum = '(?:[-+]?(?:\\d+|\\d*\\.\\d+)(?:[eE][-+]?\\d+)?)';
 fabric.rePathCommand = /([-+]?((\d+\.\d+)|((\d+)|(\.\d+)))(?:[eE][-+]?\d+)?)/ig;
 fabric.reNonWord = /[ \n\.,;!\?\-]/;
-fabric.fontPaths = { };
+fabric.fontPaths = {};
 fabric.iMatrix = [1, 0, 0, 1, 0, 0];
 fabric.svgNS = 'http://www.w3.org/2000/svg';
 
@@ -106,7 +106,7 @@ fabric.minCacheSideLimit = 256;
 /**
  * Cache Object for widths of chars in text rendering.
  */
-fabric.charWidthsCache = { };
+fabric.charWidthsCache = {};
 
 /**
  * if webgl is enabled and available, textureSize will determine the size
@@ -141,9 +141,9 @@ fabric.enableGLFiltering = true;
  * @see https://developer.apple.com/library/safari/documentation/AudioVideo/Conceptual/HTML-canvas-guide/SettingUptheCanvas/SettingUptheCanvas.html
  */
 fabric.devicePixelRatio = fabric.window.devicePixelRatio ||
-                          fabric.window.webkitDevicePixelRatio ||
-                          fabric.window.mozDevicePixelRatio ||
-                          1;
+  fabric.window.webkitDevicePixelRatio ||
+  fabric.window.mozDevicePixelRatio ||
+  1;
 /**
  * Browser-specific constant to adjust CanvasRenderingContext2D.shadowBlur value,
  * which is unitless and not rendered equally across browsers.
@@ -164,7 +164,7 @@ fabric.browserShadowBlurConstant = 1;
  * This object contains the result of arc to beizer conversion for faster retrieving if the same arc needs to be converted again.
  * It was an internal variable, is accessible since version 2.3.4
  */
-fabric.arcToSegmentsCache = { };
+fabric.arcToSegmentsCache = {};
 
 /**
  * This object keeps the results of the boundsOfCurve calculation mapped by the joined arguments necessary to calculate it.
@@ -174,7 +174,7 @@ fabric.arcToSegmentsCache = { };
  * can eventually clear it.
  * It was an internal variable, is accessible since version 2.3.4
  */
-fabric.boundsOfCurveCache = { };
+fabric.boundsOfCurveCache = {};
 
 /**
  * If disabled boundsOfCurveCache is not used. For apps that make heavy usage of pencil drawing probably disabling it is better
@@ -191,7 +191,7 @@ fabric.cachesBoundsOfCurve = true;
  */
 fabric.forceGLPutImageData = false;
 
-fabric.initFilterBackend = function() {
+fabric.initFilterBackend = function () {
   if (fabric.enableGLFiltering && fabric.isWebglSupported && fabric.isWebglSupported(fabric.textureSize)) {
     console.log('max texture size: ' + fabric.maxTextureSize);
     return (new fabric.WebglFilterBackend({ tileSize: fabric.textureSize }));

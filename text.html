@@ -4,11 +4,13 @@
         src: url('/a-jameel-noori-nastaleeq.ttf');
         src: url('/a-jameel-noori-nastaleeq.ttf') format('truetype');
     }
+
     @font-face {
         font-family: 'mehr';
         src: url('/mehrnastaleeq.ttf');
         src: url('/mehrnastaleeq.ttf') format('truetype');
     }
+
     body {
         font-family: 'mehr', sans-serif;
     }
@@ -342,14 +344,18 @@
             // var im;
 
 
-            // fabric.Image.fromURL('/man.png', function (oImg) {
-            //     oImg.crossOrigin = "anonymous";
+            fabric.Image.fromURL('/love.jpg', function (oImg) {
+                oImg.crossOrigin = "anonymous";
 
-            //     // add filter
+                //     // add filter
 
-            //     //  oImg.filters.push(new fabric.Image.filters.Mask({}));
-
-
+                oImg.filters.push(new fabric.Image.filters.Mask({}));
+                oImg.applyFilters();
+                canvas.add(oImg);
+                oImg.center();
+                oImg.setCoords();
+                canvas.renderAll();
+            });
 
             //     // oImg.filters.push(new fabric.Image.filters.Feather({
             //     // from: 10, to: 51,
@@ -401,9 +407,9 @@
 
             //                 // oImg.filters.push(new fabric.Image.filters.CustomStyle({
             //                 //     customstyle: `
-                            
-                                
-                                
+
+
+
             //                 //     `
             //                 // }));
             //     // oImg.filters.push(new fabric.Image.filters.InnerShadow({
@@ -482,145 +488,145 @@
             //     canvas.renderAll();
             // });
 
-            fabric.Image.fromURL("data:image/png;base64,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", function (oImg) {
-                oImg.crossOrigin = "anonymous";
+            //         fabric.Image.fromURL("data:image/png;base64,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", function (oImg) {
+            //             oImg.crossOrigin = "anonymous";
 
-                // add filter
+            //             // add filter
 
-                // a.stroke = "#01FF00";
-                // a.strokeWidth = 3;
-             
-                oImg.filters.push(new fabric.Image.filters.InnerShadow({
+            //             // a.stroke = "#01FF00";
+            //             // a.strokeWidth = 3;
 
-                    color: 'rgba(0,0,0,1)',
-                    x: 10,
-                    y: 10,
-                    innershadow: 30,
-                    blend: 'multiply'
-                }))
+            //             oImg.filters.push(new fabric.Image.filters.InnerShadow({
 
-                canvas.add(oImg);
-                oImg.setCoords();
-                oImg.applyFilters();
-                canvas.renderAll();
-              
+            //                 color: 'rgba(0,0,0,1)',
+            //                 x: 10,
+            //                 y: 10,
+            //                 innershadow: 30,
+            //                 blend: 'multiply'
+            //             }))
 
+            //             canvas.add(oImg);
+            //             oImg.setCoords();
+            //             oImg.applyFilters();
+            //             canvas.renderAll();
 
 
-            oImg.filters.push(new fabric.Image.filters.Embossed({
-                    light: 'rgba(255,255,255,1)',
-                    embossed: 20,
-                    blur: 4,
-                    invert: false,
-                    // filter: 'dark-glass'
-                }));
 
-                oImg.filters.push(new fabric.Image.filters.Embossed({
-                    light: 'rgba(255,255,255,1)',
-                    embossed: 20,
-                    blur: 4,
-                    invert: false,
-                    // filter: 'dark-glass'
-                }));
 
-     
+            //         oImg.filters.push(new fabric.Image.filters.Embossed({
+            //                 light: 'rgba(255,255,255,1)',
+            //                 embossed: 20,
+            //                 blur: 4,
+            //                 invert: false,
+            //                 // filter: 'dark-glass'
+            //             }));
+
+            //             oImg.filters.push(new fabric.Image.filters.Embossed({
+            //                 light: 'rgba(255,255,255,1)',
+            //                 embossed: 20,
+            //                 blur: 4,
+            //                 invert: false,
+            //                 // filter: 'dark-glass'
+            //             }));
 
 
 
 
 
 
-                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
-                                customstyle: `
-                            
-                                <feOffset dx="5" dy="5"  in="blur2" result="offset"/>
-                                        <feGaussianBlur stdDeviation="15"  in="SourceGraphic" result="blur2"/>
-                                        <feSpecularLighting surfaceScale="15" specularConstant="1" specularExponent="30" lighting-color="#ffffff"  in="blur2" result="specularLighting">
-                                        <feDistantLight azimuth="-128" elevation="50"/></feSpecularLighting>
-                                        <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
-                                        <feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/>
-               
-                                
-                                `
-                            }));
 
-                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
-                                customstyle: `
-                            
-                                <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="2" seed="2" stitchTiles="noStitch" result="turbulence"/>
-	<feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
-               
-                                
-                                `
-                            }));
 
-                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
-                                customstyle: `
-                            
-                                <feOffset dx="5" dy="5"  in="blur2" result="offset"/>
-                                        <feGaussianBlur stdDeviation="15"  in="SourceGraphic" result="blur2"/>
-                                        <feSpecularLighting surfaceScale="15" specularConstant="1" specularExponent="30" lighting-color="#ffffff"  in="blur2" result="specularLighting">
-                                        <feDistantLight azimuth="-128" elevation="50"/></feSpecularLighting>
-                                        <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
-                                        <feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/>
-               
-                                
-                                `
-                            }));
-                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
-                                customstyle: `
-                            
-                                <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="2" seed="2" stitchTiles="noStitch" result="turbulence"/>
-	<feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
-               
-                                
-                                `
-                            }));
-                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
-                                customstyle: `
-                            
-                                <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="2" seed="2" stitchTiles="noStitch" result="turbulence"/>
-	<feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
-               
-                                
-                                `
-                            }));
-            oImg.filters.push(new fabric.Image.filters.Embossed({
-                    light: 'rgba(255,255,255,1)',
-                    embossed: 20,
-                    blur: 4,
-                    invert: false,
-                    // filter: 'dark-glass'
-                }));
-                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
-                                customstyle: `
-                            
-                                <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="2" seed="2" stitchTiles="noStitch" result="turbulence"/>
-	<feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
-               
-                                
-                                `
-                            }));
-                            oImg.filters.push(new fabric.Image.filters.CustomStyle({
-                                customstyle: `
-                            
-                                <feTurbulence type="turbulence" baseFrequency="0.05 0.1" numOctaves="3" seed="3" stitchTiles="noStitch" result="turbulence"/>
-	<feDisplacementMap in="SourceGraphic" in2="turbulence" scale="500" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
-               
-                                
-                                `
-                            }));
+            //                         oImg.filters.push(new fabric.Image.filters.CustomStyle({
+            //                             customstyle: `
 
-                            oImg.filters.push(new fabric.Image.filters.Embossed({
-                    light: 'rgba(255,255,255,1)',
-                    embossed: 20,
-                    blur: 4,
-                    invert: false,
-                    // filter: 'dark-glass'
-                }));
-                oImg.applyFilters();
-                canvas.renderAll();
-            });
+            //                             <feOffset dx="5" dy="5"  in="blur2" result="offset"/>
+            //                                     <feGaussianBlur stdDeviation="15"  in="SourceGraphic" result="blur2"/>
+            //                                     <feSpecularLighting surfaceScale="15" specularConstant="1" specularExponent="30" lighting-color="#ffffff"  in="blur2" result="specularLighting">
+            //                                     <feDistantLight azimuth="-128" elevation="50"/></feSpecularLighting>
+            //                                     <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
+            //                                     <feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/>
+
+
+            //                             `
+            //                         }));
+
+            //                         oImg.filters.push(new fabric.Image.filters.CustomStyle({
+            //                             customstyle: `
+
+            //                             <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="2" seed="2" stitchTiles="noStitch" result="turbulence"/>
+            // <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
+
+
+            //                             `
+            //                         }));
+
+            //                         oImg.filters.push(new fabric.Image.filters.CustomStyle({
+            //                             customstyle: `
+
+            //                             <feOffset dx="5" dy="5"  in="blur2" result="offset"/>
+            //                                     <feGaussianBlur stdDeviation="15"  in="SourceGraphic" result="blur2"/>
+            //                                     <feSpecularLighting surfaceScale="15" specularConstant="1" specularExponent="30" lighting-color="#ffffff"  in="blur2" result="specularLighting">
+            //                                     <feDistantLight azimuth="-128" elevation="50"/></feSpecularLighting>
+            //                                     <feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"  result="composite1"/>
+            //                                     <feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/>
+
+
+            //                             `
+            //                         }));
+            //                         oImg.filters.push(new fabric.Image.filters.CustomStyle({
+            //                             customstyle: `
+
+            //                             <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="2" seed="2" stitchTiles="noStitch" result="turbulence"/>
+            // <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
+
+
+            //                             `
+            //                         }));
+            //                         oImg.filters.push(new fabric.Image.filters.CustomStyle({
+            //                             customstyle: `
+
+            //                             <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="2" seed="2" stitchTiles="noStitch" result="turbulence"/>
+            // <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
+
+
+            //                             `
+            //                         }));
+            //         oImg.filters.push(new fabric.Image.filters.Embossed({
+            //                 light: 'rgba(255,255,255,1)',
+            //                 embossed: 20,
+            //                 blur: 4,
+            //                 invert: false,
+            //                 // filter: 'dark-glass'
+            //             }));
+            //                         oImg.filters.push(new fabric.Image.filters.CustomStyle({
+            //                             customstyle: `
+
+            //                             <feTurbulence type="turbulence" baseFrequency="0.01 0.05" numOctaves="2" seed="2" stitchTiles="noStitch" result="turbulence"/>
+            // <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
+
+
+            //                             `
+            //                         }));
+            //                         oImg.filters.push(new fabric.Image.filters.CustomStyle({
+            //                             customstyle: `
+
+            //                             <feTurbulence type="turbulence" baseFrequency="0.05 0.1" numOctaves="3" seed="3" stitchTiles="noStitch" result="turbulence"/>
+            // <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="500" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
+
+
+            //                             `
+            //                         }));
+
+            //                         oImg.filters.push(new fabric.Image.filters.Embossed({
+            //                 light: 'rgba(255,255,255,1)',
+            //                 embossed: 20,
+            //                 blur: 4,
+            //                 invert: false,
+            //                 // filter: 'dark-glass'
+            //             }));
+            //             oImg.applyFilters();
+            //             canvas.renderAll();
+            //         });
 
 
 
@@ -633,7 +639,7 @@
             // canvas.add(line);
 
 
-            // canvas.renderAll();
+            canvas.renderAll();
 
 
 
