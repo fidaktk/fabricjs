@@ -12393,7 +12393,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         },
 
         _render: function (pointer) {
-            var ctx, lineWidthDiff, i;
+            var ctx, lineWidthDiff, i, len;
 
             ctx = this.canvas.contextTop;
 
@@ -12541,7 +12541,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         onMouseMove: function (pointer) {
             this._points.push(pointer);
 
-            var ctx = this.canvas.contextTop,
+            var dx, dy, d, len, ctx = this.canvas.contextTop,
                 points = this._points;
 
             ctx.beginPath();
