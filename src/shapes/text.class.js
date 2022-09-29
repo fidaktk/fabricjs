@@ -961,7 +961,9 @@
         isUrdu = this._reRTL.test(this.textLines[lineIndex]),
         shortCut = !isJustify && this.charSpacing === 0 && this.isEmptyStyles(lineIndex) && !isUrdu;
       // var ur = /([\u0600-\u06FF]|[\u0750-\u077F]|[\uFB50-\uFDFF]|[\uFE70-\uFEFF]|[\u10840-\u1085F]|[\u0780-\u07BF]|[\u0590-\u05FF]|[\uFB1D-\uFB4F]])/;
-      var en = /[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\،\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°\)\(]/;
+      // var en = /[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\،\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°\)\(]/;
+      var en = /[a-zA-Z0-9\u00C0-\u00C0\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF\~\`\!\@\#\$\%\^\&\*\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\،\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°\)\(]/;
+
       var urEnMix = this._reRTL.test(line) && en.test(line);
 
       ctx.save();
@@ -1003,7 +1005,7 @@
           else {
             boxWidth += charBox.kernedWidth;
           }
-        
+
           // var nextDeltaX = this.__charBounds[lineIndex][i-1] || 0;
           // nextDeltaX = nextDeltaX.deltaX || 0;
           // left -= nextDeltaX;
@@ -1038,40 +1040,42 @@
             }
             if (this._reRTL.test(charsToRender) && en.test(charsToRender)) {
               var charsToRender2 = '';
-              if(charsToRender.length == 1){
-                // charsToRender = '\u202B' + charsToRender + '\u202C';
-              }else{
-
-              
-              for (var j = 0; j < charsToRender.length; j++) {
-                var crW = charsToRender.charAt(j);
-                var ntW = charsToRender.charAt(j + 1);
-                var psW = charsToRender.charAt(j - 1);
-                if (crW && en.test(crW)) {
-                  if (psW && !en.test(psW)) {
-                    charsToRender2 = charsToRender2 + '\u202B' + crW;
-                  }
-                  else {
-                    if (psW && en.test(psW)) {
+              if (charsToRender.length > 1) {
+                // const regexRTL = /[\u0591-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC](.*?)[\u0591-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC]/g;
+                // charsToRender = charsToRender.replace(regexRTL[0], '\u202B' + regexRTL[0]);
+                for (var j = 0; j < charsToRender.length; j++) {
+                  // charsToRender2 = charsToRender2 + '\u202B' + charsToRender.charAt(j);
+                  var crW = charsToRender.charAt(j);
+                  var ntW = charsToRender.charAt(j + 1);
+                  var psW = charsToRender.charAt(j - 1);
+                  // console.log('last:' + charsToRender.charAt(charsToRender.length - 1));
+                  // console.warn('p:' + psW, 'c:' + crW, 'n:' + ntW);
+                  if (crW && en.test(crW)) {
+                    if (psW && !en.test(psW)) {
                       charsToRender2 = charsToRender2 + '\u202B' + crW;
-                    } else
-                      if (ntW && !en.test(ntW)) {
+                    } else {
+                      if (psW && en.test(psW)) {
                         charsToRender2 = charsToRender2 + '\u202B' + crW;
+                      } else if (ntW && !en.test(ntW)) {
+                        charsToRender2 = charsToRender2 + '\u202B' + crW;
+                      } else if (!psW && en.test(crW)) {
+                        charsToRender2 = charsToRender2 + '\u202C' + crW;
                       }
+                    }
+                    if (ntW && !en.test(ntW)) {
+                      charsToRender2 = charsToRender2 + '\u202C';
+                    }
+                  } else if (crW) {
+                    charsToRender2 = charsToRender2 + crW;
+                  } else {
+                    charsToRender2 = charsToRender;
                   }
-                  if (ntW && !en.test(ntW)) {
-                    charsToRender2 = charsToRender2 + '\u202C';
-                  }
-                }
-                else if (crW) {
-                  charsToRender2 = charsToRender2 + crW;
-                }else{
-                  charsToRender2 = charsToRender;
-                }
-              }
 
-              charsToRender = charsToRender2;
-            }
+                }
+
+                charsToRender = charsToRender2; //'\u202A' + charsToRender2.split('').reverse().join('') + '\u202B';
+
+              }
             }
             if (urEnMix && i === 0) { charsToRender = charsToRender + '\u202C'; }
 
@@ -1115,7 +1119,7 @@
           }
         }
       }
-   
+
 
 
       ctx.restore();
@@ -1358,7 +1362,7 @@
         return;
       }
       var heightOfLine, size, _size,
-        lineLeftOffset, dy, _dy,dx,_dx,
+        lineLeftOffset, dy, _dy, dx, _dx,
         line, lastDecoration,
         leftOffset = this._getLeftOffset(),
         topOffset = this._getTopOffset(), top,
