@@ -293,7 +293,7 @@
       var width = 0, prevGrapheme, skipLeft = true;
       charOffset = charOffset || 0;
       var nextChar;
-      // if (this._reRTL.test(word)) {
+      // if (this.reRightToLeft.test(word)) {
       //   var box = this._getGraphemeBox(word, lineIndex, 0, undefined, skipLeft, false);
       //   width += box.kernedWidth;
       // }
@@ -301,7 +301,7 @@
       for (var i = 0, len = word.length; i < len; i++) {
         nextChar = ((i + 1) > word.length) ? false : word[i + 1];
         var box = this._getGraphemeBox(word[i], lineIndex, i + charOffset, prevGrapheme, skipLeft, nextChar);
-        width += box.kernedWidth ;
+        width += box.kernedWidth;
         prevGrapheme = word[i];
       }
       // }
@@ -344,14 +344,14 @@
       for (var i = 0; i < words.length; i++) {
         // if using splitByGrapheme words are already in graphemes.
 
-        if (this._reRTL.test(words[i])) {
+        if (this.reRightToLeft.test(words[i])) {
           var skipLeft = true;
           var prevGrapheme = (i === 0) ? undefined : ' ';// words[i - 1] || '';
           var nextChar = (i === words.length - 1) ? undefined : ' ';//words[i + 1] || '';
           word = words[i];
           var wordWidth = this._getGraphemeBox(word, lineIndex, offset, prevGrapheme, skipLeft, nextChar);
           var deltaX = wordWidth.deltaX;
-          wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth: wordWidth.width;
+          wordWidth = wordWidth.kernedWidth > wordWidth.width ? wordWidth.kernedWidth : wordWidth.width;
           // wordWidth += deltaX;
           // // //fabric.log('word: '+word,'------ offset: ' + offset, '-------- width: '+wordWidth);
           // wordWidth +=  wordWidth.deltaX
@@ -381,7 +381,7 @@
         line = line.concat(word);
 
         infixWidth = this._measureWord([infix], lineIndex, offset);
-        // if (this._reRTL.test(words[i])) {
+        // if (this.reRightToLeft.test(words[i])) {
         //  if(i < words.length - 1) offset++;
 
 
