@@ -921,6 +921,8 @@
      * @private
      * @param {CanvasRenderingContext2D} ctx Context to render on
      */
+
+
     _renderTextStroke: function (ctx) {
       if ((!this.stroke || this.strokeWidth === 0) && this.isEmptyStyles()) {
         return;
@@ -948,6 +950,50 @@
      * @param {Number} lineIndex
      * @param {Number} charOffset
      */
+
+    isScriptRtl: function (t) {
+      var d, s1, s2, bodies;
+
+      //If the browser doesn’t support this, it probably doesn’t support Unicode 5.2
+      if (!("getBoundingClientRect" in document.documentElement))
+        return false;
+
+      //Set up a testing DIV
+      d = document.createElement('div');
+      d.style.position = 'absolute';
+      d.style.visibility = 'hidden';
+      d.style.width = 'auto';
+      d.style.height = 'auto';
+      d.style.fontSize = '10px';
+      d.style.fontFamily = "'Ahuramzda'";
+      d.appendChild(document.createTextNode(t));
+
+      s1 = document.createElement("span");
+      s1.appendChild(document.createTextNode(t));
+      d.appendChild(s1);
+
+      s2 = document.createElement("span");
+      s2.appendChild(document.createTextNode(t));
+      d.appendChild(s2);
+
+      d.appendChild(document.createTextNode(t));
+
+      bodies = document.getElementsByTagName('body');
+      if (bodies) {
+        var body, r1, r2;
+
+        body = bodies[0];
+        body.appendChild(d);
+        var r1 = s1.getBoundingClientRect();
+        var r2 = s2.getBoundingClientRect();
+        body.removeChild(d);
+
+        return r1.left > r2.left;
+      }
+    },
+
+
+
     _renderChars: function (method, ctx, line, left, top, lineIndex) {
       // set proper line offset
       var lineHeight = this.getHeightOfLine(lineIndex),
@@ -962,10 +1008,18 @@
         shortCut = !isJustify && this.charSpacing === 0 && this.isEmptyStyles(lineIndex) && !isUrdu;
       // var ur = /([\u0600-\u06FF]|[\u0750-\u077F]|[\uFB50-\uFDFF]|[\uFE70-\uFEFF]|[\u10840-\u1085F]|[\u0780-\u07BF]|[\u0590-\u05FF]|[\uFB1D-\uFB4F]])/;
       // var en = /[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\،\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°\)\(]/;
-      var en = /[a-zA-Z0-9\u00C0-\u00C0\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF\~\`\!\@\#\$\%\^\&\*\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\،\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°\)\(]/;
+
+      var en = /[a-zA-Z0-9\u060C\u00C0-\u00C0\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF\u2606\u25AA\uFE0E\u00A4\u300A\u300B\u00A1\u00BF\u2667\u25C7\u2661\u2664\u25A0\u25A1\u25CF\u25CB\u2022\u00B0\~\`\!\@\#\$\%\^\&\*\_\\\-\+\=\}\{\[\]\;\:\"\'\?\/\,\.\<\>\)\(]/;
+
+      // var en = /[a-zA-Z0-9\u060C\u00C0-\u00C0\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF\~\`\!\@\#\$\%\^\&\*\_\-\+\=\}\{\[\]\;\:\"\'\?\/\,\.\<\>\☆\▪︎\¤\《\》\¡\¿\♧\◇\♡\♤\■\□\●\○\•\°\)\(]/;
+
+
+
       // console.log(line.join(''));
       // console.log(en.test(line.join('')));
-      var urEnMix = (this.reRightToLeft.test(line.join('')) && en.test(line.join('')));
+      // console.log(this.textLines[lineIndex], this.isScriptRtl(this.textLines[lineIndex]));
+
+      var urEnMix = (this.reRightToLeft.test(this.textLines[lineIndex]) && en.test(this.textLines[lineIndex]));
 
       ctx.save();
       top -= lineHeight * this._fontSizeFraction / this.lineHeight;
@@ -1039,7 +1093,10 @@
             if (!this.reRightToLeft.test(charsToRender) && charsToRender.trim()) {
               charsToRender = '\u202B' + charsToRender.split('').reverse().join('') + '\u202C';
             }
+            // console.log(charsToRender, this.isScriptRtl(charsToRender));
+
             if (this.reRightToLeft.test(charsToRender) && en.test(charsToRender)) {
+
               var charsToRender2 = '';
               if (charsToRender.length > 1) {
                 // const regexRTL = /[\u0591-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC](.*?)[\u0591-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC]/g;
