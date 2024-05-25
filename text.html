@@ -343,13 +343,17 @@
             // console.log(fabric.Image.filters);
             // var im;
 
-
-            fabric.Image.fromURL('/love.jpg', function (oImg) {
+            var imageObject;
+            fabric.Image.fromURL('fida-mask.png', function (img) {
+                // img.set({ width: 200, height: 200, scaleX: 1, scaleY: 1 })
+                imageObject = img;
+            }, { crossOrigin: 'annonymous' });
+            fabric.Image.fromURL('/fida.jpg', function (oImg) {
                 oImg.crossOrigin = "anonymous";
 
-                //     // add filter
+                // oImg.set({ width: 200, height: 200, scaleX: 1, scaleY: 1 })
 
-                oImg.filters.push(new fabric.Image.filters.Mask({}));
+                oImg.filters.push(new fabric.Image.filters.BlendImage({ image: imageObject, mode: 'bwmask' }));
                 oImg.applyFilters();
                 canvas.add(oImg);
                 oImg.center();

@@ -1,9 +1,9 @@
-(function(global) {
+(function (global) {
   'use strict';
 
   var fabric = global.fabric,
-      filters = fabric.Image.filters,
-      createClass = fabric.util.createClass;
+    filters = fabric.Image.filters,
+    createClass = fabric.util.createClass;
 
   /**
    * Image Blend filter class
@@ -47,14 +47,17 @@
      **/
     alpha: 1,
 
+    threshold: 0.5,
+    feather: 0.2,
+
     vertexSource: 'attribute vec2 aPosition;\n' +
       'varying vec2 vTexCoord;\n' +
       'varying vec2 vTexCoord2;\n' +
       'uniform mat3 uTransformMatrix;\n' +
       'void main() {\n' +
-        'vTexCoord = aPosition;\n' +
-        'vTexCoord2 = (uTransformMatrix * vec3(aPosition, 1.0)).xy;\n' +
-        'gl_Position = vec4(aPosition * 2.0 - 1.0, 0.0, 1.0);\n' +
+      'vTexCoord = aPosition;\n' +
+      'vTexCoord2 = (uTransformMatrix * vec3(aPosition, 1.0)).xy;\n' +
+      'gl_Position = vec4(aPosition * 2.0 - 1.0, 0.0, 1.0);\n' +
       '}',
 
     /**
@@ -68,10 +71,10 @@
         'varying vec2 vTexCoord;\n' +
         'varying vec2 vTexCoord2;\n' +
         'void main() {\n' +
-          'vec4 color = texture2D(uTexture, vTexCoord);\n' +
-          'vec4 color2 = texture2D(uImage, vTexCoord2);\n' +
-          'color.rgba *= color2.rgba;\n' +
-          'gl_FragColor = color;\n' +
+        'vec4 color = texture2D(uTexture, vTexCoord);\n' +
+        'vec4 color2 = texture2D(uImage, vTexCoord2);\n' +
+        'color.rgba *= color2.rgba;\n' +
+        'gl_FragColor = color;\n' +
         '}',
       mask: 'precision highp float;\n' +
         'uniform sampler2D uTexture;\n' +
@@ -80,10 +83,10 @@
         'varying vec2 vTexCoord;\n' +
         'varying vec2 vTexCoord2;\n' +
         'void main() {\n' +
-          'vec4 color = texture2D(uTexture, vTexCoord);\n' +
-          'vec4 color2 = texture2D(uImage, vTexCoord2);\n' +
-          'color.a = color2.a;\n' +
-          'gl_FragColor = color;\n' +
+        'vec4 color = texture2D(uTexture, vTexCoord);\n' +
+        'vec4 color2 = texture2D(uImage, vTexCoord2);\n' +
+        'color.a = color2.a;\n' +
+        'gl_FragColor = color;\n' +
         '}',
     },
 
@@ -93,7 +96,7 @@
      * @param {WebGLRenderingContext} options.context The GL context used for rendering.
      * @param {Object} options.programCache A map of compiled shader programs, keyed by filter type.
      */
-    retrieveShader: function(options) {
+    retrieveShader: function (options) {
       var cacheKey = this.type + '_' + this.mode;
       var shaderSource = this.fragmentSource[this.mode];
       if (!options.programCache.hasOwnProperty(cacheKey)) {
@@ -102,16 +105,16 @@
       return options.programCache[cacheKey];
     },
 
-    applyToWebGL: function(options) {
+    applyToWebGL: function (options) {
       // load texture to blend.
       var gl = options.context,
-          texture = this.createTexture(options.filterBackend, this.image);
+        texture = this.createTexture(options.filterBackend, this.image);
       this.bindAdditionalTexture(gl, texture, gl.TEXTURE1);
       this.callSuper('applyToWebGL', options);
       this.unbindAdditionalTexture(gl, gl.TEXTURE1);
     },
 
-    createTexture: function(backend, image) {
+    createTexture: function (backend, image) {
       return backend.getCachedTexture(image.cacheKey, image._element);
     },
 
@@ -121,10 +124,10 @@
      * @param {WebGLRenderingContext} options.context The GL context used for rendering.
      * @param {Object} options.programCache A map of compiled shader programs, keyed by filter type.
      */
-    calculateMatrix: function() {
+    calculateMatrix: function () {
       var image = this.image,
-          width = image._element.width,
-          height = image._element.height;
+        width = image._element.width,
+        height = image._element.height;
       return [
         1 / image.scaleX, 0, 0,
         0, 1 / image.scaleY, 0,
@@ -138,15 +141,15 @@
      * @param {Object} options
      * @param {ImageData} options.imageData The Uint8ClampedArray to be filtered.
      */
-    applyTo2d: function(options) {
+    applyTo2d: function (options) {
       var imageData = options.imageData,
-          resources = options.filterBackend.resources,
-          data = imageData.data, iLen = data.length,
-          width = imageData.width,
-          height = imageData.height,
-          tr, tg, tb, ta,
-          r, g, b, a,
-          canvas1, context, image = this.image, blendData;
+        resources = options.filterBackend.resources,
+        data = imageData.data, iLen = data.length,
+        width = imageData.width,
+        height = imageData.height,
+        tr, tg, tb, ta,
+        r, g, b, a,
+        canvas1, context, image = this.image, blendData;
 
       if (!resources.blendImage) {
         resources.blendImage = fabric.util.createCanvasElement();
@@ -185,6 +188,11 @@
           case 'mask':
             data[i + 3] = ta;
             break;
+          case 'bwmask':
+            var avg = (tr + tg + tb) / (3 * 255);
+            var alpha = Math.max(0, Math.min(1, (avg - this.threshold) / this.feather));
+            data[i + 3] = alpha * 255;
+            break;
         }
       }
     },
@@ -195,7 +203,7 @@
      * @param {WebGLRenderingContext} gl The GL canvas context used to compile this filter's shader.
      * @param {WebGLShaderProgram} program This filter's compiled shader program.
      */
-    getUniformLocations: function(gl, program) {
+    getUniformLocations: function (gl, program) {
       return {
         uTransformMatrix: gl.getUniformLocation(program, 'uTransformMatrix'),
         uImage: gl.getUniformLocation(program, 'uImage'),
@@ -208,7 +216,7 @@
      * @param {WebGLRenderingContext} gl The GL canvas context used to compile this filter's shader.
      * @param {Object} uniformLocations A map of string uniform names to WebGLUniformLocation objects
      */
-    sendUniformData: function(gl, uniformLocations) {
+    sendUniformData: function (gl, uniformLocations) {
       var matrix = this.calculateMatrix();
       gl.uniform1i(uniformLocations.uImage, 1); // texture unit 1.
       gl.uniformMatrix3fv(uniformLocations.uTransformMatrix, false, matrix);
@@ -218,12 +226,14 @@
      * Returns object representation of an instance
      * @return {Object} Object representation of an instance
      */
-    toObject: function() {
+    toObject: function () {
       return {
         type: this.type,
         image: this.image && this.image.toObject(),
         mode: this.mode,
-        alpha: this.alpha
+        alpha: this.alpha,
+        threshold: this.threshold,
+        feather: this.feather
       };
     }
   });
@@ -235,8 +245,8 @@
    * @param {function} callback to be invoked after filter creation
    * @return {fabric.Image.filters.BlendImage} Instance of fabric.Image.filters.BlendImage
    */
-  fabric.Image.filters.BlendImage.fromObject = function(object, callback) {
-    fabric.Image.fromObject(object.image, function(image) {
+  fabric.Image.filters.BlendImage.fromObject = function (object, callback) {
+    fabric.Image.fromObject(object.image, function (image) {
       var options = fabric.util.object.clone(object);
       options.image = image;
       callback(new fabric.Image.filters.BlendImage(options));
