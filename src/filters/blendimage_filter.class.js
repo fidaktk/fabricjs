@@ -193,6 +193,84 @@
             var alpha = Math.max(0, Math.min(1, (avg - this.threshold) / this.feather));
             data[i + 3] = alpha * 255;
             break;
+          case 'add':
+            // Add the corresponding color channels from the source and blend image, clamping the result to 255 for valid color range.
+            data[i] = Math.min(255, r + tr);
+            data[i + 1] = Math.min(255, g + tg);
+            data[i + 2] = Math.min(255, b + tb);
+            // Preserve alpha from the source image
+            data[i + 3] = a * ta / 255;
+            break;
+          case 'diff':
+            // Calculate the absolute difference between corresponding color channels.
+            data[i] = Math.abs(r - tr);
+            data[i + 1] = Math.abs(g - tg);
+            data[i + 2] = Math.abs(b - tb);
+            // Preserve alpha from the source image
+            data[i + 3] = a * ta / 255;
+            break;
+          case 'screen':
+            // Implement the 'screen' blending mode formula for each color channel.
+            data[i] = 1 - (1 - r / 255) * (1 - tr / 255);
+            data[i + 1] = 1 - (1 - g / 255) * (1 - tg / 255);
+            data[i + 2] = 1 - (1 - b / 255) * (1 - tb / 255);
+            // Preserve alpha from the source image
+            data[i + 3] = a * ta / 255;
+            break;
+          case 'subtract':
+            // Subtract the corresponding color channels from the blend image from the source image, clamping to 0 for valid color range.
+            data[i] = Math.max(0, r - tr);
+            data[i + 1] = Math.max(0, g - tg);
+            data[i + 2] = Math.max(0, b - tb);
+            // Preserve alpha from the source image
+            data[i + 3] = a * ta / 255;
+            break;
+          case 'darken':
+            // Apply the 'darken' blending mode logic for each color channel, using the minimum value.
+            data[i] = Math.min(r, tr);
+            data[i + 1] = Math.min(g, tg);
+            data[i + 2] = Math.min(b, tb);
+            // Preserve alpha from the source image
+            data[i + 3] = a * ta / 255;
+            break;
+          case 'lighten':
+            // Apply the 'lighten' blending mode logic for each color channel, using the maximum value.
+            data[i] = Math.max(r, tr);
+            data[i + 1] = Math.max(g, tg);
+            data[i + 2] = Math.max(b, tb);
+            // Preserve alpha from the source image
+            data[i + 3] = a * ta / 255;
+            break;
+          case 'overlay':
+            // Implement the 'overlay' blending mode formula for each color channel, considering a threshold value.
+            var base = (r < 128) ? (2 * r * tr / 255) : (1 - 2 * (255 - r) * (255 - tr) / 255);
+            data[i] = Math.round(base);
+            base = (g < 128) ? (2 * g * tg / 255) : (1 - 2 * (255 - g) * (255 - tg) / 255);
+            data[i + 1] = Math.round(base);
+            base = (b < 128) ? (2 * b * tb / 255) : (1 - 2 * (255 - b) * (255 - tb) / 255);
+            data[i + 2] = Math.round(base);
+            // Preserve alpha from the source image
+            data[i + 3] = a * ta / 255;
+            break;
+          case 'exclusion':
+            // Implement the 'exclusion' blending mode formula for each color channel.
+            data[i] = Math.round((1 - r / 255) * (1 - tr / 255) * 255);
+            data[i + 1] = Math.round((1 - g / 255) * (1 - tg / 255) * 255);
+            data[i + 2] = Math.round((1 - b / 255) * (1 - tb / 255) * 255);
+            // Preserve alpha from the source image
+            data[i + 3] = a * ta / 255;
+            break;
+          case 'tint':
+            // Implement the 'tint' blending mode logic, assuming the blend image represents a tint color.
+            var tintR = tr / 255;
+            var tintG = tg / 255;
+            var tintB = tb / 255;
+            data[i] = Math.round((r * (1 - tintR) + tintR * 255));
+            data[i + 1] = Math.round((g * (1 - tintG) + tintG * 255));
+            data[i + 2] = Math.round((b * (1 - tintB) + tintB * 255));
+            // Preserve alpha from the source image
+            data[i + 3] = a * ta / 255;
+            break;
         }
       }
     },
