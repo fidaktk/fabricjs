@@ -230,6 +230,14 @@
             <label for="char-spacing">Char Spacing:</label>
             <input type="range" value="0" min="-500" max="500" step="1" id="char-spacing">
         </div>
+        <div>
+            <label for="threshold">threshold:</label>
+            <input type="range" value="" min="0" max="1.5" step="0.01" id="threshold">
+        </div>
+        <div>
+            <label for="feather">feather:</label>
+            <input type="range" value="0" min="0" max="1.5" step="0.01" id="feather">
+        </div>
     </div>
     <div id="text-controls-additional">
         <input type='checkbox' name='fonttype' id="text-cmd-bold">
@@ -331,8 +339,8 @@
             line.left = text.left;
 
             canvas.centerObject(text);
-            canvas.setActiveObject(text);
-            canvas.getActiveObject().setCoords();
+            // canvas.setActiveObject(text);
+            // canvas.getActiveObject().setCoords();
 
             // var canvas2 = document.getElementById("htmlCanvas");
             // var ctx2 = canvas2.getContext("2d");
@@ -345,22 +353,28 @@
 
             var imageObject;
             fabric.Image.fromURL('fida-mask.png', function (img) {
-                // img.set({ width: 200, height: 200, scaleX: 1, scaleY: 1 })
+                // img.set({ width: 500, height: 500 })
                 imageObject = img;
             }, { crossOrigin: 'annonymous' });
             fabric.Image.fromURL('/fida.jpg', function (oImg) {
                 oImg.crossOrigin = "anonymous";
 
-                // oImg.set({ width: 200, height: 200, scaleX: 1, scaleY: 1 })
+                // oImg.set({ width: 500, height: 500, })
 
-                oImg.filters.push(new fabric.Image.filters.BlendImage({ image: imageObject, mode: 'bwmask' }));
+                oImg.filters.push(new fabric.Image.filters.Mask({ mask: imageObject }));
                 oImg.applyFilters();
                 canvas.add(oImg);
                 oImg.center();
                 oImg.setCoords();
-                canvas.renderAll();
-            });
+                canvas.setActiveObject(oImg);
 
+            });
+            canvas.renderAll();
+            // canvas.getActiveObject().setWidth(200);
+
+            // canvas.getActiveObject().setHeight(200);
+            // canvas.getActiveObject().setCoords();
+            // canvas.renderAll();
             //     // oImg.filters.push(new fabric.Image.filters.Feather({
             //     // from: 10, to: 51,
             //     // feather: 'edges',
@@ -829,6 +843,16 @@
 
         document.getElementById('text-align').onchange = function () {
             window.canvas.getActiveObject().setTextAlign(this.value);
+            window.canvas.renderAll();
+        };
+        document.getElementById('threshold').onchange = function () {
+            window.canvas.getActiveObject().filters[0].threshold = this.value;
+            window.canvas.getActiveObject().applyFilters();
+            window.canvas.renderAll();
+        };
+        document.getElementById('feather').onchange = function () {
+            window.canvas.getActiveObject().filters[0].feather = this.value;
+            window.canvas.getActiveObject().applyFilters();
             window.canvas.renderAll();
         };
 

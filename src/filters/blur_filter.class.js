@@ -1,10 +1,10 @@
-(function(global) {
+(function (global) {
 
   'use strict';
 
-  var fabric  = global.fabric || (global.fabric = { }),
-      filters = fabric.Image.filters,
-      createClass = fabric.util.createClass;
+  var fabric = global.fabric || (global.fabric = {}),
+    filters = fabric.Image.filters,
+    createClass = fabric.util.createClass;
 
   /**
    * Blur filter class
@@ -52,20 +52,20 @@
       'const float nSamples = 15.0;\n' +
       'vec3 v3offset = vec3(12.9898, 78.233, 151.7182);\n' +
       'float random(vec3 scale) {\n' +
-        /* use the fragment position for a different seed per-pixel */
-        'return fract(sin(dot(gl_FragCoord.xyz, scale)) * 43758.5453);\n' +
+      /* use the fragment position for a different seed per-pixel */
+      'return fract(sin(dot(gl_FragCoord.xyz, scale)) * 43758.5453);\n' +
       '}\n' +
       'void main() {\n' +
-        'vec4 color = vec4(0.0);\n' +
-        'float total = 0.0;\n' +
-        'float offset = random(v3offset);\n' +
-        'for (float t = -nSamples; t <= nSamples; t++) {\n' +
-          'float percent = (t + offset - 0.5) / nSamples;\n' +
-          'float weight = 1.0 - abs(percent);\n' +
-          'color += texture2D(uTexture, vTexCoord + uDelta * percent) * weight;\n' +
-          'total += weight;\n' +
-        '}\n' +
-        'gl_FragColor = color / total;\n' +
+      'vec4 color = vec4(0.0);\n' +
+      'float total = 0.0;\n' +
+      'float offset = random(v3offset);\n' +
+      'for (float t = -nSamples; t <= nSamples; t++) {\n' +
+      'float percent = (t + offset - 0.5) / nSamples;\n' +
+      'float weight = 1.0 - abs(percent);\n' +
+      'color += texture2D(uTexture, vTexCoord + uDelta * percent) * weight;\n' +
+      'total += weight;\n' +
+      '}\n' +
+      'gl_FragColor = color / total;\n' +
       '}',
     /* eslint-enable max-len */
 
@@ -78,7 +78,7 @@
 
     mainParameter: 'blur',
 
-    applyTo: function(options) {
+    applyTo: function (options) {
       if (options.webgl) {
         // this aspectRatio is used to give the same blur to vertical and horizontal
         this.aspectRatio = options.sourceWidth / options.sourceHeight;
@@ -97,16 +97,16 @@
       }
     },
 
-    applyTo2d: function(options) {
+    applyTo2d: function (options) {
       // paint canvasEl with current image data.
       //options.ctx.putImageData(options.imageData, 0, 0);
       options.imageData = this.simpleBlur(options);
     },
 
-    simpleBlur: function(options) {
+    simpleBlur: function (options) {
       var resources = options.filterBackend.resources, canvas1, canvas2,
-          width = options.imageData.width,
-          height = options.imageData.height;
+        width = options.imageData.width,
+        height = options.imageData.height;
 
       if (!resources.blurLayer1) {
         resources.blurLayer1 = fabric.util.createCanvasElement();
@@ -118,11 +118,11 @@
         canvas2.width = canvas1.width = width;
         canvas2.height = canvas1.height = height;
       }
-      var ctx1 = canvas1.getContext('2d'),
-          ctx2 = canvas2.getContext('2d'),
-          nSamples = 15,
-          random, percent, j, i,
-          blur = this.blur * 0.06 * 0.5;
+      var ctx1 = canvas1.getContext('2d', { willReadFrequently: true }),
+        ctx2 = canvas2.getContext('2d', { willReadFrequently: true }),
+        nSamples = 15,
+        random, percent, j, i,
+        blur = this.blur * 0.06 * 0.5;
 
       // load first canvas
       ctx1.putImageData(options.imageData, 0, 0);
@@ -161,7 +161,7 @@
      * @param {WebGLRenderingContext} gl The GL canvas context used to compile this filter's shader.
      * @param {WebGLShaderProgram} program This filter's compiled shader program.
      */
-    getUniformLocations: function(gl, program) {
+    getUniformLocations: function (gl, program) {
       return {
         delta: gl.getUniformLocation(program, 'uDelta'),
       };
@@ -173,7 +173,7 @@
      * @param {WebGLRenderingContext} gl The GL canvas context used to compile this filter's shader.
      * @param {Object} uniformLocations A map of string uniform names to WebGLUniformLocation objects
      */
-    sendUniformData: function(gl, uniformLocations) {
+    sendUniformData: function (gl, uniformLocations) {
       var delta = this.chooseRightDelta();
       gl.uniform2fv(uniformLocations.delta, delta);
     },
@@ -182,7 +182,7 @@
      * choose right value of image percentage to blur with
      * @returns {Array} a numeric array with delta values
      */
-    chooseRightDelta: function() {
+    chooseRightDelta: function () {
       var blurScale = 1, delta = [0, 0], blur;
       if (this.horizontal) {
         if (this.aspectRatio > 1) {

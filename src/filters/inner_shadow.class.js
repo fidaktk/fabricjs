@@ -54,7 +54,7 @@
       canvas.width = w;
       canvas.height = h;
       var i = 1;
-      var ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext('2d', { willReadFrequently: true });
       ctx.putImageData(options.imageData, 0, 0);
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
@@ -84,7 +84,7 @@
       var can1 = fabric.util.createCanvasElement();
       can1.width = w;
       can1.height = h;
-      var ctxOrg = can1.getContext('2d');
+      var ctxOrg = can1.getContext('2d', { willReadFrequently: true });
       ctxOrg.putImageData(options.imageData, 0, 0);
 
 
@@ -92,7 +92,7 @@
       can.width = options.sourceWidth;
       can.height = options.sourceHeight;
       var i = 1;
-      var ct = can.getContext('2d');
+      var ct = can.getContext('2d', { willReadFrequently: true });
 
       ct.fillStyle = "black";
       ct.fillRect(0, 0, w, h);
@@ -124,7 +124,7 @@
 
       // var trimmedCanvas = can2;//this.trimCanvas(can);
 
-      // options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
+      // options.imageData = trimmedCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
     },
 
     toObject: function () {

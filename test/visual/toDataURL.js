@@ -1,4 +1,4 @@
-(function() {
+(function () {
   if (fabric.isLikelyNode) {
     if (process.env.launcher === 'Firefox') {
       fabric.browserShadowBlurConstant = 0.9;
@@ -51,7 +51,7 @@
     golden: 'dataurl1.png',
     newModule: 'DataURL exports',
     percentage: 0.10,
-    beforeEachHandler: function() {
+    beforeEachHandler: function () {
       fabric.Object.prototype.objectCaching = false;
     }
   });
@@ -113,7 +113,7 @@
   });
   //
   function toDataURL4(fabricCanvas, callback) {
-    fabricCanvas.loadFromJSON(canvasWithObjects, function() {
+    fabricCanvas.loadFromJSON(canvasWithObjects, function () {
       var dataUrl = fabricCanvas.toDataURL();
       callback(dataUrl);
     });
@@ -129,7 +129,7 @@
   });
 
   function toDataURL5(fabricCanvas, callback) {
-    fabricCanvas.loadFromJSON(canvasWithObjects, function() {
+    fabricCanvas.loadFromJSON(canvasWithObjects, function () {
       var dataurl = fabricCanvas.toDataURL({ multiplier: 0.3 });
       callback(dataurl);
     });
@@ -147,7 +147,7 @@
   function toDataURL6(fabricCanvas, callback) {
     // make so everything is smaller
     fabricCanvas.setZoom(0.1);
-    fabricCanvas.loadFromJSON(canvasWithObjects, function() {
+    fabricCanvas.loadFromJSON(canvasWithObjects, function () {
       var dataUrl = fabricCanvas.toDataURL({ multiplier: 4 });
       callback(dataUrl);
     });
@@ -165,7 +165,7 @@
   function toDataURL7(fabricCanvas, callback) {
     // make so everything is smaller
     fabricCanvas.setZoom(0.1);
-    fabricCanvas.loadFromJSON(canvasWithObjects, function() {
+    fabricCanvas.loadFromJSON(canvasWithObjects, function () {
       var dataUrl = fabricCanvas.toDataURL({ multiplier: 12, left: 20, top: 20, width: 20, height: 20 });
       callback(dataUrl);
     });
@@ -182,7 +182,7 @@
 
   function toDataURL8(fabricCanvas, callback) {
     // make so everything is smaller
-    fabricCanvas.loadFromJSON(canvasWithObjects, function() {
+    fabricCanvas.loadFromJSON(canvasWithObjects, function () {
       var dataUrl = fabricCanvas.toDataURL({ multiplier: 1.2, left: 200, top: 200, width: 200, height: 200 });
       callback(dataUrl);
     });
@@ -201,7 +201,7 @@
   function toDataURL9(fabricCanvas, callback) {
     // make so everything is smaller
     fabricCanvas.setZoom(3);
-    fabricCanvas.loadFromJSON(canvasWithObjects, function() {
+    fabricCanvas.loadFromJSON(canvasWithObjects, function () {
       var dataUrl = fabricCanvas.toDataURL({ multiplier: 0.4, left: 600, top: 600, width: 600, height: 600 });
       callback(dataUrl);
     });
@@ -235,7 +235,7 @@
     var rect = new fabric.Rect({
       left: 10,
       top: 10,
-      fill:  '#FF0000',
+      fill: '#FF0000',
       stroke: '#000',
       width: 100,
       height: 100,
@@ -277,7 +277,7 @@
     var rect = new fabric.Rect({
       left: 10,
       top: 10,
-      fill:  '#FF0000',
+      fill: '#FF0000',
       stroke: '#000',
       width: 100,
       height: 100,
@@ -319,7 +319,7 @@
     var rect = new fabric.Rect({
       left: 10,
       top: 10,
-      fill:  '#FF0000',
+      fill: '#FF0000',
       stroke: '#000',
       width: 100,
       height: 100,
@@ -348,7 +348,7 @@
     var imgsrc =
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGMAAABjAQMAAAC19SzWAAAABlBMVEUAAAD///+l2Z/dAAAAG0lEQVR4XmNABf+RwANqyI3KjcqNyo3KjcoBACFidLMGY3BLAAAAAElFTkSuQmCC';
     var imageEl = fabric.util.createImage();
-    imageEl.onload = function() {
+    imageEl.onload = function () {
       var fimg = new fabric.Image(imageEl);
       callback(fimg.toDataURL());
     };
@@ -369,7 +369,7 @@
     var imgsrc =
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkAQMAAABKLAcXAAAABlBMVEUAAAD///+l2Z/dAAAAG0lEQVR4XmNABf+RwAfqy43KjcqNyo3KjcoBAEFzhKc6XssoAAAAAElFTkSuQmCC';
     var imageEl = fabric.util.createImage();
-    imageEl.onload = function() {
+    imageEl.onload = function () {
       var fimg = new fabric.Image(imageEl);
       callback(fimg.toDataURL());
     };
@@ -390,7 +390,7 @@
     var imgsrc =
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGMAAABjAQMAAAC19SzWAAAABlBMVEUAAAD///+l2Z/dAAAAG0lEQVR4XmNABf+RwANqyI3KjcqNyo3KjcoBACFidLMGY3BLAAAAAElFTkSuQmCC';
     var imageEl = fabric.util.createImage();
-    imageEl.onload = function() {
+    imageEl.onload = function () {
       var fimg = new fabric.Image(imageEl, { strokeWidth: 1, stroke: 'orange' });
       callback(fimg.toDataURL());
     };
@@ -412,7 +412,7 @@
     var imgsrc =
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGMAAABjAQMAAAC19SzWAAAABlBMVEUAAAD///+l2Z/dAAAAG0lEQVR4XmNABf+RwANqyI3KjcqNyo3KjcoBACFidLMGY3BLAAAAAElFTkSuQmCC';
     var imageEl = fabric.util.createImage();
-    imageEl.onload = function() {
+    imageEl.onload = function () {
       var fimg = new fabric.Image(imageEl, { strokeWidth: 2, stroke: 'orange' });
       callback(fimg.toDataURL());
     };
@@ -431,14 +431,14 @@
 
   function testWrapper(test) {
     var actualTest = test.code;
-    test.code = function(fabricCanvas, callback) {
-      actualTest(fabricCanvas, function(dataURL) {
+    test.code = function (fabricCanvas, callback) {
+      actualTest(fabricCanvas, function (dataURL) {
         var img = fabric.document.createElement('img');
         var canvas = fabric.document.createElement('canvas');
-        img.onload = function() {
+        img.onload = function () {
           canvas.width = img.width;
           canvas.height = img.height;
-          canvas.getContext('2d').drawImage(img, 0, 0);
+          canvas.getContext('2d', { willReadFrequently: true }).drawImage(img, 0, 0);
           callback(canvas);
         };
         img.src = dataURL;

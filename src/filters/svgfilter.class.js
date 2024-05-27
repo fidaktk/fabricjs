@@ -38,13 +38,13 @@
 
 
       var h = options.imageData.height;
-      var w =  options.imageData.width;
+      var w = options.imageData.width;
       // var d = new Date();
       //fabric.log(d.getMinutes(), d.getSeconds(), d.getMilliseconds());
       var canvas = fabric.util.createCanvasElement();
       canvas.width = w + 100;
       canvas.height = h + 100;
-      var ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext('2d', { willReadFrequently: true });
       ctx.putImageData(options.imageData, 50, 50);
       // ctx.drawImage(options.canvasEl, 50, 50);
       var el = document.getElementById('svgfilter');
@@ -60,17 +60,17 @@
       var tcanvas = this.trimCanvas(canvas);
       // options.imageData.height = tcanvas.height;
       // options.imageData.width = tcanvas.width;
-      // options.imageData = tcanvas.getContext('2d').getImageData(0, 0, tcanvas.width > canvas.width ? tcanvas.width : canvas.width, tcanvas.height > canvas.height ? tcanvas.height : canvas.height);
+      // options.imageData = tcanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, tcanvas.width > canvas.width ? tcanvas.width : canvas.width, tcanvas.height > canvas.height ? tcanvas.height : canvas.height);
       // d = new Date();
-      options.imageData = tcanvas.getContext('2d').getImageData(0, 0, tcanvas.width, tcanvas.height);
+      options.imageData = tcanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, tcanvas.width, tcanvas.height);
 
       if (canvas) canvas.remove();
       //fabric.log(d.getMinutes(), d.getSeconds(), d.getMilliseconds());
     },
 
     trimCanvas: function (c) {
-      var ctx = c.getContext('2d'),
-        copy = document.createElement('canvas').getContext('2d'),
+      var ctx = c.getContext('2d', { willReadFrequently: true }),
+        copy = document.createElement('canvas').getContext('2d', { willReadFrequently: true }),
         pixels = ctx.getImageData(0, 0, c.width, c.height),
         l = pixels.data.length,
         i,

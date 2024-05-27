@@ -63,7 +63,7 @@
       var canvas = fabric.util.createCanvasElement();
       canvas.width = w;
       canvas.height = h;
-      var ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext('2d', { willReadFrequently: true });
       ctx.putImageData(options.imageData, 0, 0);
 
 
@@ -130,7 +130,7 @@
       if (canvas) canvas.remove();
       // var trimmedCanvas = can; //sthis.trimCanvas(can);
       // options.ctx.drawImage(options.canvasEl, 0, 0);
-      // options.imageData = trimmedCanvas.getContext('2d').getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
+      // options.imageData = trimmedCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, trimmedCanvas.width, trimmedCanvas.height);
     },
 
 

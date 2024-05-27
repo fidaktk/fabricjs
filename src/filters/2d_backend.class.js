@@ -1,15 +1,15 @@
-(function() {
+(function () {
 
   'use strict';
 
-  var noop = function() {};
+  var noop = function () { };
 
   fabric.Canvas2dFilterBackend = Canvas2dFilterBackend;
 
   /**
    * Canvas 2D filter backend.
    */
-  function Canvas2dFilterBackend() {};
+  function Canvas2dFilterBackend() { };
 
   Canvas2dFilterBackend.prototype = /** @lends fabric.Canvas2dFilterBackend.prototype */ {
     evictCachesForKey: noop,
@@ -37,8 +37,8 @@
      * @param {Number} sourceHeight The height of the source input.
      * @param {HTMLCanvasElement} targetCanvas The destination for filtered output to be drawn.
      */
-    applyFilters: function(filters, sourceElement, sourceWidth, sourceHeight, targetCanvas) {
-      var ctx = targetCanvas.getContext('2d');
+    applyFilters: function (filters, sourceElement, sourceWidth, sourceHeight, targetCanvas) {
+      var ctx = targetCanvas.getContext('2d', { willReadFrequently: true });
       ctx.drawImage(sourceElement, 0, 0, sourceWidth, sourceHeight);
       var imageData = ctx.getImageData(0, 0, sourceWidth, sourceHeight);
       var originalImageData = ctx.getImageData(0, 0, sourceWidth, sourceHeight);
@@ -52,7 +52,7 @@
         ctx: ctx,
         filterBackend: this,
       };
-      filters.forEach(function(filter) { filter.applyTo(pipelineState); });
+      filters.forEach(function (filter) { filter.applyTo(pipelineState); });
       if (pipelineState.imageData.width !== sourceWidth || pipelineState.imageData.height !== sourceHeight) {
         targetCanvas.width = pipelineState.imageData.width;
         targetCanvas.height = pipelineState.imageData.height;

@@ -22,7 +22,7 @@
      * @see: https://stackoverflow.com/a/22267731/3360038
      */
     fabric.util.trimCanvas = function (canvas) {
-        var ctx = canvas.getContext('2d'),
+        var ctx = canvas.getContext('2d', { willReadFrequently: true }),
             w = canvas.width,
             h = canvas.height,
             pix = { x: [], y: [] }, n,

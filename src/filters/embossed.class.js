@@ -47,7 +47,7 @@
       var can1 = fabric.util.createCanvasElement();
       can1.width = w;
       can1.height = h;
-      var ctxOrg = can1.getContext('2d');
+      var ctxOrg = can1.getContext('2d', { willReadFrequently: true });
       ctxOrg.putImageData(options.imageData, 0, 0);
 
 
@@ -55,7 +55,7 @@
       can.width = options.sourceWidth;
       can.height = options.sourceHeight;
       var i = 1;
-      var ct = can.getContext('2d');
+      var ct = can.getContext('2d', { willReadFrequently: true });
 
       var xOffset = 0;
       var yOffset = 0;
@@ -149,7 +149,7 @@
       var canvas = fabric.util.createCanvasElement();
       canvas.width = w;
       canvas.height = h;
-      var ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext('2d', { willReadFrequently: true });
       ctx.putImageData(options.imageData, 0, 0);
       var el = document.getElementById('svgfilter');
       if (el) el.remove();
@@ -157,7 +157,7 @@
       let last = '</filter></svg>';
       let f = `<feGaussianBlur stdDeviation="${embossed}"  in="SourceAlpha" result="blur"/><feSpecularLighting surfaceScale="${blur}" specularConstant="1" specularExponent="30" lighting-color="${light}"  in="blur" result="specularLighting"><feDistantLight azimuth="${invert}" elevation="50"/></feSpecularLighting><feComposite in="SourceGraphic" in2="specularLighting" operator="arithmetic" k1="0" k2="0" k3="2" k4="-0.3"  result="composite1"/><feComposite in="composite1" in2="SourceGraphic" operator="in"  result="composite2"/><feMerge><feMergeNode in="offsetBlur"></feMergeNode><feMergeNode in="composite2"></feMergeNode></feMerge>`;
 
- 
+
 
       window.document.body.insertAdjacentHTML('afterbegin', begain + f + last);
       ctx.filter = 'url(#filter)';
@@ -169,7 +169,7 @@
       options.imageData = imageData;
       //fabric.log(new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
       if (canvas) canvas.remove();
-      
+
     },
 
 

@@ -345,7 +345,7 @@
       // if we did not return we have to measure something.
       if (!fabric._measuringContext) {
         fabric._measuringContext = this.canvas && this.canvas.contextCache ||
-          fabric.util.createCanvasElement().getContext('2d');
+          fabric.util.createCanvasElement().getContext('2d', { willReadFrequently: true });
       }
       return fabric._measuringContext;
     },

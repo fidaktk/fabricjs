@@ -1,10 +1,10 @@
-(function(exports) {
+(function (exports) {
 
-  exports.getFixture = function(name, original, callback) {
+  exports.getFixture = function (name, original, callback) {
     getImage(getFixtureName(name), original, callback);
   };
 
-  exports.getAsset = function(name, callback) {
+  exports.getAsset = function (name, callback) {
     var finalName = getAssetName(name);
     if (fabric.isLikelyNode) {
       var plainFileName = finalName.replace('file://', '');
@@ -12,7 +12,7 @@
     }
     else {
       fabric.util.request(finalName, {
-        onComplete: function(xhr) {
+        onComplete: function (xhr) {
           callback(null, xhr.responseText);
         }
       });
@@ -74,11 +74,11 @@
       }
     }
     var img = fabric.document.createElement('img');
-    img.onload = function() {
+    img.onload = function () {
       img.onload = null;
       callback(img);
     };
-    img.onerror = function(err) {
+    img.onerror = function (err) {
       img.onerror = null;
       callback(img);
       fabric.log('Image loading errored', err);
@@ -86,7 +86,7 @@
     img.src = filename;
   }
 
-  exports.visualTestLoop = function(QUnit) {
+  exports.visualTestLoop = function (QUnit) {
     var _pixelMatch;
     var visualCallback;
     var imageDataToChalk;
@@ -100,7 +100,7 @@
         _pixelMatch = window.pixelmatch;
         visualCallback = window.visualCallback;
       }
-      imageDataToChalk = function() { return ''; };
+      imageDataToChalk = function () { return ''; };
     }
 
     var pixelmatchOptions = {
@@ -123,20 +123,20 @@
           beforeEach: testObj.beforeEachHandler,
         });
       }
-      QUnit.test(testName, function(assert) {
+      QUnit.test(testName, function (assert) {
         var done = assert.async();
         var fabricCanvas = createCanvasForTest(testObj);
-        code(fabricCanvas, function(renderedCanvas) {
+        code(fabricCanvas, function (renderedCanvas) {
           var width = renderedCanvas.width;
           var height = renderedCanvas.height;
           var totalPixels = width * height;
-          var imageDataCanvas = renderedCanvas.getContext('2d').getImageData(0, 0, width, height).data;
+          var imageDataCanvas = renderedCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, width, height).data;
           var canvas = fabric.document.createElement('canvas');
           canvas.width = width;
           canvas.height = height;
-          var ctx = canvas.getContext('2d');
+          var ctx = canvas.getContext('2d', { willReadFrequently: true });
           var output = ctx.getImageData(0, 0, width, height);
-          getImage(getGoldeName(golden), renderedCanvas, function(goldenImage) {
+          getImage(getGoldeName(golden), renderedCanvas, function (goldenImage) {
             ctx.drawImage(goldenImage, 0, 0);
             visualCallback.addArguments({
               enabled: true,

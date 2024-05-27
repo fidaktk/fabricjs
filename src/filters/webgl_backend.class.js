@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
   'use strict';
 
@@ -8,7 +8,7 @@
    * @param {String} Precision to test can be any of following: 'lowp', 'mediump', 'highp'
    * @returns {Boolean} Whether the user's browser WebGL supports given precision.
    */
-  function testPrecision(gl, precision){
+  function testPrecision(gl, precision) {
     var fragmentSource = 'precision ' + precision + ' float;\nvoid main(){}';
     var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
     gl.shaderSource(fragmentShader, fragmentSource);
@@ -24,7 +24,7 @@
    * @param {Number} tileSize check if the tileSize is supported
    * @returns {Boolean} Whether the user's browser supports WebGL.
    */
-  fabric.isWebglSupported = function(tileSize) {
+  fabric.isWebglSupported = function (tileSize) {
     if (fabric.isLikelyNode) {
       return false;
     }
@@ -37,8 +37,8 @@
       fabric.maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
       isSupported = fabric.maxTextureSize >= tileSize;
       var precisions = ['highp', 'mediump', 'lowp'];
-      for (var i = 0; i < 3; i++){
-        if (testPrecision(gl, precisions[i])){
+      for (var i = 0; i < 3; i++) {
+        if (testPrecision(gl, precisions[i])) {
           fabric.webGlPrecision = precisions[i];
           break;
         };
@@ -79,7 +79,7 @@
     /**
      * Setup a WebGL context suitable for filtering, and bind any needed event handlers.
      */
-    setupGLContext: function(width, height) {
+    setupGLContext: function (width, height) {
       this.dispose();
       this.createWebGLCanvas(width, height);
       // eslint-disable-next-line
@@ -91,7 +91,7 @@
      * Pick a method to copy data from GL context to 2d canvas.  In some browsers using
      * putImageData is faster than drawImage for that specific operation.
      */
-    chooseFastestCopyGLTo2DMethod: function(width, height) {
+    chooseFastestCopyGLTo2DMethod: function (width, height) {
       var canMeasurePerf = typeof window.performance !== 'undefined', canUseImageData;
       try {
         new ImageData(1, 1);
@@ -148,18 +148,18 @@
      * Create a canvas element and associated WebGL context and attaches them as
      * class properties to the GLFilterBackend class.
      */
-    createWebGLCanvas: function(width, height) {
+    createWebGLCanvas: function (width, height) {
       var canvas = fabric.util.createCanvasElement();
       canvas.width = width;
       canvas.height = height;
       var glOptions = {
-            alpha: true,
-            premultipliedAlpha: false,
-            depth: false,
-            stencil: false,
-            antialias: false
-          },
-          gl = canvas.getContext('webgl', glOptions);
+        alpha: true,
+        premultipliedAlpha: false,
+        depth: false,
+        stencil: false,
+        antialias: false
+      },
+        gl = canvas.getContext('webgl', glOptions);
       if (!gl) {
         gl = canvas.getContext('experimental-webgl', glOptions);
       }
@@ -184,7 +184,7 @@
      * @param {String|undefined} cacheKey A key used to cache resources related to the source. If
      * omitted, caching will be skipped.
      */
-    applyFilters: function(filters, source, width, height, targetCanvas, cacheKey) {
+    applyFilters: function (filters, source, width, height, targetCanvas, cacheKey) {
       var gl = this.gl;
       var cachedTexture;
       if (cacheKey) {
@@ -212,21 +212,21 @@
       };
       var tempFbo = gl.createFramebuffer();
       gl.bindFramebuffer(gl.FRAMEBUFFER, tempFbo);
-      filters.forEach(function(filter) { filter && filter.applyTo(pipelineState); });
+      filters.forEach(function (filter) { filter && filter.applyTo(pipelineState); });
       resizeCanvasIfNeeded(pipelineState);
       this.copyGLTo2D(gl, pipelineState);
       gl.bindTexture(gl.TEXTURE_2D, null);
       gl.deleteTexture(pipelineState.sourceTexture);
       gl.deleteTexture(pipelineState.targetTexture);
       gl.deleteFramebuffer(tempFbo);
-      targetCanvas.getContext('2d').setTransform(1, 0, 0, 1, 0, 0);
+      targetCanvas.getContext('2d', { willReadFrequently: true }).setTransform(1, 0, 0, 1, 0, 0);
       return pipelineState;
     },
 
     /**
      * Detach event listeners, remove references, and clean up caches.
      */
-    dispose: function() {
+    dispose: function () {
       if (this.canvas) {
         this.canvas = null;
         this.gl = null;
@@ -237,7 +237,7 @@
     /**
      * Wipe out WebGL-related caches.
      */
-    clearWebGLCaches: function() {
+    clearWebGLCaches: function () {
       this.programCache = {};
       this.textureCache = {};
     },
@@ -253,7 +253,7 @@
      * @param {HTMLImageElement|HTMLCanvasElement} textureImageSource A source for the texture data.
      * @returns {WebGLTexture}
      */
-    createTexture: function(gl, width, height, textureImageSource) {
+    createTexture: function (gl, width, height, textureImageSource) {
       var texture = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
@@ -278,7 +278,7 @@
      * @param {HTMLImageElement|HTMLCanvasElement} textureImageSource A source to use to create the
      * texture cache entry if one does not already exist.
      */
-    getCachedTexture: function(uniqueId, textureImageSource) {
+    getCachedTexture: function (uniqueId, textureImageSource) {
       if (this.textureCache[uniqueId]) {
         return this.textureCache[uniqueId];
       }
@@ -296,7 +296,7 @@
      *
      * @param {String} cacheKey The cache key provided when the source image was filtered.
      */
-    evictCachesForKey: function(cacheKey) {
+    evictCachesForKey: function (cacheKey) {
       if (this.textureCache[cacheKey]) {
         this.gl.deleteTexture(this.textureCache[cacheKey]);
         delete this.textureCache[cacheKey];
@@ -312,7 +312,7 @@
      *
      * @returns {Object} A GPU info object with renderer and vendor strings.
      */
-    captureGPUInfo: function() {
+    captureGPUInfo: function () {
       if (this.gpuInfo) {
         return this.gpuInfo;
       }
@@ -339,9 +339,9 @@
 
 function resizeCanvasIfNeeded(pipelineState) {
   var targetCanvas = pipelineState.targetCanvas,
-      width = targetCanvas.width, height = targetCanvas.height,
-      dWidth = pipelineState.destinationWidth,
-      dHeight = pipelineState.destinationHeight;
+    width = targetCanvas.width, height = targetCanvas.height,
+    dWidth = pipelineState.destinationWidth,
+    dHeight = pipelineState.destinationHeight;
 
   if (width !== dWidth || height !== dHeight) {
     targetCanvas.width = dWidth;
@@ -361,7 +361,7 @@ function resizeCanvasIfNeeded(pipelineState) {
  */
 function copyGLTo2DDrawImage(gl, pipelineState) {
   var glCanvas = gl.canvas, targetCanvas = pipelineState.targetCanvas,
-      ctx = targetCanvas.getContext('2d');
+    ctx = targetCanvas.getContext('2d', { willReadFrequently: true });
   ctx.translate(0, targetCanvas.height); // move it down again
   ctx.scale(1, -1); // vertical flip
   // where is my image on the big glcanvas?
@@ -379,10 +379,10 @@ function copyGLTo2DDrawImage(gl, pipelineState) {
  * @param {Object} pipelineState The 2D target canvas to copy on to.
  */
 function copyGLTo2DPutImageData(gl, pipelineState) {
-  var targetCanvas = pipelineState.targetCanvas, ctx = targetCanvas.getContext('2d'),
-      dWidth = pipelineState.destinationWidth,
-      dHeight = pipelineState.destinationHeight,
-      numBytes = dWidth * dHeight * 4;
+  var targetCanvas = pipelineState.targetCanvas, ctx = targetCanvas.getContext('2d', { willReadFrequently: true }),
+    dWidth = pipelineState.destinationWidth,
+    dHeight = pipelineState.destinationHeight,
+    numBytes = dWidth * dHeight * 4;
 
   // eslint-disable-next-line no-undef
   var u8 = new Uint8Array(this.imageBuffer, 0, numBytes);

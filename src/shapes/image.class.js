@@ -258,9 +258,9 @@
      */
     _renderDashedStroke: function (ctx) {
       var x = -this.width / 2,
-          y = -this.height / 2,
-          w = this.width,
-          h = this.height;
+        y = -this.height / 2,
+        w = this.width,
+        h = this.height;
 
       ctx.save();
       this._setStrokeStyles(ctx, this);
@@ -292,9 +292,9 @@
           'toObject',
           ['crossOrigin', 'cropX', 'cropY'].concat(propertiesToInclude)
         ), {
-          src: this.getSrc(),
-          filters: filters,
-        });
+        src: this.getSrc(),
+        filters: filters,
+      });
       if (this.resizeFilter) {
         object.resizeFilter = this.resizeFilter.toObject();
       }
@@ -317,7 +317,7 @@
      */
     _toSVG: function () {
       var svgString = [], imageMarkup = [], strokeSvg,
-          x = -this.width / 2, y = -this.height / 2, clipPath = '';
+        x = -this.width / 2, y = -this.height / 2, clipPath = '';
       if (this.hasCrop()) {
         var clipPathId = fabric.Object.__uid++;
         svgString.push(
@@ -410,11 +410,11 @@
 
     applyResizeFilters: function () {
       var filter = this.resizeFilter,
-          minimumScale = this.minimumScaleTrigger,
-          objectScale = this.getTotalObjectScaling(),
-          scaleX = objectScale.scaleX,
-          scaleY = objectScale.scaleY,
-          elementToFilter = this._filteredEl || this._originalElement;
+        minimumScale = this.minimumScaleTrigger,
+        objectScale = this.getTotalObjectScaling(),
+        scaleX = objectScale.scaleX,
+        scaleY = objectScale.scaleY,
+        elementToFilter = this._filteredEl || this._originalElement;
       if (this.group) {
         this.set('dirty', true);
       }
@@ -430,8 +430,8 @@
         fabric.filterBackend = fabric.initFilterBackend();
       }
       var canvasEl = fabric.util.createCanvasElement(),
-          cacheKey = this._filteredEl ? (this.cacheKey + '_filtered') : this.cacheKey,
-          sourceWidth = elementToFilter.width, sourceHeight = elementToFilter.height;
+        cacheKey = this._filteredEl ? (this.cacheKey + '_filtered') : this.cacheKey,
+        sourceWidth = elementToFilter.width, sourceHeight = elementToFilter.height;
       canvasEl.width = sourceWidth;
       canvasEl.height = sourceHeight;
       this._element = canvasEl;
@@ -469,8 +469,8 @@
       }
 
       var imgElement = this._originalElement,
-          sourceWidth = imgElement.naturalWidth || imgElement.width,
-          sourceHeight = imgElement.naturalHeight || imgElement.height;
+        sourceWidth = imgElement.naturalWidth || imgElement.width,
+        sourceHeight = imgElement.naturalHeight || imgElement.height;
 
       if (this._element === this._originalElement) {
         // if the element is the same we need to create a new element
@@ -484,7 +484,7 @@
         // clear the existing element to get new filter data
         // also dereference the eventual resized _element
         this._element = this._filteredEl;
-        this._filteredEl.getContext('2d').clearRect(0, 0, sourceWidth, sourceHeight);
+        this._filteredEl.getContext('2d', { willReadFrequently: true }).clearRect(0, 0, sourceWidth, sourceHeight);
         // we also need to resize again at next renderAll, so remove saved _lastScaleX/Y
         this._lastScaleX = 1;
         this._lastScaleY = 1;
@@ -532,12 +532,12 @@
 
     _renderFill: function (ctx) {
       var elementToDraw = this._element,
-          w = this.width, h = this.height,
-          sW = Math.min(elementToDraw.naturalWidth || elementToDraw.width, w * this._filterScalingX),
-          sH = Math.min(elementToDraw.naturalHeight || elementToDraw.height, h * this._filterScalingY),
-          x = -w / 2, y = -h / 2,
-          sX = Math.max(0, this.cropX * this._filterScalingX),
-          sY = Math.max(0, this.cropY * this._filterScalingY);
+        w = this.width, h = this.height,
+        sW = Math.min(elementToDraw.naturalWidth || elementToDraw.width, w * this._filterScalingX),
+        sH = Math.min(elementToDraw.naturalHeight || elementToDraw.height, h * this._filterScalingY),
+        x = -w / 2, y = -h / 2,
+        sX = Math.max(0, this.cropX * this._filterScalingX),
+        sY = Math.max(0, this.cropY * this._filterScalingY);
       if (this.outline && !this.isMoving) {
         if (this.outline.width && this.outline.color && this.outline.color !== '') {
           ctx.save();
@@ -581,7 +581,7 @@
           //     var fCanvas = fabric.util.createCanvasElement();
           //     fCanvas.height = h / 4;
           //     fCanvas.width = w / 4;
-          //     var fCtx = fCanvas.getContext('2d');
+          //     var fCtx = fCanvas.getContext('2d', { willReadFrequently: true });
           //     var defineNonTransparent = function (x, y) {
           //       var a = data[(y * fCanvas.width + x) * 4 + 3];
           //       //fabric.log(x,y);
@@ -598,7 +598,7 @@
           //     // var can = document.createElement('canvas');
           //     // can.width = cw = w + this.outline.width;
           //     // can.height = ch = h + this.outline.width;
-          //     // ct = can.getContext('2d');
+          //     // ct = can.getContext('2d', { willReadFrequently: true });
           //     // ctx.drawImage(elementToDraw, w, h);
           //     // imgData = ctx.getImageData(0, 0, can.width, can.height);
           //     // data = imgData.data;
@@ -692,9 +692,9 @@
      */
     parsePreserveAspectRatioAttribute: function () {
       var pAR = fabric.util.parsePreserveAspectRatioAttribute(this.preserveAspectRatio || ''),
-          rWidth = this._element.width, rHeight = this._element.height,
-          scaleX = 1, scaleY = 1, offsetLeft = 0, offsetTop = 0, cropX = 0, cropY = 0,
-          offset, pWidth = this.width, pHeight = this.height, parsedAttributes = { width: pWidth, height: pHeight };
+        rWidth = this._element.width, rHeight = this._element.height,
+        scaleX = 1, scaleY = 1, offsetLeft = 0, offsetTop = 0, cropX = 0, cropY = 0,
+        offset, pWidth = this.width, pHeight = this.height, parsedAttributes = { width: pWidth, height: pHeight };
       if (pAR && (pAR.alignX !== 'none' || pAR.alignY !== 'none')) {
         if (pAR.meetOrSlice === 'meet') {
           scaleX = scaleY = fabric.util.findScaleToFit(this._element, parsedAttributes);

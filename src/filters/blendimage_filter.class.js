@@ -155,7 +155,7 @@
         resources.blendImage = fabric.util.createCanvasElement();
       }
       canvas1 = resources.blendImage;
-      context = canvas1.getContext('2d');
+      context = canvas1.getContext('2d', { willReadFrequently: true });
       if (canvas1.width !== width || canvas1.height !== height) {
         canvas1.width = width;
         canvas1.height = height;
@@ -164,7 +164,8 @@
         context.clearRect(0, 0, width, height);
       }
       context.setTransform(image.scaleX, 0, 0, image.scaleY, image.left, image.top);
-      context.drawImage(image._element, 0, 0, width, height);
+      context.drawImage(image._element, 0, 0
+        , width, height);
       blendData = context.getImageData(0, 0, width, height).data;
       for (var i = 0; i < iLen; i += 4) {
 
@@ -188,8 +189,8 @@
           case 'mask':
             data[i + 3] = ta;
             break;
-          case 'bwmask':
-            var avg = (tr + tg + tb) / (3 * 255);
+          case 'subtract':
+            var avg = (tr + tg + tb + ta) / (4 * 255);
             var alpha = Math.max(0, Math.min(1, (avg - this.threshold) / this.feather));
             data[i + 3] = alpha * 255;
             break;

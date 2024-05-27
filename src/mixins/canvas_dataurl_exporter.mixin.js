@@ -34,12 +34,12 @@
      * });
      */
     toDataURL: function (options) {
-      options || (options = { });
+      options || (options = {});
 
       var format = options.format || 'png',
-          quality = options.quality || 1,
-          multiplier = (options.multiplier || 1) * (options.enableRetinaScaling ? this.getRetinaScaling() : 1),
-          canvasEl = this.toCanvasElement(multiplier, options);
+        quality = options.quality || 1,
+        multiplier = (options.multiplier || 1) * (options.enableRetinaScaling ? this.getRetinaScaling() : 1),
+        canvasEl = this.toCanvasElement(multiplier, options);
       return fabric.util.toDataURL(canvasEl, format, quality);
     },
 
@@ -56,23 +56,23 @@
      * @param {Number} [cropping.width] Cropping width.
      * @param {Number} [cropping.height] Cropping height.
      */
-    toCanvasElement: function(multiplier, cropping) {
+    toCanvasElement: function (multiplier, cropping) {
       multiplier = multiplier || 1;
-      cropping = cropping || { };
+      cropping = cropping || {};
       var scaledWidth = (cropping.width || this.width) * multiplier,
-          scaledHeight = (cropping.height || this.height) * multiplier,
-          zoom = this.getZoom(),
-          originalWidth = this.width,
-          originalHeight = this.height,
-          newZoom = zoom * multiplier,
-          vp = this.viewportTransform,
-          translateX = (vp[4] - (cropping.left || 0)) * multiplier,
-          translateY = (vp[5] - (cropping.top || 0)) * multiplier,
-          originalInteractive = this.interactive,
-          newVp = [newZoom, 0, 0, newZoom, translateX, translateY],
-          originalRetina = this.enableRetinaScaling,
-          canvasEl = fabric.util.createCanvasElement(),
-          originalContextTop = this.contextTop;
+        scaledHeight = (cropping.height || this.height) * multiplier,
+        zoom = this.getZoom(),
+        originalWidth = this.width,
+        originalHeight = this.height,
+        newZoom = zoom * multiplier,
+        vp = this.viewportTransform,
+        translateX = (vp[4] - (cropping.left || 0)) * multiplier,
+        translateY = (vp[5] - (cropping.top || 0)) * multiplier,
+        originalInteractive = this.interactive,
+        newVp = [newZoom, 0, 0, newZoom, translateX, translateY],
+        originalRetina = this.enableRetinaScaling,
+        canvasEl = fabric.util.createCanvasElement(),
+        originalContextTop = this.contextTop;
       canvasEl.width = scaledWidth;
       canvasEl.height = scaledHeight;
       this.contextTop = null;
@@ -82,7 +82,7 @@
       this.width = scaledWidth;
       this.height = scaledHeight;
       this.calcViewportBoundaries();
-      this.renderCanvas(canvasEl.getContext('2d'), this._objects);
+      this.renderCanvas(canvasEl.getContext('2d', { willReadFrequently: true }), this._objects);
       this.viewportTransform = vp;
       this.width = originalWidth;
       this.height = originalHeight;

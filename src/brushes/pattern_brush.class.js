@@ -5,12 +5,12 @@
  */
 fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fabric.PatternBrush.prototype */ {
 
-  getPatternSrc: function() {
+  getPatternSrc: function () {
 
     var dotWidth = 20,
-        dotDistance = 5,
-        patternCanvas = fabric.util.createCanvasElement(),
-        patternCtx = patternCanvas.getContext('2d');
+      dotDistance = 5,
+      patternCanvas = fabric.util.createCanvasElement(),
+      patternCtx = patternCanvas.getContext('2d', { willReadFrequently: true });
 
     patternCanvas.width = patternCanvas.height = dotWidth + dotDistance;
 
@@ -23,21 +23,21 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
     return patternCanvas;
   },
 
-  getPatternSrcFunction: function() {
+  getPatternSrcFunction: function () {
     return String(this.getPatternSrc).replace('this.color', '"' + this.color + '"');
   },
 
   /**
    * Creates "pattern" instance property
    */
-  getPattern: function() {
+  getPattern: function () {
     return this.canvas.contextTop.createPattern(this.source || this.getPatternSrc(), 'repeat');
   },
 
   /**
    * Sets brush styles
    */
-  _setBrushStyles: function() {
+  _setBrushStyles: function () {
     this.callSuper('_setBrushStyles');
     this.canvas.contextTop.strokeStyle = this.getPattern();
   },
@@ -45,9 +45,9 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
   /**
    * Creates path
    */
-  createPath: function(pathData) {
+  createPath: function (pathData) {
     var path = this.callSuper('createPath', pathData),
-        topLeft = path._getLeftTopCoords().scalarAdd(path.strokeWidth / 2);
+      topLeft = path._getLeftTopCoords().scalarAdd(path.strokeWidth / 2);
 
     path.stroke = new fabric.Pattern({
       source: this.source || this.getPatternSrcFunction(),

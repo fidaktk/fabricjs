@@ -1,12 +1,12 @@
-(function(global) {
+(function (global) {
 
   'use strict';
 
-  var fabric  = global.fabric || (global.fabric = { }), pow = Math.pow, floor = Math.floor,
-      sqrt = Math.sqrt, abs = Math.abs, round = Math.round, sin = Math.sin,
-      ceil = Math.ceil,
-      filters = fabric.Image.filters,
-      createClass = fabric.util.createClass;
+  var fabric = global.fabric || (global.fabric = {}), pow = Math.pow, floor = Math.floor,
+    sqrt = Math.sqrt, abs = Math.abs, round = Math.round, sin = Math.sin,
+    ceil = Math.ceil,
+    filters = fabric.Image.filters,
+    createClass = fabric.util.createClass;
 
   /**
    * Resize image filter class
@@ -65,7 +65,7 @@
      * @param {WebGLRenderingContext} gl The GL canvas context used to compile this filter's shader.
      * @param {WebGLShaderProgram} program This filter's compiled shader program.
      */
-    getUniformLocations: function(gl, program) {
+    getUniformLocations: function (gl, program) {
       return {
         uDelta: gl.getUniformLocation(program, 'uDelta'),
         uTaps: gl.getUniformLocation(program, 'uTaps'),
@@ -78,7 +78,7 @@
      * @param {WebGLRenderingContext} gl The GL canvas context used to compile this filter's shader.
      * @param {Object} uniformLocations A map of string uniform names to WebGLUniformLocation objects
      */
-    sendUniformData: function(gl, uniformLocations) {
+    sendUniformData: function (gl, uniformLocations) {
       gl.uniform2fv(uniformLocations.uDelta, this.horizontal ? [1 / this.width, 0] : [0, 1 / this.height]);
       gl.uniform1fv(uniformLocations.uTaps, this.taps);
     },
@@ -89,7 +89,7 @@
      * @param {WebGLRenderingContext} options.context The GL context used for rendering.
      * @param {Object} options.programCache A map of compiled shader programs, keyed by filter type.
      */
-    retrieveShader: function(options) {
+    retrieveShader: function (options) {
       var filterWindow = this.getFilterWindow(), cacheKey = this.type + '_' + filterWindow;
       if (!options.programCache.hasOwnProperty(cacheKey)) {
         var fragmentShader = this.generateShader(filterWindow);
@@ -98,14 +98,14 @@
       return options.programCache[cacheKey];
     },
 
-    getFilterWindow: function() {
+    getFilterWindow: function () {
       var scale = this.tempScale;
       return Math.ceil(this.lanczosLobes / scale);
     },
 
-    getTaps: function() {
+    getTaps: function () {
       var lobeFunction = this.lanczosCreate(this.lanczosLobes), scale = this.tempScale,
-          filterWindow = this.getFilterWindow(), taps = new Array(filterWindow);
+        filterWindow = this.getFilterWindow(), taps = new Array(filterWindow);
       for (var i = 1; i <= filterWindow; i++) {
         taps[i - 1] = lobeFunction(i * scale);
       }
@@ -116,9 +116,9 @@
      * Generate vertex and shader sources from the necessary steps numbers
      * @param {Number} filterWindow
      */
-    generateShader: function(filterWindow) {
+    generateShader: function (filterWindow) {
       var offsets = new Array(filterWindow),
-          fragmentShader = this.fragmentSourceTOP, filterWindow;
+        fragmentShader = this.fragmentSourceTOP, filterWindow;
 
       for (var i = 1; i <= filterWindow; i++) {
         offsets[i - 1] = i + '.0 * uDelta';
@@ -129,7 +129,7 @@
       fragmentShader += '  vec4 color = texture2D(uTexture, vTexCoord);\n';
       fragmentShader += '  float sum = 1.0;\n';
 
-      offsets.forEach(function(offset, i) {
+      offsets.forEach(function (offset, i) {
         fragmentShader += '  color += texture2D(uTexture, vTexCoord + ' + offset + ') * uTaps[' + i + '];\n';
         fragmentShader += '  color += texture2D(uTexture, vTexCoord - ' + offset + ') * uTaps[' + i + '];\n';
         fragmentShader += '  sum += 2.0 * uTaps[' + i + '];\n';
@@ -156,7 +156,7 @@
      * @param {WebGLRenderingContext} options.context The GL context used for rendering.
      * @param {Object} options.programCache A map of compiled shader programs, keyed by filter type.
      */
-    applyTo: function(options) {
+    applyTo: function (options) {
       if (options.webgl) {
         options.passes++;
         this.width = options.sourceWidth;
@@ -187,12 +187,12 @@
       }
     },
 
-    isNeutralState: function() {
+    isNeutralState: function () {
       return this.scaleX === 1 && this.scaleY === 1;
     },
 
-    lanczosCreate: function(lobes) {
-      return function(x) {
+    lanczosCreate: function (lobes) {
+      return function (x) {
         if (x >= lobes || x <= -lobes) {
           return 0.0;
         }
@@ -212,17 +212,17 @@
      * @param {Number} scaleX
      * @param {Number} scaleY
      */
-    applyTo2d: function(options) {
+    applyTo2d: function (options) {
       var imageData = options.imageData,
-          scaleX = this.scaleX,
-          scaleY = this.scaleY;
+        scaleX = this.scaleX,
+        scaleY = this.scaleY;
 
       this.rcpScaleX = 1 / scaleX;
       this.rcpScaleY = 1 / scaleY;
 
       var oW = imageData.width, oH = imageData.height,
-          dW = round(oW * scaleX), dH = round(oH * scaleY),
-          newData;
+        dW = round(oW * scaleX), dH = round(oH * scaleY),
+        newData;
 
       if (this.resizeType === 'sliceHack') {
         newData = this.sliceByTwo(options, oW, oH, dW, dH);
@@ -248,11 +248,11 @@
      * @param {Number} dH Destination Height
      * @returns {ImageData}
      */
-    sliceByTwo: function(options, oW, oH, dW, dH) {
+    sliceByTwo: function (options, oW, oH, dW, dH) {
       var imageData = options.imageData,
-          mult = 0.5, doneW = false, doneH = false, stepW = oW * mult,
-          stepH = oH * mult, resources = fabric.filterBackend.resources,
-          tmpCanvas, ctx, sX = 0, sY = 0, dX = oW, dY = 0;
+        mult = 0.5, doneW = false, doneH = false, stepW = oW * mult,
+        stepH = oH * mult, resources = fabric.filterBackend.resources,
+        tmpCanvas, ctx, sX = 0, sY = 0, dX = oW, dY = 0;
       if (!resources.sliceByTwo) {
         resources.sliceByTwo = document.createElement('canvas');
       }
@@ -261,7 +261,7 @@
         tmpCanvas.width = oW * 1.5;
         tmpCanvas.height = oH;
       }
-      ctx = tmpCanvas.getContext('2d');
+      ctx = tmpCanvas.getContext('2d', { willReadFrequently: true });
       ctx.clearRect(0, 0, oW * 1.5, oH);
       ctx.putImageData(imageData, 0, 0);
 
@@ -302,11 +302,11 @@
      * @param {Number} dH Destination Height
      * @returns {ImageData}
      */
-    lanczosResize: function(options, oW, oH, dW, dH) {
+    lanczosResize: function (options, oW, oH, dW, dH) {
 
       function process(u) {
         var v, i, weight, idx, a, red, green,
-            blue, alpha, fX, fY;
+          blue, alpha, fX, fY;
         center.x = (u + 0.5) * ratioX;
         icenter.x = floor(center.x);
         for (v = 0; v < dH; v++) {
@@ -319,7 +319,7 @@
             }
             fX = floor(1000 * abs(i - center.x));
             if (!cacheLanc[fX]) {
-              cacheLanc[fX] = { };
+              cacheLanc[fX] = {};
             }
             for (var j = icenter.y - range2Y; j <= icenter.y + range2Y; j++) {
               if (j < 0 || j >= oH) {
@@ -356,14 +356,14 @@
       }
 
       var srcData = options.imageData.data,
-          destImg = options.ctx.createImageData(dW, dH),
-          destData = destImg.data,
-          lanczos = this.lanczosCreate(this.lanczosLobes),
-          ratioX = this.rcpScaleX, ratioY = this.rcpScaleY,
-          rcpRatioX = 2 / this.rcpScaleX, rcpRatioY = 2 / this.rcpScaleY,
-          range2X = ceil(ratioX * this.lanczosLobes / 2),
-          range2Y = ceil(ratioY * this.lanczosLobes / 2),
-          cacheLanc = { }, center = { }, icenter = { };
+        destImg = options.ctx.createImageData(dW, dH),
+        destData = destImg.data,
+        lanczos = this.lanczosCreate(this.lanczosLobes),
+        ratioX = this.rcpScaleX, ratioY = this.rcpScaleY,
+        rcpRatioX = 2 / this.rcpScaleX, rcpRatioY = 2 / this.rcpScaleY,
+        range2X = ceil(ratioX * this.lanczosLobes / 2),
+        range2Y = ceil(ratioY * this.lanczosLobes / 2),
+        cacheLanc = {}, center = {}, icenter = {};
 
       return process(0);
     },
@@ -377,13 +377,13 @@
      * @param {Number} dH Destination Height
      * @returns {ImageData}
      */
-    bilinearFiltering: function(options, oW, oH, dW, dH) {
+    bilinearFiltering: function (options, oW, oH, dW, dH) {
       var a, b, c, d, x, y, i, j, xDiff, yDiff, chnl,
-          color, offset = 0, origPix, ratioX = this.rcpScaleX,
-          ratioY = this.rcpScaleY,
-          w4 = 4 * (oW - 1), img = options.imageData,
-          pixels = img.data, destImage = options.ctx.createImageData(dW, dH),
-          destPixels = destImage.data;
+        color, offset = 0, origPix, ratioX = this.rcpScaleX,
+        ratioY = this.rcpScaleY,
+        w4 = 4 * (oW - 1), img = options.imageData,
+        pixels = img.data, destImage = options.ctx.createImageData(dW, dH),
+        destPixels = destImage.data;
       for (i = 0; i < dH; i++) {
         for (j = 0; j < dW; j++) {
           x = floor(ratioX * j);
@@ -398,7 +398,7 @@
             c = pixels[origPix + w4 + chnl];
             d = pixels[origPix + w4 + 4 + chnl];
             color = a * (1 - xDiff) * (1 - yDiff) + b * xDiff * (1 - yDiff) +
-                    c * yDiff * (1 - xDiff) + d * xDiff * yDiff;
+              c * yDiff * (1 - xDiff) + d * xDiff * yDiff;
             destPixels[offset++] = color;
           }
         }
@@ -415,22 +415,22 @@
      * @param {Number} dH Destination Height
      * @returns {ImageData}
      */
-    hermiteFastResize: function(options, oW, oH, dW, dH) {
+    hermiteFastResize: function (options, oW, oH, dW, dH) {
       var ratioW = this.rcpScaleX, ratioH = this.rcpScaleY,
-          ratioWHalf = ceil(ratioW / 2),
-          ratioHHalf = ceil(ratioH / 2),
-          img = options.imageData, data = img.data,
-          img2 = options.ctx.createImageData(dW, dH), data2 = img2.data;
+        ratioWHalf = ceil(ratioW / 2),
+        ratioHHalf = ceil(ratioH / 2),
+        img = options.imageData, data = img.data,
+        img2 = options.ctx.createImageData(dW, dH), data2 = img2.data;
       for (var j = 0; j < dH; j++) {
         for (var i = 0; i < dW; i++) {
           var x2 = (i + j * dW) * 4, weight = 0, weights = 0, weightsAlpha = 0,
-              gxR = 0, gxG = 0, gxB = 0, gxA = 0, centerY = (j + 0.5) * ratioH;
+            gxR = 0, gxG = 0, gxB = 0, gxA = 0, centerY = (j + 0.5) * ratioH;
           for (var yy = floor(j * ratioH); yy < (j + 1) * ratioH; yy++) {
             var dy = abs(centerY - (yy + 0.5)) / ratioHHalf,
-                centerX = (i + 0.5) * ratioW, w0 = dy * dy;
+              centerX = (i + 0.5) * ratioW, w0 = dy * dy;
             for (var xx = floor(i * ratioW); xx < (i + 1) * ratioW; xx++) {
               var dx = abs(centerX - (xx + 0.5)) / ratioWHalf,
-                  w = sqrt(w0 + dx * dx);
+                w = sqrt(w0 + dx * dx);
               /* eslint-disable max-depth */
               if (w > 1 && w < -1) {
                 continue;
@@ -467,7 +467,7 @@
      * Returns object representation of an instance
      * @return {Object} Object representation of an instance
      */
-    toObject: function() {
+    toObject: function () {
       return {
         type: this.type,
         scaleX: this.scaleX,

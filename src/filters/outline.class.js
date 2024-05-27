@@ -33,7 +33,7 @@
     outline: 0,
     blur: 0,
     color: null,
-    rough:true,
+    rough: true,
     // inset: false,
     mainParameter: 'outline',
     applyTo2d1: function (options) {
@@ -53,12 +53,12 @@
       var can = fabric.util.createCanvasElement();
       can.width = w;
       can.height = h;
-      var ctxOrg = can.getContext('2d');
+      var ctxOrg = can.getContext('2d', { willReadFrequently: true });
       ctxOrg.putImageData(options.imageData, s + b, s + b);
       var canvas1 = fabric.util.createCanvasElement();
       canvas1.width = w;
       canvas1.height = h;
-      var ctx = canvas1.getContext('2d');
+      var ctx = canvas1.getContext('2d', { willReadFrequently: true });
       if (b) ctx.filter = 'blur(' + this.blur + 'px)';
       for (; i < dArr.length; i += 2) { ctx.drawImage(can, x + dArr[i] * s, y + dArr[i + 1] * s, w, h); }
       ctx.globalCompositeOperation = "source-in";
@@ -89,13 +89,13 @@
       // var can = fabric.util.createCanvasElement();
       // can.width = w;
       // can.height = h;
-      // var ctxOrg = can.getContext('2d');
+      // var ctxOrg = can.getContext('2d', { willReadFrequently: true });
       // ctxOrg.putImageData(options.imageData, s + b, s + b);
 
       var canvas = fabric.util.createCanvasElement();
       canvas.width = w;
       canvas.height = h;
-      var ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext('2d', { willReadFrequently: true });
 
       ctx.putImageData(options.imageData, offset, offset);
       var el = document.getElementById('svgfilter');
@@ -129,8 +129,8 @@
 
 
     trimCanvas: function (c) {
-      var ctx = c.getContext('2d'),
-        copy = document.createElement('canvas').getContext('2d'),
+      var ctx = c.getContext('2d', { willReadFrequently: true }),
+        copy = document.createElement('canvas').getContext('2d', { willReadFrequently: true }),
         pixels = ctx.getImageData(0, 0, c.width, c.height),
         l = pixels.data.length,
         i,

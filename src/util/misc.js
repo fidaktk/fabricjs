@@ -1,10 +1,10 @@
-(function(global) {
+(function (global) {
 
   var sqrt = Math.sqrt,
-      atan2 = Math.atan2,
-      pow = Math.pow,
-      PiBy180 = Math.PI / 180,
-      PiBy2 = Math.PI / 2;
+    atan2 = Math.atan2,
+    pow = Math.pow,
+    PiBy180 = Math.PI / 180,
+    PiBy2 = Math.PI / 2;
 
   /**
    * @namespace fabric.util
@@ -18,7 +18,7 @@
      * @param {Number} angle the angle in radians or in degree
      * @return {Number}
      */
-    cos: function(angle) {
+    cos: function (angle) {
       if (angle === 0) { return 1; }
       if (angle < 0) {
         // cos(a) = cos(-a)
@@ -39,7 +39,7 @@
      * @param {Number} angle the angle in radians or in degree
      * @return {Number}
      */
-    sin: function(angle) {
+    sin: function (angle) {
       if (angle === 0) { return 0; }
       var angleSlice = angle / PiBy2, sign = 1;
       if (angle < 0) {
@@ -63,7 +63,7 @@
      * @param {*} value
      * @return {Array} original array
      */
-    removeFromArray: function(array, value) {
+    removeFromArray: function (array, value) {
       var idx = array.indexOf(value);
       if (idx !== -1) {
         array.splice(idx, 1);
@@ -79,7 +79,7 @@
      * @param {Number} max upper limit
      * @return {Number} random value (between min and max)
      */
-    getRandomInt: function(min, max) {
+    getRandomInt: function (min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     },
 
@@ -90,7 +90,7 @@
      * @param {Number} degrees value in degrees
      * @return {Number} value in radians
      */
-    degreesToRadians: function(degrees) {
+    degreesToRadians: function (degrees) {
       return degrees * PiBy180;
     },
 
@@ -101,7 +101,7 @@
      * @param {Number} radians value in radians
      * @return {Number} value in degrees
      */
-    radiansToDegrees: function(radians) {
+    radiansToDegrees: function (radians) {
       return radians / PiBy180;
     },
 
@@ -114,7 +114,7 @@
      * @param {Number} radians The radians of the angle for the rotation
      * @return {fabric.Point} The new rotated point
      */
-    rotatePoint: function(point, origin, radians) {
+    rotatePoint: function (point, origin, radians) {
       point.subtractEquals(origin);
       var v = fabric.util.rotateVector(point, radians);
       return new fabric.Point(v.x, v.y).addEquals(origin);
@@ -128,11 +128,11 @@
      * @param {Number} radians The radians of the angle for the rotation
      * @return {Object} The new rotated point
      */
-    rotateVector: function(vector, radians) {
+    rotateVector: function (vector, radians) {
       var sin = fabric.util.sin(radians),
-          cos = fabric.util.cos(radians),
-          rx = vector.x * cos - vector.y * sin,
-          ry = vector.x * sin + vector.y * cos;
+        cos = fabric.util.cos(radians),
+        rx = vector.x * cos - vector.y * sin,
+        ry = vector.x * sin + vector.y * cos;
       return {
         x: rx,
         y: ry
@@ -148,7 +148,7 @@
      * @param  {Boolean} [ignoreOffset] Indicates that the offset should not be applied
      * @return {fabric.Point} The transformed point
      */
-    transformPoint: function(p, t, ignoreOffset) {
+    transformPoint: function (p, t, ignoreOffset) {
       if (ignoreOffset) {
         return new fabric.Point(
           t[0] * p.x + t[2] * p.y,
@@ -167,20 +167,20 @@
      * @param {Array} [transform] an array of 6 numbers representing a 2x3 transform matrix
      * @return {Object} Object with left, top, width, height properties
      */
-    makeBoundingBoxFromPoints: function(points, transform) {
+    makeBoundingBoxFromPoints: function (points, transform) {
       if (transform) {
         for (var i = 0; i < points.length; i++) {
           points[i] = fabric.util.transformPoint(points[i], transform);
         }
       }
       var xPoints = [points[0].x, points[1].x, points[2].x, points[3].x],
-          minX = fabric.util.array.min(xPoints),
-          maxX = fabric.util.array.max(xPoints),
-          width = maxX - minX,
-          yPoints = [points[0].y, points[1].y, points[2].y, points[3].y],
-          minY = fabric.util.array.min(yPoints),
-          maxY = fabric.util.array.max(yPoints),
-          height = maxY - minY;
+        minX = fabric.util.array.min(xPoints),
+        maxX = fabric.util.array.max(xPoints),
+        width = maxX - minX,
+        yPoints = [points[0].y, points[1].y, points[2].y, points[3].y],
+        minY = fabric.util.array.min(yPoints),
+        maxY = fabric.util.array.max(yPoints),
+        height = maxY - minY;
 
       return {
         left: minX,
@@ -197,10 +197,10 @@
      * @param {Array} t The transform
      * @return {Array} The inverted transform
      */
-    invertTransform: function(t) {
+    invertTransform: function (t) {
       var a = 1 / (t[0] * t[3] - t[1] * t[2]),
-          r = [a * t[3], -a * t[1], -a * t[2], a * t[0]],
-          o = fabric.util.transformPoint({ x: t[4], y: t[5] }, r, true);
+        r = [a * t[3], -a * t[1], -a * t[2], a * t[0]],
+        o = fabric.util.transformPoint({ x: t[4], y: t[5] }, r, true);
       r[4] = -o.x;
       r[5] = -o.y;
       return r;
@@ -214,7 +214,7 @@
      * @param {Number} fractionDigits number of fraction digits to "leave"
      * @return {Number}
      */
-    toFixed: function(number, fractionDigits) {
+    toFixed: function (number, fractionDigits) {
       return parseFloat(Number(number).toFixed(fractionDigits));
     },
 
@@ -225,9 +225,9 @@
      * @param {Number} fontSize
      * @return {Number|String}
      */
-    parseUnit: function(value, fontSize) {
+    parseUnit: function (value, fontSize) {
       var unit = /\D{0,2}$/.exec(value),
-          number = parseFloat(value);
+        number = parseFloat(value);
       if (!fontSize) {
         fontSize = fabric.Text.DEFAULT_SVG_FONT_SIZE;
       }
@@ -261,7 +261,7 @@
      * @memberOf fabric.util
      * @return {Boolean}
      */
-    falseFunction: function() {
+    falseFunction: function () {
       return false;
     },
 
@@ -272,7 +272,7 @@
      * @param {String} namespace Namespace to get klass "Class" object from
      * @return {Object} klass "Class"
      */
-    getKlass: function(type, namespace) {
+    getKlass: function (type, namespace) {
       // capitalize first letter only
       type = fabric.util.string.camelize(type.charAt(0).toUpperCase() + type.slice(1));
       return fabric.util.resolveNamespace(namespace)[type];
@@ -284,7 +284,7 @@
      * @param {String} type Type of svg element (eg. 'circle')
      * @return {Array} string names of supported attributes
      */
-    getSvgAttributes: function(type) {
+    getSvgAttributes: function (type) {
       var attributes = [
         'instantiated_by_use',
         'style',
@@ -311,14 +311,14 @@
      * @param {String} namespace Namespace string e.g. 'fabric.Image.filter' or 'fabric'
      * @return {Object} Object for given namespace (default fabric)
      */
-    resolveNamespace: function(namespace) {
+    resolveNamespace: function (namespace) {
       if (!namespace) {
         return fabric;
       }
 
       var parts = namespace.split('.'),
-          len = parts.length, i,
-          obj = global || fabric.window;
+        len = parts.length, i,
+        obj = global || fabric.window;
 
       for (i = 0; i < len; ++i) {
         obj = obj[parts[i]];
@@ -335,7 +335,7 @@
      * @param {*} [context] Context to invoke callback in
      * @param {Object} [crossOrigin] crossOrigin value to set image element to
      */
-    loadImage: function(url, callback, context, crossOrigin) {
+    loadImage: function (url, callback, context, crossOrigin) {
       if (!url) {
         callback && callback.call(context, url);
         return;
@@ -351,7 +351,7 @@
 
       img.onload = onLoadCallback;
       /** @ignore */
-      img.onerror = function() {
+      img.onerror = function () {
         fabric.log('Error loading ' + img.src);
         callback && callback.call(context, null, true);
         img = img.onload = img.onerror = null;
@@ -368,7 +368,7 @@
       // IE10 / IE11-Fix: SVG contents from data: URI
       // will only be available if the IMG is present
       // in the DOM (and visible)
-      if (url.substring(0,14) === 'data:image/svg') {
+      if (url.substring(0, 14) === 'data:image/svg') {
         img.onload = null;
         fabric.util.loadImageInDom(img, onLoadCallback);
       }
@@ -383,7 +383,7 @@
      * @param {Function} callback Callback; invoked with loaded image
      * @return {Object} DOM element (div containing the SVG image)
      */
-    loadImageInDom: function(img, onLoadCallback) {
+    loadImageInDom: function (img, onLoadCallback) {
       var div = fabric.document.createElement('div');
       div.style.width = div.style.height = '1px';
       div.style.left = div.style.top = '-100%';
@@ -412,16 +412,16 @@
      * @param {Function} reviver Method for further parsing of object elements,
      * called after each fabric object created.
      */
-    enlivenObjects: function(objects, callback, namespace, reviver) {
+    enlivenObjects: function (objects, callback, namespace, reviver) {
       objects = objects || [];
 
       var enlivenedObjects = [],
-          numLoadedObjects = 0,
-          numTotalObjects = objects.length;
+        numLoadedObjects = 0,
+        numTotalObjects = objects.length;
 
       function onLoaded() {
         if (++numLoadedObjects === numTotalObjects) {
-          callback && callback(enlivenedObjects.filter(function(obj) {
+          callback && callback(enlivenedObjects.filter(function (obj) {
             // filter out undefined objects (objects that gave error)
             return obj;
           }));
@@ -456,7 +456,7 @@
      * @param {Function} callback Callback to invoke when all objects are created
      * called after each fabric object created.
      */
-    enlivenPatterns: function(patterns, callback) {
+    enlivenPatterns: function (patterns, callback) {
       patterns = patterns || [];
 
       function onLoaded() {
@@ -466,8 +466,8 @@
       }
 
       var enlivenedPatterns = [],
-          numLoadedPatterns = 0,
-          numPatterns = patterns.length;
+        numLoadedPatterns = 0,
+        numPatterns = patterns.length;
 
       if (!numPatterns) {
         callback && callback(enlivenedPatterns);
@@ -476,7 +476,7 @@
 
       patterns.forEach(function (p, index) {
         if (p && p.source) {
-          new fabric.Pattern(p, function(pattern) {
+          new fabric.Pattern(p, function (pattern) {
             enlivenedPatterns[index] = pattern;
             onLoaded();
           });
@@ -497,7 +497,7 @@
      * @param {String} path Value to set sourcePath to
      * @return {fabric.Object|fabric.Group}
      */
-    groupSVGElements: function(elements, options, path) {
+    groupSVGElements: function (elements, options, path) {
       var object;
       if (elements && elements.length === 1) {
         return elements[0];
@@ -529,7 +529,7 @@
      * @param {Object} destination Destination object
      * @return {Array} properties Properties names to include
      */
-    populateWithProperties: function(source, destination, properties) {
+    populateWithProperties: function (source, destination, properties) {
       if (properties && Object.prototype.toString.call(properties) === '[object Array]') {
         for (var i = 0, len = properties.length; i < len; i++) {
           if (properties[i] in source) {
@@ -552,14 +552,14 @@
      * @param {Number} y2 end y coordinate
      * @param {Array} da dash array pattern
      */
-    drawDashedLine: function(ctx, x, y, x2, y2, da) {
+    drawDashedLine: function (ctx, x, y, x2, y2, da) {
       var dx = x2 - x,
-          dy = y2 - y,
-          len = sqrt(dx * dx + dy * dy),
-          rot = atan2(dy, dx),
-          dc = da.length,
-          di = 0,
-          draw = true;
+        dy = y2 - y,
+        len = sqrt(dx * dx + dy * dy),
+        rot = atan2(dy, dx),
+        dc = da.length,
+        di = 0,
+        draw = true;
 
       ctx.save();
       ctx.translate(x, y);
@@ -585,7 +585,7 @@
      * @memberOf fabric.util
      * @return {CanvasElement} initialized canvas element
      */
-    createCanvasElement: function() {
+    createCanvasElement: function () {
       return fabric.document.createElement('canvas');
     },
 
@@ -596,11 +596,11 @@
      * @memberOf fabric.util
      * @return {CanvasElement} initialized canvas element
      */
-    copyCanvasElement: function(canvas) {
+    copyCanvasElement: function (canvas) {
       var newCanvas = fabric.util.createCanvasElement();
       newCanvas.width = canvas.width;
       newCanvas.height = canvas.height;
-      newCanvas.getContext('2d').drawImage(canvas, 0, 0);
+      newCanvas.getContext('2d', { willReadFrequently: true }).drawImage(canvas, 0, 0);
       return newCanvas;
     },
 
@@ -613,7 +613,7 @@
      * @memberOf fabric.util
      * @return {String} data url
      */
-    toDataURL: function(canvasEl, format, quality) {
+    toDataURL: function (canvasEl, format, quality) {
       return canvasEl.toDataURL('image/' + format, quality);
     },
 
@@ -623,7 +623,7 @@
      * @memberOf fabric.util
      * @return {HTMLImageElement} HTML image element
      */
-    createImage: function() {
+    createImage: function () {
       return fabric.document.createElement('img');
     },
 
@@ -634,7 +634,7 @@
      * @param {fabric.Object} receiver Object implementing `clipTo` method
      * @param {CanvasRenderingContext2D} ctx Context to clip
      */
-    clipContext: function(receiver, ctx) {
+    clipContext: function (receiver, ctx) {
       ctx.save();
       ctx.beginPath();
       receiver.clipTo(ctx);
@@ -650,7 +650,7 @@
      * @param  {Boolean} is2x2 flag to multiply matrices as 2x2 matrices
      * @return {Array} The product of the two transform matrices
      */
-    multiplyTransformMatrices: function(a, b, is2x2) {
+    multiplyTransformMatrices: function (a, b, is2x2) {
       // Matrix multiply a * b
       return [
         a[0] * b[0] + a[2] * b[1],
@@ -669,14 +669,14 @@
      * @param  {Array} a transformMatrix
      * @return {Object} Components of transform
      */
-    qrDecompose: function(a) {
+    qrDecompose: function (a) {
       var angle = atan2(a[1], a[0]),
-          denom = pow(a[0], 2) + pow(a[1], 2),
-          scaleX = sqrt(denom),
-          scaleY = (a[0] * a[3] - a[2] * a [1]) / scaleX,
-          skewX = atan2(a[0] * a[2] + a[1] * a [3], denom);
+        denom = pow(a[0], 2) + pow(a[1], 2),
+        scaleX = sqrt(denom),
+        scaleY = (a[0] * a[3] - a[2] * a[1]) / scaleX,
+        skewX = atan2(a[0] * a[2] + a[1] * a[3], denom);
       return {
-        angle: angle  / PiBy180,
+        angle: angle / PiBy180,
         scaleX: scaleX,
         scaleY: scaleY,
         skewX: skewX / PiBy180,
@@ -696,13 +696,13 @@
      * @param  {Number} [options.angle] angle in degrees
      * @return {Number[]} transform matrix
      */
-    calcRotateMatrix: function(options) {
+    calcRotateMatrix: function (options) {
       if (!options.angle) {
         return fabric.iMatrix.concat();
       }
       var theta = fabric.util.degreesToRadians(options.angle),
-          cos = fabric.util.cos(theta),
-          sin = fabric.util.sin(theta);
+        cos = fabric.util.cos(theta),
+        sin = fabric.util.sin(theta);
       return [cos, sin, -sin, cos, 0, 0];
     },
 
@@ -723,18 +723,18 @@
      * @param  {Number} [options.skewX]
      * @return {Number[]} transform matrix
      */
-    calcDimensionsMatrix: function(options) {
+    calcDimensionsMatrix: function (options) {
       var scaleX = typeof options.scaleX === 'undefined' ? 1 : options.scaleX,
-          scaleY = typeof options.scaleY === 'undefined' ? 1 : options.scaleY,
-          scaleMatrix = [
-            options.flipX ? -scaleX : scaleX,
-            0,
-            0,
-            options.flipY ? -scaleY : scaleY,
-            0,
-            0],
-          multiply = fabric.util.multiplyTransformMatrices,
-          degreesToRadians = fabric.util.degreesToRadians;
+        scaleY = typeof options.scaleY === 'undefined' ? 1 : options.scaleY,
+        scaleMatrix = [
+          options.flipX ? -scaleX : scaleX,
+          0,
+          0,
+          options.flipY ? -scaleY : scaleY,
+          0,
+          0],
+        multiply = fabric.util.multiplyTransformMatrices,
+        degreesToRadians = fabric.util.degreesToRadians;
       if (options.skewX) {
         scaleMatrix = multiply(
           scaleMatrix,
@@ -768,9 +768,9 @@
      * @param  {Number} [options.translateY]
      * @return {Number[]} transform matrix
      */
-    composeMatrix: function(options) {
+    composeMatrix: function (options) {
       var matrix = [1, 0, 0, 1, options.translateX || 0, options.translateY || 0],
-          multiply = fabric.util.multiplyTransformMatrices;
+        multiply = fabric.util.multiplyTransformMatrices;
       if (options.angle) {
         matrix = multiply(matrix, fabric.util.calcRotateMatrix(options));
       }
@@ -791,7 +791,7 @@
      * @param  {Number} skewX
      * @return {Number[]} transform matrix
      */
-    customTransformMatrix: function(scaleX, scaleY, skewX) {
+    customTransformMatrix: function (scaleX, scaleY, skewX) {
       return fabric.util.composeMatrix({ scaleX: scaleX, scaleY: scaleY, skewX: skewX });
     },
 
@@ -837,7 +837,7 @@
      * @param {Function} fn Function to get body of
      * @return {String} Function body
      */
-    getFunctionBody: function(fn) {
+    getFunctionBody: function (fn) {
       return (String(fn).match(/function[^{]*\{([\s\S]*)\}/) || {})[1];
     },
 
@@ -849,7 +849,7 @@
      * @param {Number} y y coordinate
      * @param {Number} tolerance Tolerance
      */
-    isTransparent: function(ctx, x, y, tolerance) {
+    isTransparent: function (ctx, x, y, tolerance) {
 
       // If tolerance is > 0 adjust start coords to take into account.
       // If moves off Canvas fix to 0
@@ -869,8 +869,8 @@
       }
 
       var _isTransparent = true, i, temp,
-          imageData = ctx.getImageData(x, y, (tolerance * 2) || 1, (tolerance * 2) || 1),
-          l = imageData.data.length;
+        imageData = ctx.getImageData(x, y, (tolerance * 2) || 1, (tolerance * 2) || 1),
+        l = imageData.data.length;
 
       // Split image data - for tolerance > 1, pixelDataSize = 4;
       for (i = 3; i < l; i += 4) {
@@ -891,9 +891,9 @@
      * @param {string} attribute to be parsed
      * @return {Object} an object containing align and meetOrSlice attribute
      */
-    parsePreserveAspectRatioAttribute: function(attribute) {
+    parsePreserveAspectRatioAttribute: function (attribute) {
       var meetOrSlice = 'meet', alignX = 'Mid', alignY = 'Mid',
-          aspectRatioAttrs = attribute.split(' '), align;
+        aspectRatioAttrs = attribute.split(' '), align;
 
       if (aspectRatioAttrs && aspectRatioAttrs.length) {
         meetOrSlice = aspectRatioAttrs.pop();
@@ -927,10 +927,10 @@
      * @memberOf fabric.util
      * @param {String} [fontFamily] font family to clear
      */
-    clearFabricFontCache: function(fontFamily) {
+    clearFabricFontCache: function (fontFamily) {
       fontFamily = (fontFamily || '').toLowerCase();
       if (!fontFamily) {
-        fabric.charWidthsCache = { };
+        fabric.charWidthsCache = {};
       }
       else if (fabric.charWidthsCache[fontFamily]) {
         delete fabric.charWidthsCache[fontFamily];
@@ -946,13 +946,13 @@
      * @return {Object.x} Limited dimensions by X
      * @return {Object.y} Limited dimensions by Y
      */
-    limitDimsByArea: function(ar, maximumArea) {
+    limitDimsByArea: function (ar, maximumArea) {
       var roughWidth = Math.sqrt(maximumArea * ar),
-          perfLimitSizeY = Math.floor(maximumArea / roughWidth);
+        perfLimitSizeY = Math.floor(maximumArea / roughWidth);
       return { x: Math.floor(roughWidth), y: perfLimitSizeY };
     },
 
-    capValue: function(min, value, max) {
+    capValue: function (min, value, max) {
       return Math.max(min, Math.min(value, max));
     },
 
@@ -969,7 +969,7 @@
      * @param {Number} destination.width natural unscaled width of the object
      * @return {Number} scale factor to apply to source to fit into destination
      */
-    findScaleToFit: function(source, destination) {
+    findScaleToFit: function (source, destination) {
       return Math.min(destination.width / source.width, destination.height / source.height);
     },
 
@@ -986,7 +986,7 @@
      * @param {Number} destination.width natural unscaled width of the object
      * @return {Number} scale factor to apply to source to cover destination
      */
-    findScaleToCover: function(source, destination) {
+    findScaleToCover: function (source, destination) {
       return Math.max(destination.width / source.width, destination.height / source.height);
     },
 
@@ -997,8 +997,8 @@
      * @return {String} transform matrix for svg
      * @return {Object.y} Limited dimensions by Y
      */
-    matrixToSVG: function(transform) {
-      return 'matrix(' + transform.map(function(value) {
+    matrixToSVG: function (transform) {
+      return 'matrix(' + transform.map(function (value) {
         return fabric.util.toFixed(value, fabric.Object.NUM_FRACTION_DIGITS);
       }).join(' ') + ')';
     }
